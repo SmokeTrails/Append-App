@@ -1,7 +1,7 @@
 import React from 'react'
 import '../css/Main.css';
 
-const Profile = ()=>{
+export default function Profile() {
     return(
         <div>
             <div>
@@ -80,5 +80,3 @@ const Profile = ()=>{
         </div>
     )
 }
-
-export default Profile
