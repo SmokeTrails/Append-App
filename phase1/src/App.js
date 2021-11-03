@@ -4,7 +4,7 @@ import {
 	Route,
 	Link
 } from "react-router-dom";
-import { ProtectedRoute } from './hooks/Routing';
+// import { ProtectedRoute } from './hooks/Routing';
 import Profile from './pages/Profile';
 import Home from './pages/Home';
 import './App.css';
@@ -48,7 +48,7 @@ export default function App() {
 					<Route path="/about" component={About} />
 					<Route path="/users" component={Users} />
 					<Route path="/user/:id" component={Profile} />
-					<ProtectedRoute path="/" component={Home} />
+					<Route path="/" component={Home} />
 				</Switch>
 			</div>
 		</Router>
