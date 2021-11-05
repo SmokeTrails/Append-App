@@ -9,13 +9,10 @@ export default function Navbar() {
 					<CustomLink to="/">Home</CustomLink>
 				</li>
 				<li>
-					<CustomLink to="/about">About</CustomLink>
+					<CustomLink to="/friends">Friends</CustomLink>
 				</li>
 				<li>
-					<CustomLink to="/users">Users</CustomLink>
-				</li>
-				<li>
-					<CustomLink to="/user/Haider">Profile</CustomLink>
+					<CustomLink to="/user/Haider">My Profile</CustomLink>
 				</li>
 				<li>
 					<CustomLink to="/random">404 Page</CustomLink>

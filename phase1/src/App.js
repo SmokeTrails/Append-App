@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CustomLink from './components/CustomLink';
-import UserProfile from './pages/Profile';
 import Layout from './pages/Layout';
 import Home from './pages/Home';
+import Friends from './pages/Friends';
+import UserProfile from './pages/Profile';
 import './App.css';
 
 export default function App() {
@@ -12,8 +13,7 @@ export default function App() {
 				<Routes>
 					<Route path="/" element={<Layout />}>
 						<Route index element={<Home />} />
-						<Route path="about" element={<About />} />
-						<Route path="users" element={<Users />} />
+						<Route path="friends" element={<Friends />} />
 						<Route path="user/:id" element={<UserProfile />} />
 					</Route>
 					<Route path="*" element={<MissingPage />} />
@@ -21,14 +21,6 @@ export default function App() {
 			</div>
 		</BrowserRouter>
 	);
-}
-
-function About() {
-	return <h2>About</h2>;
-}
-
-function Users() {
-	return <h2>Users</h2>;
 }
 
 function MissingPage() {
