@@ -83,7 +83,7 @@ import '../css/Main.css';
 //     )
 // }
 
-function cardItem(props){
+function CardItem(props){
     return(
         <li style={{background: "#f6bd60"}}><h3 style={{marginTop:"10px", marginLeft:"10px", fontWeight:"normal", wordWrap: "break-word"}}><strong>{props.courseCode}:</strong> {props.courseTitle}</h3>
         <img style ={{width:"235px", height:"120px", border:"2px solid red", marginLeft: "5px", marginTop: "30px"}}
@@ -124,10 +124,10 @@ function GalleryView(props){
         <div>
             <h3>{props.title}</h3>
             <ul className="gallery">
-                <cardItem courseCode='CSC309'courseTitle="Web Programming"/>
-                <cardItem courseCode='CSC309'courseTitle="Web Programming"/>
-                <cardItem courseCode='CSC309'courseTitle="Web Programming"/>
-                <cardItem courseCode='CSC309'courseTitle="Web Programming"/>
+                <CardItem courseCode='CSC309'courseTitle="Web Programming"/>
+                <CardItem courseCode='CSC309'courseTitle="Web Programming"/>
+                <CardItem courseCode='CSC309'courseTitle="Web Programming"/>
+                <CardItem courseCode='CSC309'courseTitle="Web Programming"/>
             </ul>
         </div>
     );
