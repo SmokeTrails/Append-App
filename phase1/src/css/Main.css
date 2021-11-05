@@ -11,6 +11,7 @@
     position:relative;
     margin-top: 100px;
     margin-bottom: 75px;
+    width: 500px;
 
 }
 
@@ -38,4 +39,10 @@
 	height: 200px;
 	scroll-snap-type: both mandatory;
 	scroll-padding: 10px;
+}
+
+.EditButton{
+    position: absolute;
+    margin-left: 1000px;
+    margin-top: 10px;
 }
