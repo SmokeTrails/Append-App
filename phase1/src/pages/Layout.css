@@ -1,0 +1,94 @@
+div.layout {
+	max-width: 1920px;
+	min-height: inherit;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+}
+
+div.layout a {
+	display: flex;
+	align-items: center;
+	color: inherit;
+	text-decoration: inherit;
+}
+
+div.navigation {
+	width: 275px;
+	padding: var(--outer-sidebar-padding);
+	background-color: var(--secondary-bg-color);
+	box-shadow: var(--shadow-md);
+	font-weight: 500;
+}
+
+nav a {
+	margin: 0.5rem 0;
+	padding: 0.65rem var(--inner-sidebar-padding);
+	border-radius: var(--rounded);
+}
+
+nav ul li:first-child a {
+	margin-top: 0;
+}
+
+nav a.active {
+	color: var(--primary-highlight-color);
+	border-left: 4px solid var(--primary-highlight-color);
+}
+
+nav a:hover {
+	background-color: var(--primary-highlight-bg-color);
+}
+
+nav a svg {
+	width: var(--icon-size);
+	height: var(--icon-size);
+	margin-right: 4px;
+}
+
+div.groupContainer {
+	padding-top: 1rem;
+}
+
+div.groupContainer .heading {
+	margin: var(--inner-sidebar-padding);
+	color: var(--secondary-text-color);
+	font-size: 1rem;
+	text-transform: uppercase;
+	letter-spacing: 0.025em;
+}
+
+div.groupContainer a {
+	margin: 1rem var(--inner-sidebar-padding);
+	padding: 0.65rem 0.75rem;
+	border-radius: var(--rounded);
+	border: 1px solid rgba(209, 213, 219, 0.8);
+	box-shadow: var(--shadow-md);
+}
+
+div.groupContainer>:nth-child(2) {
+	margin-top: 0;
+}
+
+div.groupContainer a:hover {
+	background-color: var(--primary-highlight-bg-color);
+}
+
+div.groupContainer img {
+	width: 3rem;
+	height: 3rem;
+	border-radius: var(--rounded-full);
+	object-fit: cover;
+	margin-right: 0.5rem;
+}
+
+div.mainContent {
+	flex-basis: 47%;
+}
+
+div.complementary {
+	width: 250px;
+}
+
+/* @media (min-width: 2560px) {
+} */

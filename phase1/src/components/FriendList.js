@@ -3,36 +3,31 @@ import FriendPreview from './FriendPreview'
 
 export default function FriendList() {
 	const [onlineFriends, setOnlineFriends] = useState(null);
-	const [enrolledGroups, setEnrolledGroups] = useState(null);
 
 	useEffect(() => {
 		setOnlineFriends([
 			{
 				name: 'Kirill',
 				username: 'KirillTregubov',
-				imageUrl: '/users/kirill.png'
+				imageUrl: 'users/kirill.png'
 			},
 			{
 				name: 'Mohsin',
-				username: 'SmokeTrails',
-				imageUrl: '/users/mohsin.png'
+				username: 'SmokeTrails'
 			},
 			{
 				name: 'Rehan',
-				username: 'TheRayman786',
-				imageUrl: '/users/rayman.png'
+				username: 'TheRayman786'
 			},
 		]);
 	}, []);
 
 	return (
-		<div>
-			Friend list
+		<div className="complementary">
 			<div>
+				<h1>Friends Online</h1>
 				{onlineFriends && onlineFriends.map((friend, index) =>
-					<div key={index}>
-						<FriendPreview name={friend.name} username={friend.username} imageUrl={friend.imageUrl} />
-					</div>
+					<FriendPreview key={index} name={friend.name} username={friend.username} imageUrl={friend.imageUrl} />
 				)}
 			</div>
 		</div>

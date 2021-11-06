@@ -9,16 +9,14 @@ import './App.css';
 export default function App() {
 	return (
 		<BrowserRouter>
-			<div>
-				<Routes>
-					<Route path="/" element={<Layout />}>
-						<Route index element={<Home />} />
-						<Route path="friends" element={<Friends />} />
-						<Route path="user/:username" element={<UserProfile />} />
-					</Route>
-					<Route path="*" element={<MissingPage />} />
-				</Routes>
-			</div>
+			<Routes>
+				<Route path="/" element={<Layout />}>
+					<Route index element={<Home />} />
+					<Route path="friends" element={<Friends />} />
+					<Route path="user/:username" element={<UserProfile />} />
+				</Route>
+				<Route path="*" element={<MissingPage />} />
+			</Routes>
 		</BrowserRouter>
 	);
 }

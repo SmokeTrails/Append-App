@@ -1,38 +1,83 @@
-.App {
-  text-align: center;
+/* Source: https://tailwindcss.com/docs */
+:root {
+	--primary-bg-color: rgba(243, 244, 246, 1);
+	--secondary-bg-color: rgba(255, 255, 255, 1);
+	--dark-bg-color: rgba(17, 24, 39, 1);
+	/* --primary-gradient: linear-gradient(to right,#a82df7,#cf9b84); */
+	--primary-highlight-color: purple;
+	--primary-highlight-bg-color: rgb(128, 0, 128, 0.1);
+	--secondary-text-color: rgba(107, 114, 128, 1);
+	--secondary-dark-text-color: rgba(75, 85, 99, 1);
+	--profile-icon-color: rgba(209, 213, 219, 1);
+	--profile-icon-background: var(--dark-bg-color);
+	--shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+	--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+	--outer-sidebar-padding: 1.5rem;
+	--inner-sidebar-padding: 0.5rem;
+	--rounded: 0.25rem;
+	--rounded-full: 50%;
+	--icon-size: 1.25rem;
 }
 
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+.App {
+	min-height: 100vh;
+	/* overflow: hidden; */
+	background-color: var(--primary-bg-color);
+	font-family: 'Inter', sans-serif;
+	box-sizing: border-box;
+}
+
+nav ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.text-nowrap {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+
+
+
+
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+	height: 40vmin;
+	pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+	.App-logo {
+		animation: App-logo-spin infinite 20s linear;
+	}
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+	background-color: #282c34;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: calc(10px + 2vmin);
+	color: white;
 }
 
 .App-link {
-  color: #61dafb;
+	color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }

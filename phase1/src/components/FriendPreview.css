@@ -1,0 +1,31 @@
+div.friendPreview {
+	display: flex;
+	align-items: center;
+	margin: 1rem;
+}
+
+div.friendPreview .image {
+	width: 3rem;
+	height: 3rem;
+	border-radius: var(--rounded-full);
+	margin-right: 0.5rem;
+	background-color: var(--profile-icon-background);
+	/* background: var(--primary-gradient); */
+}
+
+div.friendPreview .image svg {
+	padding: 0.5rem;
+	color: var(--profile-icon-color);
+}
+
+div.friendPreview h1 {
+	margin: 0;
+	font-size: 1rem;
+	margin-bottom: 3px;
+}
+
+div.friendPreview p {
+	margin: 0;
+	font-size: 0.9rem;
+	color: var(--secondary-dark-text-color);
+}
