@@ -1,0 +1,54 @@
+.link {
+  text-decoration: none;
+}
+
+.titleContainer {
+  background-color: #8b5cf6;
+  height: 100px;
+  width: 100%;
+  text-align: center;
+  display: table;
+  padding-top: 0px;
+}
+
+.titleContainer h1 {
+  font-size: 45px;
+  color: white;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.button {
+  position: relative;
+  width: 50%;
+  top: 25%;
+  left: 25%;
+  background-color: white;
+  border: 2px #8b5cf6 solid;
+  font-size: 16pt;
+  font-family: "Helvetica";
+}
+
+.button:hover {
+  border: 3px #8b5cf6 solid;
+}
+
+
+.buttonContainer1 {
+  position: absolute;
+  top: 40%;
+  width: 100%;
+}
+
+.buttonContainer2 {
+  position: absolute;
+  top: 45%;
+  width: 100%;
+}
+
+
+.buttonContainer3 {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+}
