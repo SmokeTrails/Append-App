@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { HomeIcon, UserGroupIcon } from '@heroicons/react/solid';
 import CustomLink from './CustomLink';
-import GroupLink from '../components/GroupLink';
+import GroupLink from './GroupLink';
 
 export default function Navbar() {
 	const [enrolledGroups, setEnrolledGroups] = useState(null);
