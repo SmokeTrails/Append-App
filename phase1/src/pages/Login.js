@@ -7,13 +7,21 @@ import Heading from './LoginHeading.js'
 
 export default function Login() {
   return (
-    <div>
-      <Heading title="Login" />
-        <Link className="link" to={"/"}>
-          <div className="buttonContainer2">
-            <button className="button"> Submit</button>
+    <div className="Login">
+      <Heading title="Sign in to your account" />
+          <div className="usernameContainer">
+            <h3> Username: </h3>
+            <input className="text" type="text"/>
           </div>
-      </Link>
+          <div className="passwordContainer">
+            <h3> Password: </h3>
+            <input className="text" type="text"/>
+          </div>
+          <Link className="link" to={"/"}>
+            <div className="submitContainer">
+              <button className="button"> Login</button>
+              </div>
+          </Link>
     </div>
   )
 }

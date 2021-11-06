@@ -8,10 +8,11 @@
   width: 100%;
   text-align: center;
   display: table;
-  padding-top: 0px;
+  padding-top: 0;
 }
 
 .titleContainer h1 {
+  font-family: "Helvetica";
   font-size: 45px;
   color: white;
   display: table-cell;
@@ -20,13 +21,34 @@
 
 .button {
   position: relative;
-  width: 50%;
+  width: 49%;
   top: 25%;
   left: 25%;
   background-color: white;
   border: 2px #8b5cf6 solid;
   font-size: 16pt;
   font-family: "Helvetica";
+}
+
+h3 {
+  position: relative;
+  left: 25%;
+  font-family: "Helvetica";
+}
+
+.text {
+  position: relative;
+  width: 50%;
+  top: 25%;
+  left: 25%;
+  background-color: white;
+  border: 1px #8b5cf6 solid;
+  font-size: 16pt;
+  font-family: "Helvetica";
+}
+
+.text:hover {
+  border: 3px #8b5cf6 solid;
 }
 
 .button:hover {
@@ -51,4 +73,27 @@
   position: absolute;
   top: 50%;
   width: 100%;
+}
+
+.usernameContainer {
+  position: absolute;
+  top: 35%;
+  width: 100%;
+}
+
+.passwordContainer {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+}
+
+.submitContainer {
+  position: absolute;
+  top: 70%;
+  width: 100%;
+}
+
+.Login .button {
+  background-color: #8b5cf6;
+  color: white;
 }
