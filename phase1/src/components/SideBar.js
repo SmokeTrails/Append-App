@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-// import CustomLink from './CustomLink';
+import CustomLink from './CustomLink';
 import UserContext from '../hooks/UserContext'
 import FriendPreview from './FriendPreview'
 import './SideBar.css'
@@ -26,7 +26,7 @@ export default function SideBar() {
 		<div className="complementary">
 			<div>
 				<p>User: {user}</p>
-					{/* <CustomLink to="/user/Haider">My Profile</CustomLink> */}
+				<CustomLink to="/user/user">My Profile</CustomLink>
 				{/* <CustomLink className="profileLink" to={`/user/${username}`} >
 					{imageUrl
 						? <img className="image" src={require(`../images/${imageUrl}`).default} alt={name + "'s photo"} />

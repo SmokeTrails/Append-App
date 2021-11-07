@@ -12,7 +12,7 @@ export default function Admin() {
 			},
 			{
 				name: 'Haider',
-				username: 'HaiderHB'
+				username: 'user'
 			},
 			{
 				name: 'Kirill',
