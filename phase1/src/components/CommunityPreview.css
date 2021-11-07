@@ -66,12 +66,14 @@ div.layout .communityPreview:hover {
 }
 
 .communityPreview svg.icon {
+	box-sizing: content-box;
 	width: var(--icon-size);
 	height: var(--icon-size);
 	color: inherit;
 	margin-left: auto;
 	flex-shrink: 0;
-	margin-left: 1rem;
+	padding-left: 1rem;
+	margin-left: auto;
 }
 
 .communityPreview:hover svg.icon {
