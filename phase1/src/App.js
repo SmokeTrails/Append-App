@@ -18,7 +18,7 @@ export default function App() {
 		<UserProvider value={user}>
 			<BrowserRouter>
 				<Routes>
-					<Route path="/Login" element={<Login setLoggedIn={setLoggedIn}/>} />
+					<Route path="/Login" element={<Login setLoggedIn={setLoggedIn} setUser={setUser}/>} />
 					<Route path="/" element={<RequireAuth isLoggedIn={isLoggedIn}><Layout /></RequireAuth>}>
 						<Route index element={<Home />} />
 						<Route path="friends" element={<Friends />} />

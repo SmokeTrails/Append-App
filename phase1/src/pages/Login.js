@@ -15,6 +15,17 @@ export default function Login(props) {
 	function checkCredentials() {
 		if ((username === "admin" && password === "admin") || (username === "user" && password === "user")) {
 			props.setLoggedIn(true)
+			props.setUser({
+				name: 'Haider',
+				username: 'user',
+				friendCount: '3',
+				clubCount: '5',
+				courseCount: '5',
+				bio: 'Hello 123',
+				interests: '#123',
+				year: '3',
+				program: 'Computer Science'
+			})
 			navigate("/")
 		}
 		else {
