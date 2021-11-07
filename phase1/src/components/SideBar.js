@@ -39,9 +39,9 @@ export default function SideBar(props) {
 							<h1>My Profile</h1>
 						</div>
 					</CustomLink>
-					<div className="iconLink" onClick={() => props.setUser(null)}>
+					<button className="iconLink" onClick={() => props.setUser(null)}>
 						<LogoutIcon className="icon" />
-					</div>
+					</button>
 				</div>
 				<h1 className="subtleHeading">Friends Online</h1>
 				{onlineFriends && onlineFriends.map((friend, index) =>

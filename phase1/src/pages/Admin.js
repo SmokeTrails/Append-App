@@ -45,7 +45,7 @@ export default function Admin() {
 
 	return (
 		<div>
-			<h1>User Management</h1>
+			<h1 className="heading">User Management</h1>
 			<h2>All Users</h2>
             <div>
 				{users && users.map((user, index) =>

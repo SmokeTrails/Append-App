@@ -189,7 +189,7 @@ export default function UserProfile() {
 	const [isEditing, setIsEditing] = useState(false);
 
 	useEffect(() => {
-		if (isLoading) {
+		if (isLoading || username !== currentUser.username) {
 			var filteredUsers = users.filter(user => {
 				return user.username === username
 			})
@@ -197,7 +197,7 @@ export default function UserProfile() {
 			setCurrentUser(filteredUsers[0]);
 			setIsLoading(false);
 		}
-	}, [isLoading, username]);
+	}, [isLoading, username, currentUser]);
 
 	return (
 		<div>
@@ -210,7 +210,7 @@ export default function UserProfile() {
 						}
 		
 						<Avatar imageURL={("imageUrl" in currentUser) ? currentUser.imageUrl : 'DefaultPic.jpg'} />
-		
+						
 						<ProfileDescription name={currentUser.name} username={currentUser.username} friendCount={currentUser.friendCount} clubCount={currentUser.clubCount} courseCount={currentUser.courseCount} />
 						{isEditing &&
 						<ProfileEditingInfo setIsEditing={setIsEditing} username={currentUser.username} bio={currentUser.bio} interests={currentUser.interests} year={currentUser.year} program={currentUser.program} />
@@ -218,7 +218,7 @@ export default function UserProfile() {
 						{!isEditing &&
 						<ProfileInfo bio={currentUser.bio} interests={currentUser.interests} year={currentUser.year} program={currentUser.program} />
 						}
-		
+
 						<GalleryView title='Current Courses' items={currentUser.courseCodes} />
 						<GalleryView title='Current Clubs' items={currentUser.communityNames} />
 					</div>
