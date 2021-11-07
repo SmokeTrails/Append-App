@@ -2,12 +2,12 @@ div.layout .communityPreview {
 	display: block;
 	position: relative;
 	margin: 1.75rem 0;
-	border-radius: var(--rounded);
 	overflow: hidden;
+	border-radius: var(--rounded);
 	background-color: var(--secondary-bg-color);
 	box-shadow: var(--shadow-md);
 	border: 1px solid var(--secondary-bg-accent-color);
-	transition: all var(--ease-animation);
+	transition: transform var(--ease-animation), box-shadow var(--ease-animation), border var(--ease-animation);
 }
 
 div.layout .communityPreview:first-child {

@@ -2,7 +2,7 @@
 	margin: 0.5rem 0;
 	padding: var(--inner-sidebar-padding);
 	border-radius: var(--rounded);
-	transition: all var(--ease-animation);
+	transition: transform var(--ease-animation), box-shadow var(--ease-animation), border var(--ease-animation);
 }
 
 .friendPreview:hover {

@@ -1,0 +1,94 @@
+h3 {
+  position: relative;
+  left: 25%;
+  font-family: "Helvetica";
+}
+
+.text {
+  position: relative;
+  width: 50%;
+  top: 15%;
+  left: 25%;
+  background-color: white;
+  border: 1px #8b5cf6 solid;
+  font-size: 16pt;
+  font-family: "Helvetica";
+}
+
+.courseText {
+  position: relative;
+  width: 25%;
+  top: 15%;
+  left: 25%;
+  background-color: white;
+  border: 1px #8b5cf6 solid;
+  font-size: 16pt;
+  font-family: "Helvetica";
+}
+
+.courseText:hover {
+  border: 3px #8b5cf6 solid;
+}
+
+.bioText {
+  position: relative;
+  width: 50%;
+  height: 85%;
+  left: 25%;
+  background-color: white;
+  border: 1px #8b5cf6 solid;
+  font-size: 16pt;
+  font-family: "Helvetica";
+}
+
+.bioText:hover {
+  border: 3px #8b5cf6 solid;
+}
+
+.Container {
+  position: static;
+  width: 100%;
+}
+
+.coursesContainer {
+  padding-bottom: 20px;
+}
+
+.courseContainer {
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.addButton {
+  position: relative;
+  width: 24%;
+  top: 25%;
+  left: 25%;
+  background-color: #8b5cf6;
+  color: white;
+  font-size: 14pt;
+  font-family: "Helvetica";
+}
+
+.addButton:hover {
+  border: 3px #8b5cf6 solid;
+}
+
+.removeButton {
+  position: absolute;
+  width: 15%;
+  left: 53%;
+  background-color: #8b5cf6;
+  color: white;
+  font-size: 14pt;
+  font-family: "Helvetica";
+}
+
+.removeButton:hover {
+  border: 3px #8b5cf6 solid;
+}
+
+.accountForm .submitContainer {
+  position: static;
+  width: 100%;
+}

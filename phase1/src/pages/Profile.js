@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
+import { UserIcon } from '@heroicons/react/solid';
 import MissingPage from '../pages/MissingPage'
 import './Profile.css';
 
@@ -87,21 +88,24 @@ const users = [
 
 function Avatar(props) {
 	return (
-		<img className='Avatar'
-			style={{ width: "200px", height: "200px", borderRadius: "50%", border: "2px solid red" }}
-			src={require(`../images/users/${props.imageURL}`).default}
-			alt="Profile Pic"
-		/>
+		<div className="avatar">
+			{props.imageUrl
+				? <img className="image" src={require(`../images/users/${props.imageUrl}`).default} alt={props.name + "'s profile picture"} />
+				: <div className="image"><UserIcon /></div>
+			}
+		</div>
 	);
 }
 
 function ProfileDescription(props) {
 	return (
 		<div className="ProfileDescription">
-			<h1 style={{ marginBottom: "2px" }}>{props.name}</h1>
-			<h4 style={{ color: "gray", marginTop: "2px" }}>@{props.username}</h4>
+			<h1>{props.name}</h1>
+			<h4>@{props.username}</h4>
 			<div className="UserInfo">
-				<p style={{ fontSize: "110%" }}>{props.friendCount} Friends&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{props.clubCount} Clubs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{props.courseCount} Courses</p>
+				<p><span className="count">{props.friendCount}</span> Friends</p>
+				<p><span className="count">{props.clubCount}</span> Clubs</p>
+				<p><span className="count">{props.courseCount}</span> Courses</p>
 			</div>
 		</div>
 	);
@@ -109,7 +113,7 @@ function ProfileDescription(props) {
 
 function ProfileInfo(props) {
 	return (
-		<div>
+		<div className="profileInfo">
 			<p style={{ fontSize: "120%" }}><strong>Bio:</strong></p>
 			<p style={{ fontSize: "130%", width: "1000px", height: "140px", marginBottom: "20px" }}>{props.bio}</p>
 			<p style={{ fontSize: "120%", width: "1000px", height: "30px" }}><strong>Interests:</strong> {props.interests}</p>
@@ -204,19 +208,20 @@ export default function UserProfile() {
 			{ isLoading
 				? 'Loading...'
 				: currentUser
-					? <div>
-						{username === 'user' &&
-						<button onClick={() => isEditing ? setIsEditing(false) : setIsEditing(true)}>{isEditing ? 'Save' : 'Edit'}</button>
-						}
-		
-						<Avatar imageURL={("imageUrl" in currentUser) ? currentUser.imageUrl : 'DefaultPic.jpg'} />
+					? <div className="profile">
+						<Avatar imageUrl={currentUser.imageUrl} name={currentUser.name} />
 						
-						<ProfileDescription name={currentUser.name} username={currentUser.username} friendCount={currentUser.friendCount} clubCount={currentUser.clubCount} courseCount={currentUser.courseCount} />
-						{isEditing &&
-						<ProfileEditingInfo setIsEditing={setIsEditing} username={currentUser.username} bio={currentUser.bio} interests={currentUser.interests} year={currentUser.year} program={currentUser.program} />
-						}
-						{!isEditing &&
-						<ProfileInfo bio={currentUser.bio} interests={currentUser.interests} year={currentUser.year} program={currentUser.program} />
+						<div className="flexContainer">
+							<ProfileDescription name={currentUser.name} username={currentUser.username} friendCount={currentUser.friendCount} clubCount={currentUser.clubCount} courseCount={currentUser.courseCount} />
+							
+							{username === 'user' &&
+								<button className="editButton" onClick={() => isEditing ? setIsEditing(false) : setIsEditing(true)}>{isEditing ? 'Save Changes' : 'Edit Profile'}</button>
+							}
+						</div>
+
+						{isEditing
+							? <ProfileEditingInfo setIsEditing={setIsEditing} username={currentUser.username} bio={currentUser.bio} interests={currentUser.interests} year={currentUser.year} program={currentUser.program} />
+							: <ProfileInfo bio={currentUser.bio} interests={currentUser.interests} year={currentUser.year} program={currentUser.program} />
 						}
 
 						<GalleryView title='Current Courses' items={currentUser.courseCodes} />
