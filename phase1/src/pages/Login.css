@@ -87,6 +87,12 @@ h3 {
   width: 100%;
 }
 
+.invalidMessageContainer {
+  position: absolute;
+  top: 62%;
+  width: 100%;
+}
+
 .submitContainer {
   position: absolute;
   top: 70%;
