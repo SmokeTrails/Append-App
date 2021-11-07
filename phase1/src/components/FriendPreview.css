@@ -2,11 +2,11 @@
 	margin: 0.5rem 0;
 	padding: var(--inner-sidebar-padding);
 	border-radius: var(--rounded);
-	transition: all .1s ease;
+	transition: all var(--ease-animation);
 }
 
 .friendPreview:hover {
-	transform: scale(1.05);
+	transform: var(--scale-transform);
 	background-color: var(--primary-highlight-bg-color);
 }
 

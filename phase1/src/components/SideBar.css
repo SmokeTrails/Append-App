@@ -1,18 +1,28 @@
 .profileLink {
 	display: flex;
-	align-items: center;
+	/* align-items: center; */
+	align-content: stretch;
 	margin-bottom: 1.5rem;
 }
 
-.profileLink.active {
+.profileLink > a {
+	flex-grow: 1;
+	transition: transform var(--ease-animation);
+}
+
+.profileLink .active,
+.profileLink > a:hover {
+	transform: var(--scale-transform);
 	color: var(--primary-highlight-color);
 }
 
-.profileLink.active .image {
+.profileLink .active .image,
+.profileLink > a:hover .image {
 	background-color: var(--profile-icon-active-bg);
 }
 
-.profileLink.active .image svg {
+.profileLink .active .image svg,
+.profileLink > a:hover .image svg {
 	color: var(--profile-icon-active);
 }
 
@@ -41,12 +51,27 @@
 	color: var(--secondary-dark-text-color);
 }
 
-.profileLink .icon {
+.profileLink .iconLink {
+	display: flex;
+	align-items: center;
+	padding: 0.25rem;
+	margin: -0.25rem;
 	margin-left: auto;
+	cursor: pointer;
+	
+}
+
+.profileLink .iconLink:hover {
+	color: var(--primary-highlight-color);
 }
 
 .profileLink svg.icon {
 	width: var(--icon-size);
 	height: var(--icon-size);
 	color: inherit;
+	transition: transform var(--ease-animation);
+}
+
+.profileLink .iconLink:hover svg.icon {
+	transform: scale(1.15);
 }

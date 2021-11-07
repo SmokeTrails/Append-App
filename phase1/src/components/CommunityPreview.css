@@ -7,7 +7,7 @@ div.layout .communityPreview {
 	background-color: var(--secondary-bg-color);
 	box-shadow: var(--shadow-md);
 	border: 1px solid var(--secondary-bg-accent-color);
-	transition: all .1s ease;
+	transition: all var(--ease-animation);
 }
 
 div.layout .communityPreview:first-child {
@@ -19,7 +19,7 @@ div.layout .communityPreview:last-child {
 }
 
 div.layout .communityPreview:hover {
-	transform: scale(1.05);
+	transform: var(--scale-transform);
 	background-color: var(--primary-highlight-bg-color);
 	box-shadow: var(--shadow-lg);
 	border: 1px solid var(--primary-highlight-bg-accent-color);

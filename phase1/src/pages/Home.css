@@ -17,16 +17,13 @@
 }
 
 .updateScreen li a {
-	transition: all .1s ease;
+	transition: all var(--ease-animation);
 }
 
 .updateScreen li a:hover {
 	transform: translateX(1rem);
 	color: var(--primary-highlight-color);
 }
-
-/* .updateScreen li div {
-} */
 
 .updateScreen svg {
 	width: var(--icon-size);

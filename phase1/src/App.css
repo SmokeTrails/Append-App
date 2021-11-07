@@ -25,6 +25,8 @@
 	--rounded-pill: 500px;
 	--rounded-full: 50%;
 	--icon-size: 1.25rem;
+	--ease-animation: .2s ease;
+	--scale-transform: scale(1.05);
 }
 
 *, *:before, *:after {

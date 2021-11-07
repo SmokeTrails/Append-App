@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useLocation } from "react-router-dom";
-// import { Navigate } from "react-router-dom";
 import { UserIcon } from '@heroicons/react/solid';
 import { LogoutIcon } from '@heroicons/react/outline';
 import CustomLink from './CustomLink';
@@ -34,8 +33,8 @@ export default function SideBar(props) {
 	return (
 		<div className="complementary">
 			<div>
-				<div className={`profileLink ${path === `/user/${user.username}` ? 'active' : ''}`}>
-					<CustomLink to={`/user/${user.username}`} >
+				<div className="profileLink">
+					<CustomLink className={`${path === `/user/${user.username}` ? 'active' : ''}`} to={`/user/${user.username}`} >
 						{user.imageUrl
 							? <img className="image" src={require(`../images/${user.imageUrl}`).default} alt={user.name + "'s photo"} />
 							: <div className="image"><UserIcon /></div>}
@@ -43,9 +42,9 @@ export default function SideBar(props) {
 							<h1>My Profile</h1>
 						</div>
 					</CustomLink>
-					{/* <CustomLink  className="icon" > */}
-						<LogoutIcon onClick={() => props.setUser(null)} className="icon" />
-					{/* </CustomLink> */}
+					<div className="iconLink" onClick={() => props.setUser(null)}>
+						<LogoutIcon className="icon" />
+					</div>
 				</div>
 				<h1 className="subtleHeading">Friends Online</h1>
 				{onlineFriends && onlineFriends.map((friend, index) =>
