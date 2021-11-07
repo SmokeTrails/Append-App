@@ -1,52 +1,66 @@
-div.friendPreview {
-	display: flex;
-	align-items: center;
-	margin: 1rem 0;
-}
-
-div.friendPreview.rich {
+.friendPreview {
+	margin: 0.5rem 0;
 	padding: var(--inner-sidebar-padding);
 	border-radius: var(--rounded);
-	background-color: var(--secondary-bg-color);
-	box-shadow: var(--shadow-lg);
-	border: 1px solid rgba(209, 213, 219, 0.8);
+	transition: all .1s ease;
 }
 
-div.friendPreview .image {
+.friendPreview:hover {
+	transform: scale(1.05);
+	background-color: var(--primary-highlight-bg-color);
+}
+
+.friendPreview.rich {
+	margin: 1rem 0;
+	background-color: var(--secondary-bg-color);
+	box-shadow: var(--shadow-md);
+	border: 1px solid var(--secondary-bg-accent-color);
+}
+
+.friendPreview.rich:hover {
+	background-color: var(--primary-highlight-bg-color);
+	box-shadow: var(--shadow-lg);
+	border: 1px solid var(--primary-highlight-bg-accent-color);
+}
+
+.friendPreview .image {
 	width: 3rem;
 	height: 3rem;
 	border-radius: var(--rounded-full);
 	margin-right: 0.5rem;
 	background-color: var(--profile-icon-background);
-	/* background: var(--primary-gradient); */
 }
 
-div.friendPreview .image svg {
+.friendPreview .image svg {
 	padding: 0.5rem;
 	color: var(--profile-icon-color);
 }
 
-div.friendPreview h1 {
+.friendPreview h1 {
 	margin: 0;
 	font-size: 1rem;
 	margin-bottom: 3px;
 }
 
-div.friendPreview p {
+.friendPreview p {
 	margin: 0;
 	font-size: 0.9rem;
 	color: var(--secondary-dark-text-color);
 }
 
-div.friendPreview .link {
+.friendPreview .link {
 	display: flex;
 	align-items: center;
-	color: var(--primary-highlight-color);
 	margin-left: auto;
 }
 
-div.friendPreview .link svg {
+.friendPreview svg.icon {
 	width: var(--icon-size);
 	height: var(--icon-size);
 	color: inherit;
+	margin-left: auto;
+}
+
+.friendPreview:hover .link {
+	color: var(--primary-highlight-color);
 }

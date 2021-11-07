@@ -1,0 +1,35 @@
+.updateScreen {
+	margin: 1.5rem 0;
+}
+
+.updateScreen ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	padding-left: 1rem;
+	font-weight: 500;
+}
+
+.updateScreen li {
+	display: flex;
+	align-items: center;
+	margin: 0.5rem 0;
+}
+
+.updateScreen li a {
+	transition: all .1s ease;
+}
+
+.updateScreen li a:hover {
+	transform: translateX(1rem);
+	color: var(--primary-highlight-color);
+}
+
+/* .updateScreen li div {
+} */
+
+.updateScreen svg {
+	width: var(--icon-size);
+	height: var(--icon-size);
+	margin-right: 4px;
+}
