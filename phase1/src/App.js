@@ -6,6 +6,7 @@ import Friends from './pages/Friends';
 import UserProfile from './pages/Profile';
 import LoginHome from './pages/LoginHome';
 import Login from './pages/Login'
+import Admin from './pages/Admin'
 import './App.css';
 
 export default function App() {
@@ -18,6 +19,8 @@ export default function App() {
 					<Route index element={<Home />} />
 					<Route path="friends" element={<Friends />} />
 					<Route path="user/:username" element={<UserProfile />} />
+					<Route path="friends" element={<Friends />} />
+					<Route path="admin" element={<Admin />} />
 				</Route>
 				<Route path="*" element={<MissingPage />} />
 			</Routes>

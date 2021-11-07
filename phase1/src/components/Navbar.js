@@ -39,6 +39,9 @@ export default function Navbar() {
 						<CustomLink to="/user/Haider">My Profile</CustomLink>
 					</li>
 					<li>
+						<CustomLink to="/admin">Admin Homepage</CustomLink>
+					</li>
+					<li>
 						<CustomLink to="/random">404 Page</CustomLink>
 					</li>
 				</ul>
