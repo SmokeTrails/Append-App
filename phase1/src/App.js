@@ -5,7 +5,6 @@ import Layout from './pages/Layout';
 import Home from './pages/Home';
 import Friends from './pages/Friends';
 import UserProfile from './pages/Profile';
-import LoginHome from './pages/LoginHome';
 import Login from './pages/Login'
 import Admin from './pages/Admin'
 import './App.css';
