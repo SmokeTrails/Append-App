@@ -16,8 +16,8 @@ function Avatar(props) {
 	return (
 		<img className='Avatar'
 			style={{ width: "200px", height: "200px", borderRadius: "50%", border: "2px solid red" }}
-			src="https://st4.depositphotos.com/1156795/20814/v/950/depositphotos_208142514-stock-illustration-profile-placeholder-image-gray-silhouette.jpg"
-			alt="Profile Picture"
+			src={`users/${props.imageURL}`}
+			alt="Profile Pic"
 		/>
 	);
 }
@@ -25,8 +25,8 @@ function Avatar(props) {
 function ProfileDescription(props) {
 	return (
 		<div className="ProfileDescription">
-			<h1>{props.name}</h1>
-
+			<h1 style={{marginBottom: "2px"}}>{props.name}</h1>
+			<h4 style={{color: "gray", marginTop: "2px" }}>@{props.username}</h4>
 			<div className="UserInfo">
 				<p style={{ fontSize: "110%" }}>{props.friendCount} Friends&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{props.clubCount} Clubs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{props.courseCount} Courses</p>
 			</div>
@@ -87,25 +87,70 @@ function GalleryView(props) {
 const users = [
 	{
 		name: 'Alex D',
-		username: 'AlexDobbin'
+		username: 'AlexDobbin',
+		friendCount: '2',
+		clubCount: '5', 
+		courseCount: '3',
+		bio: 'yo',
+		interests: '#yo',
+		year: '2',
+		program: 'Engineering Science'
+
 	},
 	{
 		name: 'Kirill',
 		username: 'KirillTregubov',
-		imageUrl: 'users/kirill.png'
+		imageUrl: 'kirill.png',
+		friendCount: '7',
+		clubCount: '3', 
+		courseCount: '5',
+		bio: 'hey',
+		interests: '#hey',
+		year: '2',
+		program: 'Computer Science'
 	},
 	{
 		name: 'Mohsin',
-		username: 'SmokeTrails'
+		username: 'SmokeTrails',
+		friendCount: '9',
+		clubCount: '1', 
+		courseCount: '6',
+		bio: 'hello',
+		interests: '#hello',
+		year: '3',
+		program: 'Computer Science'
 	},
 	{
 		name: 'Rehan',
-		username: 'TheRayman786'
+		username: 'TheRayman786',
+		friendCount: '0',
+		clubCount: '1', 
+		courseCount: '3',
+		bio: 'hi',
+		interests: '#hi',
+		year: '1',
+		program: 'Business'
+	},
+	{
+		name: 'Haider',
+		username: 'Haider',
+		friendCount: '3',
+		clubCount: '5', 
+		courseCount: '5',
+		bio: 'Hello 123',
+		interests: '#123',
+		year: '3',
+		program: 'Computer Science'
 	}
 ];
 
 export default function UserProfile() {
 	const username = useParams().username;
+	var Users = users.filter(user => {
+		return user.username === username
+	})
+	var User = Users[0]
+	
 	const [isEditing, setIsEditing] = useState(false);
 
 	const editClick = () => {
@@ -121,13 +166,15 @@ export default function UserProfile() {
 			{ username === 'Haider' &&
 				<button onClick={isEditing ? saveClick : editClick}>{isEditing ? 'Save' : 'Edit'}</button>
 			}
-			<Avatar />
-			<ProfileDescription name='Haider' friendCount='3' clubCount='10' courseCount='5' />
+
+			<Avatar imageURL={("imageUrl" in User) ? User.imageUrl : 'DefaultPic.png'}/>
+			
+			<ProfileDescription name={User.name} username={User.username} friendCount={User.friendCount} clubCount={User.clubCount} courseCount={User.courseCount} />
 			{isEditing &&
-				<ProfileEditingInfo bio='Hello 123' interests='#1 #test #2' year='3' program='Computer Science Specialist' />
+				<ProfileEditingInfo bio={User.bio} interests={User.interests} year={User.year} program={User.program} />
 			}
 			{!isEditing &&
-				<ProfileInfo bio='Hello 123' interests='#1 #test #2' year='3' program='Computer Science Specialist' />
+				<ProfileInfo bio={User.bio} interests={User.interests} year={User.year} program={User.program} />
 			}
 
 			<GalleryView title='Current Courses' />
