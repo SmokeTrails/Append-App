@@ -4,6 +4,7 @@
 	--primary-bg-color: rgba(237, 233, 254, 1);
 	--secondary-bg-color: var(--white-bg-color);
 	--secondary-bg-accent-color: rgba(221, 214, 254, 1);
+	--tertiary-bg-color:  rgba(237, 233, 254, 1);
 	--dark-bg-color: rgba(17, 24, 39, 1);
 	/* --primary-gradient: linear-gradient(to right,#a82df7,#cf9b84); */
 	--primary-highlight-color: rgba(139, 92, 246, 1);

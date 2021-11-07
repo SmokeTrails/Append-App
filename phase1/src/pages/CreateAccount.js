@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
 import Heading from './LoginHeading.js'
 import './CreateAccount.css'
@@ -94,7 +94,7 @@ export default function CreateAccount() {
 function CourseForm(props) {
   return (
     props.user.courses.map((val, i) => {
-      const course = `courses[${i}]`
+    //   const course = `courses[${i}]`
       return (
         <div className="courseContainer" key={i} >
           <input className="courseText" type="text" value={props.user.courses[i]} onChange={(event) => props.changeCourse(event, i)}/>
