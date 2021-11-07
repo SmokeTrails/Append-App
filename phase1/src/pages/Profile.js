@@ -154,7 +154,7 @@ const users = [
 	},
 	{
 		name: 'Haider',
-		username: 'Haider',
+		username: 'user',
 		friendCount: '3',
 		clubCount: '3', 
 		courseCount: '5',
@@ -190,7 +190,7 @@ export default function UserProfile() {
 
 	return (
 		<div>
-			{ username === 'Haider' &&
+			{ username === 'user' &&
 				<button onClick={isEditing ? saveClick : editClick}>{isEditing ? 'Save' : 'Edit'}</button>
 			}
 

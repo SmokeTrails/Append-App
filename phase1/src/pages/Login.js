@@ -1,5 +1,5 @@
 import {
-	useNavigate
+	useNavigate, Link
 } from "react-router-dom";
 import React, { useState } from 'react';
 import './Login.css'
@@ -11,14 +11,24 @@ export default function Login(props) {
 	const [password, setPassword] = useState("")
 	const [invalid, setInvalid] = useState("")
 	const navigate = useNavigate()
+	const activeUser = {
+		name: 'Haider',
+		username: 'user',
+		friendCount: '3',
+		clubCount: '5',
+		courseCount: '5',
+		bio: 'Hello 123',
+		interests: '#123',
+		year: '3',
+		program: 'Computer Science'
+	}
+
+	}
 
 	function checkCredentials() {
-		if (props.type === "Admin" && username === "admin" && password === "admin") {
+		if ((username === "admin" && password === "admin") || (username === "user" && password === "user")) {
 			props.setLoggedIn(true)
-			navigate("/")
-		}
-		else if (props.type === "Student" && username === "user" && password === "user") {
-			props.setLoggedIn(true)
+			props.setUser(activeUser)
 			navigate("/")
 		}
 		else {
@@ -28,7 +38,7 @@ export default function Login(props) {
 
   return (
     <div className="Login">
-      <Heading title={`Sign in to your ${props.type} account`} />
+      <Heading title={`Login`} />
           <div className="usernameContainer">
             <h3> Username: </h3>
             <input className="text" type="text" value={username} onChange={event => setUsername(event.target.value)}/>
@@ -43,6 +53,11 @@ export default function Login(props) {
           <div className="submitContainer">
             <button className="button" onClick={checkCredentials}> Login</button>
           </div>
+					<Link className="link" to={"/CreateAccount"}>
+	          <div className="buttonContainer">
+	            <button className="button"> Create a new account</button>
+	          </div>
+	        </Link>
     </div>
   )
 }
