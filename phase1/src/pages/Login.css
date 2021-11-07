@@ -24,8 +24,8 @@
   width: 49%;
   top: 25%;
   left: 25%;
-  background-color: white;
-  border: 2px #8b5cf6 solid;
+  background-color: #8b5cf6;
+  color: white;
   font-size: 16pt;
   font-family: "Helvetica";
 }
@@ -55,51 +55,36 @@ h3 {
   border: 3px #8b5cf6 solid;
 }
 
-
-.buttonContainer1 {
-  position: absolute;
-  top: 40%;
-  width: 100%;
-}
-
-.buttonContainer2 {
-  position: absolute;
-  top: 45%;
-  width: 100%;
-}
-
-
-.buttonContainer3 {
-  position: absolute;
-  top: 50%;
-  width: 100%;
-}
-
 .usernameContainer {
   position: absolute;
-  top: 35%;
+  top: 30%;
   width: 100%;
 }
 
 .passwordContainer {
   position: absolute;
-  top: 50%;
+  top: 45%;
   width: 100%;
 }
 
 .invalidMessageContainer {
   position: absolute;
-  top: 62%;
+  top: 57%;
   width: 100%;
 }
 
 .submitContainer {
+  position: absolute;
+  top: 65%;
+  width: 100%;
+}
+
+.buttonContainer {
   position: absolute;
   top: 70%;
   width: 100%;
 }
 
 .Login .button {
-  background-color: #8b5cf6;
-  color: white;
+
 }
