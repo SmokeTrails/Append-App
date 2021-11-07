@@ -8,11 +8,8 @@ import UserProfile from './pages/Profile';
 import CommunityPage from './pages/CommunityPage';
 import Login from './pages/Login'
 import Admin from './pages/Admin'
-<<<<<<< Updated upstream
 import MissingPage from './pages/MissingPage'
-=======
 import CreateAccount from './pages/CreateAccount'
->>>>>>> Stashed changes
 import './App.css';
 
 function RequireAuth(props) {
