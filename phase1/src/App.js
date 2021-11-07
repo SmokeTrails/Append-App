@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import CustomLink from './components/CustomLink';
 import { UserProvider } from './hooks/UserContext'
@@ -12,13 +12,21 @@ import Admin from './pages/Admin'
 import './App.css';
 
 export default function App() {
-	const [user, setUser] = useState(null);
+	const [user, setUser] = useState(() => {
+		const user = localStorage.getItem("user");
+		const storedUser = JSON.parse(user);
+		return storedUser || null;
+	});
+
+	useEffect(() => {
+		localStorage.setItem("user", JSON.stringify(user));
+	}, [user]);
 
 	return (
 		<UserProvider value={user}>
 			<BrowserRouter>
 				<Routes>
-					<Route path="/Login" element={<Login setUser={setUser}/>} />
+					<Route path="/Login" element={<Login setUser={setUser} />} />
 					<Route path="/" element={<RequireAuth isLoggedIn={user != null}><Layout setUser={setUser} /></RequireAuth>}>
 						<Route index element={<Home />} />
 						<Route path="friends" element={<Friends />} />
