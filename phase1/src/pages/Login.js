@@ -2,6 +2,7 @@ import {
 	useNavigate, Link
 } from "react-router-dom";
 import React, { useState } from 'react';
+import UserContext from '../hooks/UserContext'
 import './Login.css'
 import Heading from './LoginHeading.js'
 
@@ -11,6 +12,7 @@ export default function Login(props) {
 	const [password, setPassword] = useState("")
 	const [invalid, setInvalid] = useState("")
 	const navigate = useNavigate()
+	const user = useContext(UserContext)
 	const activeUser = {
 		name: 'Haider',
 		username: 'user',
@@ -25,7 +27,6 @@ export default function Login(props) {
 
 	function checkCredentials() {
 		if ((username === "admin" && password === "admin") || (username === "user" && password === "user")) {
-			props.setLoggedIn(true)
 			props.setUser(activeUser)
 			navigate("/")
 		}
