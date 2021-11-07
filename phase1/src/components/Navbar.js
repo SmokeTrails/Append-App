@@ -36,9 +36,6 @@ export default function Navbar() {
 						<CustomLink to="/friends"><UserGroupIcon /> Friends</CustomLink>
 					</li>
 					<li>
-						<CustomLink to="/user/Haider">My Profile</CustomLink>
-					</li>
-					<li>
 						<CustomLink to="/admin">Admin Homepage</CustomLink>
 					</li>
 					<li>
