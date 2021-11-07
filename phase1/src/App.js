@@ -16,7 +16,8 @@ export default function App() {
 		<BrowserRouter>
 			<Routes>
 				<Route path="/LoginHome" element={<LoginHome />} />
-				<Route path="/Login" element={<Login />} />
+				<Route path="/StudentLogin" element={<Login type="Student" setLoggedIn={setLoggedIn}/>} />
+				<Route path="/AdminLogin" element={<Login type="Admin" setLoggedIn={setLoggedIn}/>} />
 				<Route path="/" element={<RequireAuth isLoggedIn={isLoggedIn}><Layout /></RequireAuth>}>
 					<Route index element={<Home />} />
 					<Route path="friends" element={<Friends />} />
