@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useLocation } from "react-router-dom";
+import { UserIcon } from '@heroicons/react/solid';
+// import { LogoutIcon } from '@heroicons/react/outline';
 import CustomLink from './CustomLink';
 import UserContext from '../hooks/UserContext'
 import FriendPreview from './FriendPreview'
 import './SideBar.css'
 
 export default function SideBar() {
-	const [onlineFriends, setOnlineFriends] = useState(null);
 	const user = useContext(UserContext);
+	const [onlineFriends, setOnlineFriends] = useState(null);
+	let path = useLocation().pathname;
 
 	useEffect(() => {
 		setOnlineFriends([
@@ -25,21 +29,15 @@ export default function SideBar() {
 	return (
 		<div className="complementary">
 			<div>
-				<p>User: {user}</p>
-				<CustomLink to="/user/user">My Profile</CustomLink>
-				{/* <CustomLink className="profileLink" to={`/user/${username}`} >
-					{imageUrl
-						? <img className="image" src={require(`../images/${imageUrl}`).default} alt={name + "'s photo"} />
+				<CustomLink className={`profileLink ${path === `/user/${user.username}` ? 'active' : ''}`} to={`/user/${user.username}`} >
+					{user.imageUrl
+						? <img className="image" src={require(`../images/${user.imageUrl}`).default} alt={user.name + "'s photo"} />
 						: <div className="image"><UserIcon /></div>}
 					<div>
-						<h1>{name}</h1>
-						<p>@{username}</p>
+						<h1>My Profile</h1>
 					</div>
-					<div className="link">
-						{!simple && 'View Profile'}
-						<ChevronRightIcon className="icon" />
-					</div>
-				</CustomLink> */}
+					{/* <LogoutIcon className="icon" /> */}
+				</CustomLink>
 				<h1 className="subtleHeading">Friends Online</h1>
 				{onlineFriends && onlineFriends.map((friend, index) =>
 					<FriendPreview key={index} simple={true} name={friend.name} username={friend.username} imageUrl={friend.imageUrl} />

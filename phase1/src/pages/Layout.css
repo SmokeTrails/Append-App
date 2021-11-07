@@ -87,6 +87,7 @@ div.mainContent {
 	flex-basis: 50%;
 	max-width: 767px;
 	margin: 2rem;
+	margin-top: var(--outer-sidebar-padding);
 }
 
 div.complementary {

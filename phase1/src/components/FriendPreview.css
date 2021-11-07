@@ -28,7 +28,7 @@
 	height: 3rem;
 	border-radius: var(--rounded-full);
 	margin-right: 0.5rem;
-	background-color: var(--profile-icon-background);
+	background-color: var(--profile-icon-bg);
 }
 
 .friendPreview .image svg {

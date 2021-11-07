@@ -13,7 +13,9 @@
 	--secondary-text-color: rgba(107, 114, 128, 1);
 	--secondary-dark-text-color: rgba(75, 85, 99, 1);
 	--profile-icon-color: rgba(209, 213, 219, 1);
-	--profile-icon-background: var(--dark-bg-color);
+	--profile-icon-bg: var(--dark-bg-color);
+	--profile-icon-active-bg: rgba(76, 29, 149, 1);
+	--profile-icon-active: rgba(196, 181, 253, 1);
 	--shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 	--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 	--outer-sidebar-padding: 1.5rem;

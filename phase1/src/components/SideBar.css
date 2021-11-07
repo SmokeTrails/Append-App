@@ -1,0 +1,47 @@
+.profileLink {
+	margin-bottom: 1.5rem;
+}
+
+.profileLink.active {
+	color: var(--primary-highlight-color);
+}
+
+.profileLink.active .image {
+	background-color: var(--profile-icon-active-bg);
+}
+
+.profileLink.active .image svg {
+	color: var(--profile-icon-active);
+}
+
+.profileLink .image {
+	width: 3rem;
+	height: 3rem;
+	border-radius: var(--rounded-full);
+	margin-right: 0.5rem;
+	background-color: var(--profile-icon-bg);
+}
+
+.profileLink .image svg {
+	padding: 0.5rem;
+	color: var(--profile-icon-color);
+}
+
+.profileLink h1 {
+	margin: 0;
+	font-size: 1rem;
+	margin-bottom: 3px;
+}
+
+.profileLink p {
+	margin: 0;
+	font-size: 0.9rem;
+	color: var(--secondary-dark-text-color);
+}
+
+.profileLink svg.icon {
+	width: var(--icon-size);
+	height: var(--icon-size);
+	color: inherit;
+	margin-left: auto;
+}

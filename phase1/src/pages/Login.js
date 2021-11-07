@@ -23,8 +23,6 @@ export default function Login(props) {
 		program: 'Computer Science'
 	}
 
-	
-
 	function checkCredentials() {
 		if ((username === "admin" && password === "admin") || (username === "user" && password === "user")) {
 			props.setLoggedIn(true)
@@ -36,28 +34,28 @@ export default function Login(props) {
 		}
 	}
 
-  return (
-    <div className="Login">
-      <Heading title={`Login`} />
-          <div className="usernameContainer">
-            <h3> Username: </h3>
-            <input className="text" type="text" value={username} onChange={event => setUsername(event.target.value)}/>
-          </div>
-          <div className="passwordContainer">
-            <h3> Password: </h3>
-            <input className="text" type="text" value={password} onChange={event => setPassword(event.target.value)}/>
-          </div>
-					<div className="invalidMessageContainer">
-						<h3>{invalid}</h3>
-					</div>
-          <div className="submitContainer">
-            <button className="button" onClick={checkCredentials}> Login</button>
-          </div>
-					<Link className="link" to={"/CreateAccount"}>
-	          <div className="buttonContainer">
-	            <button className="button"> Create a new account</button>
-	          </div>
-	        </Link>
-    </div>
-  )
+	return (
+		<div className="Login">
+			<Heading title={`Login`} />
+			<div className="usernameContainer">
+				<h3> Username: </h3>
+				<input className="text" type="text" value={username} onChange={event => setUsername(event.target.value)} />
+			</div>
+			<div className="passwordContainer">
+				<h3> Password: </h3>
+				<input className="text" type="text" value={password} onChange={event => setPassword(event.target.value)} />
+			</div>
+			<div className="invalidMessageContainer">
+				<h3>{invalid}</h3>
+			</div>
+			<div className="submitContainer">
+				<button className="button" onClick={checkCredentials}> Login</button>
+			</div>
+			<Link className="link" to={"/CreateAccount"}>
+				<div className="buttonContainer">
+					<button className="button"> Create a new account</button>
+				</div>
+			</Link>
+		</div>
+	)
 }
