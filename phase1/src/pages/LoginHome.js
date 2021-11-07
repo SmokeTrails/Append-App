@@ -14,12 +14,12 @@ export default function LoginHome() {
             <button className="button"> Create a new account</button>
           </div>
         </Link>
-        <Link className="link" to={"/Login"}>
+        <Link className="link" to={"/StudentLogin"}>
           <div className="buttonContainer2">
             <button className="button"> Login as student</button>
           </div>
         </Link>
-        <Link className="link" to={"/Login"}>
+        <Link className="link" to={"/AdminLogin"}>
           <div className="buttonContainer3">
             <button className="button"> Login as admin</button>
           </div>
