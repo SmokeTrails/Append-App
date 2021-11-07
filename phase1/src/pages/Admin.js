@@ -2,10 +2,18 @@ import React, { useState, useEffect } from 'react';
 import FriendPreview from '../components/FriendPreview'
 
 export default function Admin() {
-	const [users, setUser] = useState(null);
+	const [users, setUsers] = useState(null);
 
 	useEffect(() => {
-		setUser([
+		setUsers([
+			{
+				name: 'Alex D',
+				username: 'AlexDobbin'
+			},
+			{
+				name: 'Haider',
+				username: 'HaiderHB'
+			},
 			{
 				name: 'Kirill',
 				username: 'KirillTregubov',
@@ -18,16 +26,12 @@ export default function Admin() {
 			{
 				name: 'Rehan',
 				username: 'TheRayman786'
-			},
-            {
-				name: 'Haider',
-				username: 'HaiderHB'
-			},
+			}
 		]);
 	}, []);
 
     const RemoveUser = name => {
-        setUser(users.filter(user => user.name !== name))
+        setUsers(users.filter(user => user.name !== name))
     }
 
     const ResetPassword = name => {
