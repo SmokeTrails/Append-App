@@ -1,4 +1,6 @@
 .profileLink {
+	display: flex;
+	align-items: center;
 	margin-bottom: 1.5rem;
 }
 
@@ -39,9 +41,12 @@
 	color: var(--secondary-dark-text-color);
 }
 
+.profileLink .icon {
+	margin-left: auto;
+}
+
 .profileLink svg.icon {
 	width: var(--icon-size);
 	height: var(--icon-size);
 	color: inherit;
-	margin-left: auto;
 }

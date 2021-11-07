@@ -1,18 +1,13 @@
-import {
-	useNavigate, Link
-} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
-import UserContext from '../hooks/UserContext'
-import './Login.css'
 import Heading from './LoginHeading.js'
-
+import './Login.css'
 
 export default function Login(props) {
 	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
 	const [invalid, setInvalid] = useState("")
 	const navigate = useNavigate()
-	const user = useContext(UserContext)
 	const activeUser = {
 		name: 'Haider',
 		username: 'user',

@@ -13,14 +13,13 @@ import './App.css';
 
 export default function App() {
 	const [user, setUser] = useState(null);
-	const [isLoggedIn, setLoggedIn] = useState(false);
 
 	return (
 		<UserProvider value={user}>
 			<BrowserRouter>
 				<Routes>
-					<Route path="/Login" element={<Login setLoggedIn={setLoggedIn} setUser={setUser}/>} />
-					<Route path="/" element={<RequireAuth isLoggedIn={isLoggedIn}><Layout /></RequireAuth>}>
+					<Route path="/Login" element={<Login setUser={setUser}/>} />
+					<Route path="/" element={<RequireAuth isLoggedIn={user != null}><Layout setUser={setUser} /></RequireAuth>}>
 						<Route index element={<Home />} />
 						<Route path="friends" element={<Friends />} />
 						<Route path="user/:username" element={<UserProfile />} />
