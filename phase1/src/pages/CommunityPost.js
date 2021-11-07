@@ -1,39 +1,71 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useParams} from "react-router-dom";
+import  {posts} from './CommunityPage';
 
+const comments = [
+	{
+		user: 'Haider',
+		content: "Okay Congrats",
+		date: "11/7/2021",
+		time: "6:23",
+        ID: "CSC309_0"
+	}, 
+	{
+		user: 'Mohsin',
+		content: "Nice",
+		date: "11/7/2021",
+		time: "12:42",
+        ID: "CSC309_1"
+	}
+];
 
 function Post(props){
 	return(
-		<li className = "row">
-			<h4 className = "title"> {props.title} </h4>
-			<div className = "content">
-				<p className = "timestamp"> {props.time}</p>
-				<p className = "comments">{props.comments}</p>
-			</div>
+		<div>
+			<h2 className = "title"> {props.title} </h2>
             <div className="postDescription">{props.description}</div>
-		</li>
+			<div className = "info" style={{display: "flex", color:"gray", margin:"0px"}}>
+                <p className = "date" style={{marginRight: "20px"}}> {props.date}</p>
+				<p className = "timestamp" style={{marginRight: "20px"}}> {props.time}</p>
+				<p className = "comments">{props.comments} comments</p>
+			</div>
+		</div>
 	);
 }
 
 function Comment(props){
-	return(
-		<li className = "row">
-			<div className = "content">
-				<p className = "timestamp"> {props.time}</p>
-				<p className = "user">{props.user}</p>
-			</div>
-            <div className="content">{props.content}</div> {/*comment content*/}
-		</li>
-	);
+    console.log(props.postId === props.commentId);
+    if(props.postId === props.commentId){
+        return(
+            <li className = "row" style={{listStyleType: "none", borderStyle: "solid", borderColor: "gray", borderWidth: "0.01em", marginBottom: "2px"}}>
+                <h4 style={{margin: "0px"}}>{props.user}</h4>
+                <div className="content">{props.content}</div>
+                <div className = "info" style={{display: "flex", color:"gray", marginTop:"0px", fontSize: "80%"}}>
+                    <p className = "date" style={{marginRight: "20px", marginTop:"0px"}}> {props.date}</p>
+                    <p className = "timestamp" style={{marginRight: "20px", marginTop:"0px"}}> {props.time}</p>
+                </div>
+                
+            </li>
+        );
+    }else{
+        return(null);
+    }
+	
 }
 
-function AddComment() {
+function AddComment(props) {
 	const handleSubmit= (e) => {
 		e.preventDefault();
-		//e.target[0].value
+		var today = new Date(),
+		time = today.getHours() + ':' + today.getMinutes();
+		var date = today.getMonth()+1 + '/' + today.getDate() + '/' + today.getFullYear();
+		const newComment = {user: props.user, content: e.target[0].value, date: date, time: time, ID: props.postId};
+		comments.push(newComment);
+        props.setValue(props.value+1);
 	  }
 
 	return (
-		<form onSubmit = {e => {handleSubmit(e)}}>
+		<form onSubmit = {e => {handleSubmit(e)}} style={{marginBottom: "20px"}}>
 			<label>
 				<input type="textarea" name="comment" style={{ fontSize: "120%", width: "1000px", height: "30px" }}/>
 			</label>
@@ -44,12 +76,21 @@ function AddComment() {
 }
 
 export default function CommunityPage() {
+    const community = useParams().community;
+    const index = useParams().thread;
+    const postId = community+"_"+index
+    const post = posts.find(element => element.postId === postId);
+    const [value, setValue] = useState(0);
+    
 	return (
 		<div>
-			<Post title="Test 123" time="1:20" comments="2" postDescription="hello guys first post!!"/>
-            <AddComment/>
-            <Comment time="1:20" user="Haider" content="okay congrats"/>
-            <Comment time="1:20" user="Mohsin" content="cool nice yo"/>
+			<Post title={post.title} date={post.date} time={post.time} comments={post.comments} description={post.description}/>
+            <AddComment setValue={setValue} value={value} user="Haider" postId={postId}/>
+            {comments && comments.map((comment, index) =>
+                <div key={index}>
+                        <Comment user={comment.user} date={comment.date} time={comment.time} content={comment.content} postId={postId} commentId={comment.ID}/>
+                </div>	
+			)}
 		</div>
 	);
 }

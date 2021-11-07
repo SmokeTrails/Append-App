@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, Link  } from "react-router-dom";
 
-const posts = [
+export const posts = [
 	{
 		title: 'Whatsup yo hi',
 		description: "yo yo yo yo yo yo",
@@ -9,6 +9,7 @@ const posts = [
 		time: "6:23",
 		comments: "3",
 		community: "CSC309",
+		postId: "CSC309_0"
 	}, 
 	{
 		title: 'My first Post !!!1',
@@ -17,6 +18,7 @@ const posts = [
 		time: "13:19",
 		comments: "3",
 		community: "CSC309",
+		postId: "CSC309_1"
 	},
 	{
 		title: 'Anyone done the assignment?',
@@ -25,12 +27,13 @@ const posts = [
 		time: "4:23",
 		comments: "0",
 		community: "CSC309",
+		postId: "CSC309_2"
 	}
 	
 ];
 
 function Post(props){
-	const url = `/thread/${props.community}_${props.postId}`
+	const url = `/${props.community}/${props.postId}`
 	return(
 		<Link to={url} style = {{borderStyle: "solid", borderColor: "gray", borderWidth: "0.01em", marginBottom: "2px"}}>
 			<li className = "row" style={{listStyleType: "none"}}>
@@ -52,7 +55,7 @@ function AddPost(props) {
 		var today = new Date(),
 		time = today.getHours() + ':' + today.getMinutes();
 		var date = today.getMonth()+1 + '/' + today.getDate() + '/' + today.getFullYear();
-		const newPost = {title: e.target[0].value, description: e.target[1].value, date: date, time: time, comments: '0', community: props.community}
+		const newPost = {title: e.target[0].value, description: e.target[1].value, date: date, time: time, comments: '0', community: props.community, postId: props.comments+"_"+props.postId}
 		posts.push(newPost);
 		props.setAddPost(false);
 	  }
@@ -83,7 +86,7 @@ export default function CommunityPage() {
 					<div key={index}>
 						<Post title={post.title} date={post.date} time={post.time} comments={post.comments} community={post.community} postId={index}/>
 					</div>
-				)}
+			)}
 
 			{addPost &&
 				<AddPost setAddPost={setAddPost} community={community}/>	
