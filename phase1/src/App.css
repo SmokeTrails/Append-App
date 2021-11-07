@@ -1,11 +1,15 @@
 /* Source: https://tailwindcss.com/docs */
 :root {
-	--primary-bg-color: rgba(243, 244, 246, 1);
-	--secondary-bg-color: rgba(255, 255, 255, 1);
+	--white-bg-color: rgba(255, 255, 255, 1);
+	--primary-bg-color: rgba(237, 233, 254, 1);
+	--secondary-bg-color: rgba(245, 243, 255, 1);
+	--secondary-bg-accent-color: rgba(221, 214, 254, 1);
 	--dark-bg-color: rgba(17, 24, 39, 1);
 	/* --primary-gradient: linear-gradient(to right,#a82df7,#cf9b84); */
-	--primary-highlight-color: purple;
-	--primary-highlight-bg-color: rgb(128, 0, 128, 0.1);
+	--primary-highlight-color: rgba(139, 92, 246, 1);
+	--primary-highlight-bg-color: rgba(221, 214, 254, 0.75);
+	--primary-highlight-bg-accent-color: rgba(196, 181, 253, 0.75);
+	--secondary-highlight-bg-color: rgba(156, 163, 175, 0.1);
 	--secondary-text-color: rgba(107, 114, 128, 1);
 	--secondary-dark-text-color: rgba(75, 85, 99, 1);
 	--profile-icon-color: rgba(209, 213, 219, 1);
@@ -14,7 +18,9 @@
 	--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 	--outer-sidebar-padding: 1.5rem;
 	--inner-sidebar-padding: 0.5rem;
-	--rounded: 0.25rem;
+	--rounded-sm: 0.25rem;
+	--rounded: 0.5rem;
+	--rounded-pill: 500px;
 	--rounded-full: 50%;
 	--icon-size: 1.25rem;
 }
@@ -43,9 +49,25 @@ nav ul {
 	text-overflow: ellipsis;
 }
 
+.heading {
+	margin-top: 0;
+	font-size: 1.6rem;
+	font-weight: 700;
+}
 
+.subheading {
+	margin-top: 0;
+	font-size: 1.15rem;
+	font-weight: 600;
+}
 
-
+.subtleHeading {
+	margin: 0;
+	color: var(--secondary-text-color);
+	font-size: 1rem;
+	text-transform: uppercase;
+	letter-spacing: 0.025em;
+}
 
 .App-logo {
 	height: 40vmin;

@@ -7,6 +7,10 @@ export default function Friends() {
 	useEffect(() => {
 		setFriends([
 			{
+				name: 'Alex D',
+				username: 'AlexDobbin'
+			},
+			{
 				name: 'Kirill',
 				username: 'KirillTregubov',
 				imageUrl: 'users/kirill.png'
@@ -18,13 +22,13 @@ export default function Friends() {
 			{
 				name: 'Rehan',
 				username: 'TheRayman786'
-			},
+			}
 		]);
 	}, []);
 
 	return (
 		<div>
-			<h1>Your Friends</h1>
+			<h1 className="heading">Your Friends</h1>
 			<div>
 				{friends && friends.map((friend, index) =>
 					<div key={index}>
