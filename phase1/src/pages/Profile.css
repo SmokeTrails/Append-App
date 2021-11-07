@@ -75,6 +75,11 @@ button.editButton {
 	color: var(--button-color);
 	border-radius: var(--rounded-pill);
 	font-weight: 500;
+	transition: transform var(--ease-animation);
+}
+
+button.editButton:hover {
+	transform: var(--scale-transform);
 }
 
 .editButton svg {
@@ -131,11 +136,6 @@ button.editButton {
 	resize: none;
 }
 
-.ClubsCourses {
-	position: relative;
-	margin-left: 80px;
-}
-
 .gallery {
 	margin: 0.5rem 0;
 	margin-bottom: 1rem;
@@ -163,7 +163,7 @@ button.editButton {
 .gallery li {
 	display: flex;
 	flex-direction: column;
-	padding: 1rem;
+	padding: 1.5rem;
 	background-color: var(--tertiary-bg-color);
 	border-radius: var(--rounded);
 }

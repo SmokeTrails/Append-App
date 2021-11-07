@@ -43,7 +43,7 @@ export default function App() {
 						<Route path="friends" element={<Friends />} />
 						<Route path="user/:username" element={<UserProfile />} />
 						<Route path="community/:community" element={<CommunityPage />} />
-						<Route path="/:community/:thread" element={<CommunityPost />} />
+						<Route path="community/:community/:thread" element={<CommunityPost />} />
 						<Route path="friends" element={<Friends />} />
 						<Route path="admin" element={<Admin />} />
 					</Route>

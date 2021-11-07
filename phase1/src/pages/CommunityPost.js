@@ -8,14 +8,14 @@ const comments = [
 		content: "Okay Congrats",
 		date: "11/7/2021",
 		time: "6:23",
-        ID: "CSC309_0"
+        ID: "comment0"
 	}, 
 	{
 		user: 'Mohsin',
 		content: "Nice",
 		date: "11/7/2021",
 		time: "12:42",
-        ID: "CSC309_1"
+        ID: "comment1"
 	}
 ];
 
@@ -50,7 +50,6 @@ function Comment(props){
     }else{
         return(null);
     }
-	
 }
 
 function AddComment(props) {
@@ -75,22 +74,22 @@ function AddComment(props) {
 	)
 }
 
-export default function CommunityPage() {
-    const community = useParams().community;
-    const index = useParams().thread;
-    const postId = community+"_"+index
+export default function CommunityPost() {
+    // const community = useParams().community;
+    const postId = useParams().thread;
     const post = posts.find(element => element.postId === postId);
     const [value, setValue] = useState(0);
     
 	return (
 		<div>
-			<Post title={post.title} date={post.date} time={post.time} comments={post.comments} description={post.description}/>
+			{ post.title }
+			{/* <Post title={post.title} date={post.date} time={post.time} comments={post.comments} description={post.description}/>
             <AddComment setValue={setValue} value={value} user="Haider" postId={postId}/>
             {comments && comments.map((comment, index) =>
                 <div key={index}>
                         <Comment user={comment.user} date={comment.date} time={comment.time} content={comment.content} postId={postId} commentId={comment.ID}/>
                 </div>	
-			)}
+			)} */}
 		</div>
 	);
 }

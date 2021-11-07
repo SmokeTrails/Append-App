@@ -82,8 +82,8 @@ const users = [
 		interests: '#coding #AI #anime #gaming',
 		year: '3',
 		program: 'Computer Science',
-		courseCodes: ['CSC309', 'CSC309', 'CSC309', 'CSC309', 'CSC309'],
-		communityNames: ['Anime', 'Gaming', 'Martial Arts']
+		courseCodes: ['CSC309'],
+		communityNames: ['Anime', 'WebDevClub']
 	}
 ];
 
@@ -138,21 +138,6 @@ function ProfileInfo(props) {
 }
 
 function ProfileEditingInfo(props) {
-	// const handleSubmit = (e) => {
-	// 	e.preventDefault();
-
-	// 	// Users need to be fetched from backend
-	// 	var filteredUsers = users.filter(user => {
-	// 		return user.username === props.username
-	// 	})
-
-	// 	filteredUsers[0].bio = e.target[0].value
-	// 	filteredUsers[0].interests = e.target[1].value
-	// 	filteredUsers[0].year = e.target[2].value
-	// 	filteredUsers[0].program = e.target[3].value
-
-	// 	props.setIsEditing(false);
-	// }
 	const handleChange = (e) => props.setProfileInfo((state) => {
 		return {
 			...state,
@@ -213,7 +198,6 @@ export default function UserProfile() {
 	const username = useParams().username;
 	const [isLoading, setIsLoading] = useState(true);
 	const [currentUser, setCurrentUser] = useState(null);
-	const [isEditing, setIsEditing] = useState(false);
 	const [profileInfo, setProfileInfo] = useState(null);
 
 	const saveForm = () => {
@@ -225,8 +209,17 @@ export default function UserProfile() {
 		filteredUser.interests = profileInfo.interests
 		filteredUser.year = profileInfo.year
 		filteredUser.program = profileInfo.program
+		
+		setProfileInfo(null);
+	}
 
-		setIsEditing(false);
+	const startEditing = () => {
+		setProfileInfo({
+			bio: currentUser.bio,
+			interests: currentUser.interests,
+			year: currentUser.year,
+			program: currentUser.program
+		});
 	}
 
 	useEffect(() => {
@@ -240,17 +233,6 @@ export default function UserProfile() {
 		}
 	}, [isLoading, username, currentUser]);
 
-	useEffect(() => {
-		if (currentUser) {
-			setProfileInfo({
-				bio: currentUser.bio,
-				interests: currentUser.interests,
-				year: currentUser.year,
-				program: currentUser.program
-			});
-		}
-	}, [currentUser]);
-
 	return (
 		<div>
 			{isLoading
@@ -263,14 +245,14 @@ export default function UserProfile() {
 							<ProfileDescription name={currentUser.name} username={currentUser.username} friendCount={currentUser.friendCount} clubCount={currentUser.clubCount} courseCount={currentUser.courseCount} />
 
 							{username === 'user' &&
-								<button className="editButton" onClick={() => isEditing ? saveForm() : setIsEditing(true)}>
-									{isEditing ? <CheckIcon /> : <PencilIcon />}
-									{isEditing ? 'Save Changes' : 'Edit Profile'}
+								<button className="editButton" onClick={() => profileInfo ? saveForm() : startEditing()}>
+									{profileInfo ? <CheckIcon /> : <PencilIcon />}
+									{profileInfo ? 'Save Changes' : 'Edit Profile'}
 								</button>
 							}
 						</div>
 
-						{isEditing
+						{profileInfo
 							? <ProfileEditingInfo name={currentUser.name} profileInfo={profileInfo} setProfileInfo={setProfileInfo} />
 							: <ProfileInfo name={currentUser.name} bio={currentUser.bio} interests={currentUser.interests} year={currentUser.year} program={currentUser.program} />
 						}

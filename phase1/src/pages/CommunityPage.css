@@ -1,0 +1,116 @@
+.communityPage {
+	position: relative;
+	overflow: hidden;
+	border-radius: var(--rounded);
+	background-color: var(--secondary-bg-color);
+	box-shadow: var(--shadow);
+	border: 1px solid var(--secondary-bg-accent-color);
+	padding-top: 0;
+}
+
+.communityPage .communityContent {
+	padding: 2rem;
+	padding-top: 1rem;
+}
+
+.communityPage .communityInfo {
+	margin-bottom: 2rem;
+}
+
+.communityPage h1 {
+	margin: 0;
+	margin-bottom: 0.5rem;
+	font-size: 1.5rem;
+}
+
+.communityPage p {
+	margin: 0;
+	font-size: 1rem;
+	color: var(--secondary-dark-text-color);
+}
+
+.communityPage img.cover {
+	width: 100%;
+	height: 16rem;
+	object-fit: cover;
+}
+
+.communityPage .badge {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0.5rem;
+	padding: 0.25rem 0.5rem;
+	backdrop-filter: blur(10px) invert(20%);
+	border-radius: var(--rounded-pill);
+	background-color: rgba(139, 92, 246, 0.4);
+	color: var(--white-bg-color);
+	font-size: 1.25rem;
+	font-weight: 500;
+}
+
+.communityPage .post {
+	width: 100%;
+	border-radius: var(--rounded-sm);
+	background-color: var(--tertiary-bg-color);
+	margin: 1rem 0;
+	padding: 1.5rem;
+	transition: transform var(--ease-animation);
+}
+
+.communityPage .post:hover {
+	transform: var(--scale-transform);
+}
+
+.communityPage .post.new:hover {
+	transform: none;
+}
+
+.communityPage .post label {
+	display: block;
+	height:fit-content;
+}
+
+.communityPage input,
+.communityPage textarea {
+	box-sizing: content-box;
+	width: 100%;
+	border-radius: var(--rounded-sm);
+	border: 2px solid var(--secondary-bg-accent-color);
+	padding: 0.5rem;
+	font-size: 1.15rem;
+	resize: none;
+}
+
+.communityPage .post .title {
+	display: block;
+	font-size: 1.05rem;
+	font-weight: 600;
+	margin: 0;
+	margin-bottom: 0.5rem;
+}
+
+.communityPage .post .details {
+	margin: 0;
+	display: flex;
+	color: gray;
+}
+
+.communityPage .post .details p:not(:last-child) {
+	margin-right: 1rem;
+}
+
+.communityPage svg.icon {
+	box-sizing: content-box;
+	width: var(--icon-size);
+	height: var(--icon-size);
+	color: inherit;
+	margin-left: auto;
+	flex-shrink: 0;
+	padding-left: 1rem;
+	margin-left: auto;
+}
+
+.communityPage .post:hover svg.icon {
+	color: var(--primary-highlight-color);
+}
