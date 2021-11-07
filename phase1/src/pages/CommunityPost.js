@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useParams} from "react-router-dom";
-import  {posts} from './CommunityPage';
+import { useParams } from "react-router-dom";
+import { posts } from './CommunityPage';
 
 const comments = [
 	{
@@ -92,13 +92,13 @@ export default function CommunityPost() {
 	return (
 		<div>
 			{ post.title }
-			{/* <Post title={post.title} date={post.date} time={post.time} comments={post.comments} description={post.description}/>
+			<Post title={post.title} date={post.date} time={post.time} comments={post.comments} description={post.description}/>
             <AddComment setValue={setValue} value={value} user="Haider" postId={postId}/>
             {comments && comments.map((comment, index) =>
                 <div key={index}>
                         <Comment user={comment.user} date={comment.date} time={comment.time} content={comment.content} postId={postId} commentId={comment.ID}/>
                 </div>	
-			)} */}
+			)}
 		</div>
 	);
 }

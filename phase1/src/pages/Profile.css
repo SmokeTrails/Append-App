@@ -38,10 +38,6 @@
 
 }
 
-/* .ProfileDescription {
-
-} */
-
 .ProfileDescription h1 {
 	margin-top: 0;
 	margin-bottom: 4px;
@@ -181,9 +177,3 @@ button.editButton:hover {
 	border-radius: var(--rounded-sm);
 	margin-bottom: 0.5rem;
 }
-
-/* .EditButton {
-	position: absolute;
-	margin-left: 1000px;
-	margin-top: 10px;
-} */

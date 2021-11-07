@@ -71,29 +71,45 @@ export const posts = [
 
 function Post(props) {
 	const url = `/community/${props.community}/${props.postId}`
+
+	const removePost = index => {
+		var elem = document.getElementById(index);
+		elem.parentNode.removeChild(elem);
+	}
+	
+	const warnUser = name => {
+		alert(name + " has been warned!");
+	}
+
 	return (
-		<CustomLink className="post" to={url}>
-			<div>
-				<h4 className="title"> {props.title} </h4>
-				<div className="details">
-					<p className="date"> {props.date}</p>
-					<p className="timestamp"> {props.time}</p>
-					<p className="comments">{props.comments} comments</p>
+		<div className="post">
+			<CustomLink to={url}>
+				<div>
+					<h4 className="title"> {props.title} </h4>
+					<div className="details">
+						<p className="date"> {props.date}</p>
+						<p className="timestamp"> {props.time}</p>
+						<p className="comments">{props.comments} comments</p>
+					</div>
 				</div>
+				<ChevronRightIcon className="icon" />
+			</CustomLink>
+			<div class="adminButtons">
+				<button className="small" onClick={() => { /*removePost(props.community + "_" + index)*/ }}>Remove Post</button>
+				<button className="small" onClick={() => { /*warnUser(post.user)*/ }}>Warn User</button>
 			</div>
-			<ChevronRightIcon className="icon" />
-		</CustomLink>
+		</div>
 	);
 }
 
 function AddPost(props) {
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		
+
 		var today = new Date();
 		var time = today.getHours() + ':' + today.getMinutes();
-		var date = today.getMonth()+1 + '/' + today.getDate() + '/' + today.getFullYear();
-		const newPost = {title: e.target[0].value, user: props.user, description: e.target[1].value, date: date, time: time, comments: '0', community: props.community, postId: props.comments+"_"+props.postId};
+		var date = today.getMonth() + 1 + '/' + today.getDate() + '/' + today.getFullYear();
+		const newPost = { title: e.target[0].value, user: props.user, description: e.target[1].value, date: date, time: time, comments: '0', community: props.community, postId: props.comments + "_" + props.postId };
 		posts.push(newPost);
 
 		props.setAddPost(false);
@@ -110,15 +126,6 @@ function AddPost(props) {
 			<input type="submit" value="Post" />
 		</form>
 	)
-}
-
-const removePost = index => {
-	var elem = document.getElementById(index);
-	elem.parentNode.removeChild(elem);
-}
-
-const warnUser = name => {
-	alert(name + " has been warned!");
 }
 
 export default function CommunityPage() {
@@ -155,11 +162,10 @@ export default function CommunityPage() {
 							</div>
 							<div>
 								{posts && posts.map((post, index) =>
-								<div>
-									<Post key={index} title={post.title} date={post.date} time={post.time} comments={post.comments} community={community} postId={index} />
-									<button onClick={() => { removePost(community+"_"+index) }}>Remove Post</button>
-									<button onClick={() => { warnUser(post.user) }}>Warn User</button>
-								</div>
+									<div>
+										<Post key={index} title={post.title} date={post.date} time={post.time} comments={post.comments} community={community} postId={index} />
+
+									</div>
 								)}
 							</div>
 
