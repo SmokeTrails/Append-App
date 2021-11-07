@@ -91,7 +91,7 @@ function GalleryView(props) {
 // 	}
 //   }
 
-class UserProfile extends React.Component {
+export default class UserProfile extends React.Component {
 	constructor(props) {
 		super(props);
 		this.editClick = this.editClick.bind(this);
