@@ -23,6 +23,8 @@ export default function Login(props) {
 		program: 'Computer Science'
 	}
 
+
+
 	function checkCredentials() {
 		if ((username === "admin" && password === "admin") || (username === "user" && password === "user")) {
 			props.setLoggedIn(true)
