@@ -82,6 +82,7 @@ export default function CommunityPage() {
 
 	return (
 		<div>
+			<h1>Welcome to {community}</h1>
 			{posts && posts.map((post, index) =>
 					<div key={index}>
 						<Post title={post.title} date={post.date} time={post.time} comments={post.comments} community={post.community} postId={index}/>
