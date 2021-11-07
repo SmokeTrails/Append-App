@@ -23,7 +23,7 @@ export default function Login(props) {
 		program: 'Computer Science'
 	}
 
-	
+
 
 	function checkCredentials() {
 		if ((username === "admin" && password === "admin") || (username === "user" && password === "user")) {
@@ -34,6 +34,7 @@ export default function Login(props) {
 		else {
 			setInvalid("Your username or password is incorrect.")
 		}
+	}
 
   return (
     <div className="Login">
