@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Friends from './pages/Friends';
 import UserProfile from './pages/Profile';
 import CommunityPage from './pages/CommunityPage';
+import CommunityPost from './pages/CommunityPost';
 import Login from './pages/Login'
 import Admin from './pages/Admin'
 import MissingPage from './pages/MissingPage'
@@ -40,6 +41,7 @@ export default function App() {
 						<Route path="friends" element={<Friends />} />
 						<Route path="user/:username" element={<UserProfile />} />
 						<Route path="community/:community" element={<CommunityPage />} />
+						<Route path="/thread/:thread" element={<CommunityPost />} />
 						<Route path="friends" element={<Friends />} />
 						<Route path="admin" element={<Admin />} />
 					</Route>
