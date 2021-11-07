@@ -37,14 +37,15 @@ function Comment(props){
     console.log(props.postId === props.commentId);
     if(props.postId === props.commentId){
         return(
-            <li className = "row" style={{listStyleType: "none", borderStyle: "solid", borderColor: "gray", borderWidth: "0.01em", marginBottom: "2px"}}>
+            <li className = "row" style={{listStyleType: "none", borderStyle: "solid", borderColor: "gray", borderWidth: "0.01em", marginBottom: "2px"}} id={props.commentId}>
                 <h4 style={{margin: "0px"}}>{props.user}</h4>
                 <div className="content">{props.content}</div>
                 <div className = "info" style={{display: "flex", color:"gray", marginTop:"0px", fontSize: "80%"}}>
                     <p className = "date" style={{marginRight: "20px", marginTop:"0px"}}> {props.date}</p>
                     <p className = "timestamp" style={{marginRight: "20px", marginTop:"0px"}}> {props.time}</p>
                 </div>
-                
+                <button onClick={() => { removePost(props.commentId) }}>Remove Post</button>
+                <button onClick={() => { warnUser(props.user) }}>Warn User</button>
             </li>
         );
     }else{
@@ -74,6 +75,16 @@ function AddComment(props) {
 		</form>
 	)
 }
+
+const removePost = index => {
+	var elem = document.getElementById(index);
+	elem.parentNode.removeChild(elem);
+}
+
+const warnUser = name => {
+	alert(name + " has been warned!");
+}
+
 
 export default function CommunityPage() {
     const community = useParams().community;

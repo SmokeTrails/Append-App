@@ -4,6 +4,7 @@ import { useParams, Link  } from "react-router-dom";
 export const posts = [
 	{
 		title: 'Whatsup yo hi',
+		user: "Joshua",
 		description: "yo yo yo yo yo yo",
 		date: "11/7/2021",
 		time: "6:23",
@@ -13,6 +14,7 @@ export const posts = [
 	}, 
 	{
 		title: 'My first Post !!!1',
+		user: "Kirill",
 		description: "Happy to be here!",
 		date: "11/7/2021",
 		time: "13:19",
@@ -22,6 +24,7 @@ export const posts = [
 	},
 	{
 		title: 'Anyone done the assignment?',
+		user: "Rehan",
 		description: "Im kinda stuck on 2b",
 		date: "11/7/2021",
 		time: "4:23",
@@ -35,7 +38,7 @@ export const posts = [
 function Post(props){
 	const url = `/${props.community}/${props.postId}`
 	return(
-		<Link to={url} style = {{borderStyle: "solid", borderColor: "gray", borderWidth: "0.01em", marginBottom: "2px"}}>
+		<Link to={url}>
 			<li className = "row" style={{listStyleType: "none"}}>
 				<h4 className = "title" style={{margin: "0px"}}> {props.title} </h4>
 				<div className = "content" style={{display: "flex", color:"gray", margin:"0px"}}>
@@ -55,7 +58,7 @@ function AddPost(props) {
 		var today = new Date(),
 		time = today.getHours() + ':' + today.getMinutes();
 		var date = today.getMonth()+1 + '/' + today.getDate() + '/' + today.getFullYear();
-		const newPost = {title: e.target[0].value, description: e.target[1].value, date: date, time: time, comments: '0', community: props.community, postId: props.comments+"_"+props.postId}
+		const newPost = {title: e.target[0].value, user: props.user, description: e.target[1].value, date: date, time: time, comments: '0', community: props.community, postId: props.comments+"_"+props.postId}
 		posts.push(newPost);
 		props.setAddPost(false);
 	  }
@@ -76,6 +79,15 @@ function AddPost(props) {
 	)
 }
 
+const removePost = index => {
+	var elem = document.getElementById(index);
+	elem.parentNode.removeChild(elem);
+}
+
+const warnUser = name => {
+	alert(name + " has been warned!");
+}
+
 export default function CommunityPage() {
 	const community = useParams().community;
 	const [addPost, setAddPost] = useState(false);
@@ -84,13 +96,15 @@ export default function CommunityPage() {
 		<div>
 			<h1>Welcome to {community}</h1>
 			{posts && posts.map((post, index) =>
-					<div key={index}>
-						<Post title={post.title} date={post.date} time={post.time} comments={post.comments} community={post.community} postId={index}/>
+					<div key={index} style = {{borderStyle: "solid", borderColor: "gray", borderWidth: "0.01em", marginBottom: "2px"}} id = {community+"_"+index}>
+						<Post title={post.title} user="Haider" date={post.date} time={post.time} comments={post.comments} community={post.community} postId={index}/>
+						<button onClick={() => { removePost(community+"_"+index) }}>Remove Post</button>
+						<button onClick={() => { warnUser(post.user) }}>Warn User</button>
 					</div>
 			)}
 
 			{addPost &&
-				<AddPost setAddPost={setAddPost} community={community}/>	
+				<AddPost setAddPost={setAddPost} community={community}/>
 			}
 			{!(addPost) &&
 				<button onClick={() => setAddPost(true)}>{'Add Post'}</button>
