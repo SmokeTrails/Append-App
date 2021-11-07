@@ -8,7 +8,9 @@ export default function Login(props) {
 	const [password, setPassword] = useState("")
 	const [invalid, setInvalid] = useState("")
 	const navigate = useNavigate()
-	const activeUser = {
+	
+	// Login user needs to be fetched from backend
+	const loginUser = {
 		name: 'Haider',
 		username: 'user',
 		friendCount: '3',
@@ -22,7 +24,7 @@ export default function Login(props) {
 
 	function checkCredentials() {
 		if ((username === "admin" && password === "admin") || (username === "user" && password === "user")) {
-			props.setUser(activeUser)
+			props.setUser(loginUser)
 			navigate("/")
 		}
 		else {

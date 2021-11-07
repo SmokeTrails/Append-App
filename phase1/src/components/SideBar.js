@@ -13,6 +13,7 @@ export default function SideBar(props) {
 	let path = useLocation().pathname;
 
 	useEffect(() => {
+		// Online Friends need to be fetched from backend
 		setOnlineFriends([
 			{
 				name: 'Kirill',

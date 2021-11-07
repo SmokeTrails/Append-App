@@ -5,6 +5,7 @@ export default function Friends() {
 	const [friends, setFriends] = useState(null);
 
 	useEffect(() => {
+		// Friends need to be fetched from backend
 		setFriends([
 			{
 				name: 'Alex D',

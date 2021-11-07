@@ -5,6 +5,7 @@ export default function Admin() {
 	const [users, setUsers] = useState(null);
 
 	useEffect(() => {
+		// Users need to be fetched from backend
 		setUsers([
 			{
 				name: 'Alex D',
@@ -30,11 +31,11 @@ export default function Admin() {
 		]);
 	}, []);
 
-    const RemoveUser = name => {
+    const removeUser = name => {
         setUsers(users.filter(user => user.name !== name))
     }
 
-    const ResetPassword = name => {
+    const resetPassword = name => {
         alert('Reset request sent to ' + name);
     }
 
@@ -47,8 +48,8 @@ export default function Admin() {
 					<div key={index}>
 						<FriendPreview name={user.name} username={user.username} imageUrl={user.imageUrl} />
                         
-                        <button onClick={() => { RemoveUser(user.name) }}>Remove User</button>
-                        <button onClick={() => { ResetPassword(user.name) }}>Reset Password</button>
+                        <button onClick={() => { removeUser(user.name) }}>Remove User</button>
+                        <button onClick={() => { resetPassword(user.name) }}>Reset Password</button>
 
 					</div>
 				)}

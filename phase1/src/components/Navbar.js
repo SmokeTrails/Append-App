@@ -7,6 +7,7 @@ export default function Navbar(props) {
 	const [enrolledGroups, setEnrolledGroups] = useState(null);
 
 	useEffect(() => {
+		// Enrolled Groups need to be fetched from backend
 		setEnrolledGroups([
 			{
 				path: 'csc309',
