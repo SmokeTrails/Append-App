@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { ArrowNarrowRightIcon } from '@heroicons/react/solid';
+import UserContext from '../hooks/UserContext'
 import CustomLink from '../components/CustomLink';
 import CommunityPreview from '../components/CommunityPreview';
 import './Home.css';
 
 export default function Home() {
-	const [user, setUser] = useState(null);
+	const user = useContext(UserContext);
 	const [updates, setUpdates] = useState(null);
 	const [recommendedGroups, setRecommendedGroups] = useState(null);
 
 	useEffect(() => {
-		setUser('Haider');
+		// Updates need to be fetched from backend
 		setUpdates([
 			{
 				content: 'Mohsin created a post in CSC309',
@@ -21,6 +22,7 @@ export default function Home() {
 				link: '/group/AnimeClub'
 			},
 		]);
+		// Recommended Groups need to be fetched from backend
 		setRecommendedGroups([
 			{
 				path: 'csc309',
@@ -55,7 +57,7 @@ export default function Home() {
 
 	return (
 		<div>
-			<h1 className="heading">Welcome back, {user}!</h1>
+			<h1 className="heading">Welcome back, {user.name}!</h1>
 			<div>
 				<div className="updateScreen">
 					<h2 className="subheading">While you were gone...</h2>

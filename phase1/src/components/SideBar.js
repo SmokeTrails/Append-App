@@ -5,7 +5,7 @@ import { LogoutIcon } from '@heroicons/react/outline';
 import CustomLink from './CustomLink';
 import UserContext from '../hooks/UserContext'
 import FriendPreview from './FriendPreview'
-import './SideBar.css'
+import './Sidebar.css'
 
 export default function SideBar(props) {
 	const user = useContext(UserContext);
@@ -26,12 +26,8 @@ export default function SideBar(props) {
 		]);
 	}, []);
 
-	useEffect(() => {
-		console.log(user);
-	}, [user]);
-
 	return (
-		<div className="complementary">
+		<div className="complementary" ref={props.elementRef}>
 			<div>
 				<div className="profileLink">
 					<CustomLink className={`${path === `/user/${user.username}` ? 'active' : ''}`} to={`/user/${user.username}`} >

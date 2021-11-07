@@ -1,6 +1,5 @@
 div.layout {
 	max-width: 1920px;
-	min-height: inherit;
 	margin: 0 auto;
 	display: flex;
 	justify-content: space-between;
@@ -14,6 +13,9 @@ div.layout a {
 }
 
 div.navigation {
+	z-index: 1;
+	position: fixed;
+	height: 100vh;
 	width: 275px;
 	flex-shrink: 0;
 	padding: var(--outer-sidebar-padding);
@@ -91,6 +93,9 @@ div.mainContent {
 }
 
 div.complementary {
+	z-index: 1;
+	position: fixed;
+	right: 0;
 	width: 275px;
 	flex-shrink: 0;
 	padding: var(--outer-sidebar-padding);

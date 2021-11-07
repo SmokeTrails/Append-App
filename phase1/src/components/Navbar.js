@@ -3,7 +3,7 @@ import { HomeIcon, UserGroupIcon } from '@heroicons/react/solid';
 import CustomLink from './CustomLink';
 import GroupLink from './CommunityLink';
 
-export default function Navbar() {
+export default function Navbar(props) {
 	const [enrolledGroups, setEnrolledGroups] = useState(null);
 
 	useEffect(() => {
@@ -26,7 +26,7 @@ export default function Navbar() {
 	}, []);
 
 	return (
-		<div className="navigation">
+		<div className="navigation" ref={props.elementRef}>
 			<nav>
 				<ul>
 					<li>

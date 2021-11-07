@@ -198,7 +198,7 @@ export default function UserProfile() {
 	return (
 		<div>
 			{ username === 'user' &&
-				<button onClick={isEditing ? saveClick : editClick}>{isEditing ? '' : 'Edit'}</button>
+				<button onClick={isEditing ? saveClick : editClick}>{isEditing ? 'Save' : 'Edit'}</button>
 			}
 
 			<Avatar imageURL={("imageUrl" in User) ? User.imageUrl : 'DefaultPic.jpg'}/>
