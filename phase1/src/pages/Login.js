@@ -34,7 +34,6 @@ export default function Login(props) {
 		else {
 			setInvalid("Your username or password is incorrect.")
 		}
-	}
 
   return (
     <div className="Login">
