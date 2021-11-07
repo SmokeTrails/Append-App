@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import '../css/Main.css';
 
 function CardItem(props) {
@@ -34,10 +34,10 @@ function ProfileDescription(props) {
 	);
 }
 
-function ProfileInfo(props){
-	return(
+function ProfileInfo(props) {
+	return (
 		<div>
-			<p style={{ fontSize: "120%"}}><strong>Bio:</strong></p>
+			<p style={{ fontSize: "120%" }}><strong>Bio:</strong></p>
 			<p style={{ fontSize: "130%", width: "1000px", height: "140px", marginBottom: "20px" }}>{props.bio}</p>
 			<p style={{ fontSize: "120%", width: "1000px", height: "30px" }}><strong>Interests:</strong> {props.interests}</p>
 			<p style={{ fontSize: "120%", width: "1000px", height: "30px" }}><strong>Current Year:</strong> {props.year}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Program:</strong> {props.program}</p>
@@ -45,24 +45,24 @@ function ProfileInfo(props){
 	)
 }
 
-function ProfileEditingInfo(props){
-	return(
+function ProfileEditingInfo(props) {
+	return (
 		<form>
 			<label>
-				<p style={{ fontSize: "120%"}}><strong>Bio:</strong></p>
-				<input defaultValue = {props.bio} type="textarea" name="bio" style={{ fontSize: "130%", width: "1000px", height: "140px", marginBottom: "20px" }} maxLength="500"/>
+				<p style={{ fontSize: "120%" }}><strong>Bio:</strong></p>
+				<input defaultValue={props.bio} type="textarea" name="bio" style={{ fontSize: "130%", width: "1000px", height: "140px", marginBottom: "20px" }} maxLength="500" />
 			</label>
 			<label>
 				<p style={{ fontSize: "120%", width: "1000px", height: "30px" }}><strong>Interests:</strong></p>
-				<input defaultValue = {props.interests} type="text" name="interests" style={{ fontSize: "120%", width: "1000px", height: "30px" }}/>
+				<input defaultValue={props.interests} type="text" name="interests" style={{ fontSize: "120%", width: "1000px", height: "30px" }} />
 			</label>
 			<label>
-			<p style={{ fontSize: "120%", width: "1000px", height: "30px" }}><strong>Current Year:</strong></p>
-				<input defaultValue = {props.year} type="number" name="year" style={{ fontSize: "120%", width: "1000px", height: "30px" }}/>
+				<p style={{ fontSize: "120%", width: "1000px", height: "30px" }}><strong>Current Year:</strong></p>
+				<input defaultValue={props.year} type="number" name="year" style={{ fontSize: "120%", width: "1000px", height: "30px" }} />
 			</label>
 			<label>
-			<p style={{ fontSize: "120%", width: "1000px", height: "30px" }}><strong>Program:</strong></p>
-				<input defaultValue = {props.program} type="text" name="program" style={{ fontSize: "120%", width: "1000px", height: "30px" }}/>
+				<p style={{ fontSize: "120%", width: "1000px", height: "30px" }}><strong>Program:</strong></p>
+				<input defaultValue={props.program} type="text" name="program" style={{ fontSize: "120%", width: "1000px", height: "30px" }} />
 			</label>
 
 			<input type="submit" value="Save" />
@@ -91,54 +91,54 @@ function GalleryView(props) {
 // 	}
 //   }
 
-export default class UserProfile extends React.Component {
-	constructor(props) {
-		super(props);
-		this.editClick = this.editClick.bind(this);
-		this.saveClick = this.saveClick.bind(this);
-		this.state = { isEditing: false };
-		this.username = props.username
+const users = [
+	{
+		name: 'Alex D',
+		username: 'AlexDobbin'
+	},
+	{
+		name: 'Kirill',
+		username: 'KirillTregubov',
+		imageUrl: 'users/kirill.png'
+	},
+	{
+		name: 'Mohsin',
+		username: 'SmokeTrails'
+	},
+	{
+		name: 'Rehan',
+		username: 'TheRayman786'
 	}
-	
-	editClick() {
-		this.setState({ isEditing: true })
+];
+
+export default function UserProfile() {
+	const username = useParams().username;
+	const [isEditing, setIsEditing] = useState(false);
+
+	const editClick = () => {
+		setIsEditing(true);
 	}
 
-	saveClick() {
-		this.setState({ isEditing: false })
+	const saveClick = () => {
+		setIsEditing(false);
 	}
 
-	
-	render() {
-		const isEditing = this.state.isEditing;
-		let button;
-		if (isEditing) {
-			button = <button onClick={this.saveClick}>
-				Save
-			</button>;
-		} else {
-			button = <button onClick={this.editClick}>
-				Edit
-			</button>;
-		}
+	return (
+		<div>
+			{ username === 'Haider' &&
+				<button onClick={isEditing ? saveClick : editClick}>{isEditing ? 'Save' : 'Edit'}</button>
+			}
+			<Avatar />
+			<ProfileDescription name='Haider' friendCount='3' clubCount='10' courseCount='5' />
+			{isEditing &&
+				<ProfileEditingInfo bio='Hello 123' interests='#1 #test #2' year='3' program='Computer Science Specialist' />
+			}
+			{!isEditing &&
+				<ProfileInfo bio='Hello 123' interests='#1 #test #2' year='3' program='Computer Science Specialist' />
+			}
 
-		return (
-			<div>
-				{this.username === 'Haider' &&
-					{button}
-				}
-				<Avatar />
-				<ProfileDescription name='Haider' friendCount='3' clubCount='10' courseCount='5'/>
-				{isEditing &&
-					<ProfileEditingInfo bio='Hello 123' interests='#1 #test #2' year='3' program='Computer Science Specialist'/>
-				}
-				{!isEditing &&
-					<ProfileInfo bio='Hello 123' interests='#1 #test #2' year='3' program='Computer Science Specialist'/>
-				}
-				
-				<GalleryView title='Current Courses' />
-				<GalleryView title='Current Clubs' />
-			</div>
-		)
-	}
+			<GalleryView title='Current Courses' />
+			<GalleryView title='Current Clubs' />
+		</div>
+	);
 }

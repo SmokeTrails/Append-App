@@ -1,7 +1,15 @@
 div.friendPreview {
 	display: flex;
 	align-items: center;
-	margin: 1rem;
+	margin: 1rem 0;
+}
+
+div.friendPreview.rich {
+	padding: var(--inner-sidebar-padding);
+	border-radius: var(--rounded);
+	background-color: var(--secondary-bg-color);
+	box-shadow: var(--shadow-lg);
+	border: 1px solid rgba(209, 213, 219, 0.8);
 }
 
 div.friendPreview .image {
@@ -28,4 +36,17 @@ div.friendPreview p {
 	margin: 0;
 	font-size: 0.9rem;
 	color: var(--secondary-dark-text-color);
+}
+
+div.friendPreview .link {
+	display: flex;
+	align-items: center;
+	color: var(--primary-highlight-color);
+	margin-left: auto;
+}
+
+div.friendPreview .link svg {
+	width: var(--icon-size);
+	height: var(--icon-size);
+	color: inherit;
 }

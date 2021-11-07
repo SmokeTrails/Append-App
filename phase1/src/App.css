@@ -14,7 +14,8 @@
 	--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 	--outer-sidebar-padding: 1.5rem;
 	--inner-sidebar-padding: 0.5rem;
-	--rounded: 0.25rem;
+	--rounded-sm: 0.25rem;
+	--rounded: 0.5rem;
 	--rounded-full: 50%;
 	--icon-size: 1.25rem;
 }

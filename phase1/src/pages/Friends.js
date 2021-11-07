@@ -7,6 +7,10 @@ export default function Friends() {
 	useEffect(() => {
 		setFriends([
 			{
+				name: 'Alex D',
+				username: 'AlexDobbin'
+			},
+			{
 				name: 'Kirill',
 				username: 'KirillTregubov',
 				imageUrl: 'users/kirill.png'
@@ -18,7 +22,7 @@ export default function Friends() {
 			{
 				name: 'Rehan',
 				username: 'TheRayman786'
-			},
+			}
 		]);
 	}, []);
 
