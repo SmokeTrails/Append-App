@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, Navigate } from 'react';
 import { useParams } from 'react-router';
 // import PropTypes from "prop-types";
 import '../css/Main.css';
 
 function CardItem(props) {
 	return (
-		<li style={{ background: "#f6bd60" }}><h3 style={{ marginTop: "10px", marginLeft: "10px", fontWeight: "normal", wordWrap: "break-word" }}><strong>{props.courseCode}:</strong> {props.courseTitle}</h3>
+		<li style={{ background: "#f6bd60" }}><h3 style={{ marginTop: "10px", marginLeft: "-50px", fontWeight: "normal", wordWrap: "break-word" }}><strong>{props.courseCode}:</strong> {props.courseTitle}</h3>
 			<img style={{ width: "235px", height: "120px", border: "2px solid red", marginLeft: "5px", marginTop: "30px" }}
 				src="https://miro.medium.com/max/12000/0*tQQ7SLPOJfxaG4ZY" alt="Group Banner" /></li>
 	);
@@ -71,17 +71,30 @@ function ProfileEditingInfo(props) {
 }
 
 function GalleryView(props) {
-	return (
+	var cards = props.items
+	var count = 0
+	const AllCards = cards.map((item) =>
+  		<li><CardItem courseCode={item} courseTitle="Lorem Ipsum" /></li>
+	);
+
+	return(
 		<div>
-			<h3>{props.title}</h3>
-			<ul className="gallery">
-				<CardItem courseCode='CSC309' courseTitle="Web Programming" />
-				<CardItem courseCode='CSC309' courseTitle="Web Programming" />
-				<CardItem courseCode='CSC309' courseTitle="Web Programming" />
-				<CardItem courseCode='CSC309' courseTitle="Web Programming" />
-			</ul>
+			<h3 style={{justifyContent:'left'}}>{props.title}</h3>
+			<ul className = "gallery" style={{gridTemplateColumns: `repeat(${AllCards.length}, 250px)`}}>{AllCards}</ul>
 		</div>
 	);
+
+	// return (
+	// 	<div>
+	// 		<h3>{props.title}</h3>
+	// 		<ul className="gallery">
+	// 			<CardItem courseCode='CSC309' courseTitle="Web Programming" />
+	// 			<CardItem courseCode='CSC309' courseTitle="Web Programming" />
+	// 			<CardItem courseCode='CSC309' courseTitle="Web Programming" />
+	// 			<CardItem courseCode='CSC309' courseTitle="Web Programming" />
+	// 		</ul>
+	// 	</div>
+	// );
 }
 
 const users = [
@@ -89,12 +102,14 @@ const users = [
 		name: 'Alex D',
 		username: 'AlexDobbin',
 		friendCount: '2',
-		clubCount: '5', 
+		clubCount: '4', 
 		courseCount: '3',
 		bio: 'yo',
 		interests: '#yo',
 		year: '2',
-		program: 'Engineering Science'
+		program: 'Engineering Science',
+		courseCodes: ['CSC309', 'CSC309', 'CSC309'],
+		communityNames: ['Golf', 'Chess', 'Tennis', 'Nature Lovers']
 
 	},
 	{
@@ -107,7 +122,9 @@ const users = [
 		bio: 'hey',
 		interests: '#hey',
 		year: '2',
-		program: 'Computer Science'
+		program: 'Computer Science',
+		courseCodes: ['CSC309', 'CSC309', 'CSC309', 'CSC309', 'CSC309'],
+		communityNames: ['Anime', 'Gaming', 'Overwatch']
 	},
 	{
 		name: 'Mohsin',
@@ -118,7 +135,9 @@ const users = [
 		bio: 'hello',
 		interests: '#hello',
 		year: '3',
-		program: 'Computer Science'
+		program: 'Computer Science',
+		courseCodes: ['CSC309', 'CSC309', 'CSC309', 'CSC309', 'CSC309'],
+		communityNames: ['Soccer']
 	},
 	{
 		name: 'Rehan',
@@ -129,18 +148,22 @@ const users = [
 		bio: 'hi',
 		interests: '#hi',
 		year: '1',
-		program: 'Business'
+		program: 'Business',
+		courseCodes: ['CSC309', 'CSC309', 'CSC309'],
+		communityNames: ['Anime', 'Movies', 'Book Lovers']
 	},
 	{
 		name: 'Haider',
 		username: 'Haider',
 		friendCount: '3',
-		clubCount: '5', 
+		clubCount: '3', 
 		courseCount: '5',
 		bio: 'Hello 123',
 		interests: '#123',
 		year: '3',
-		program: 'Computer Science'
+		program: 'Computer Science',
+		courseCodes: ['CSC309', 'CSC309', 'CSC309', 'CSC309', 'CSC309'],
+		communityNames: ['Anime', 'Gaming', 'Martial Arts']
 	}
 ];
 
@@ -150,6 +173,10 @@ export default function UserProfile() {
 		return user.username === username
 	})
 	var User = Users[0]
+
+	if(Users.length === 0){
+		<Navigate to="/*"/>
+	}
 	
 	const [isEditing, setIsEditing] = useState(false);
 
@@ -177,8 +204,8 @@ export default function UserProfile() {
 				<ProfileInfo bio={User.bio} interests={User.interests} year={User.year} program={User.program} />
 			}
 
-			<GalleryView title='Current Courses' />
-			<GalleryView title='Current Clubs' />
+			<GalleryView title='Current Courses' items={User.courseCodes}/>
+			<GalleryView title='Current Clubs' items={User.communityNames}/>
 		</div>
 	);
 }

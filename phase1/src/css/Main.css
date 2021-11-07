@@ -30,8 +30,6 @@
 	padding: 10px;
 	display: grid;
     list-style: none;
-    /*first parameter should be number of elements in list*/
-	grid-template-columns: repeat(5, 250px);
 	grid-column-gap: 10px;
 	overflow: scroll;
     overflow-y: hidden;
