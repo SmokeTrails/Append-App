@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import React, {useState} from 'react';
 import CustomLink from './components/CustomLink';
 import Layout from './pages/Layout';
 import Home from './pages/Home';
@@ -10,6 +11,7 @@ import Admin from './pages/Admin'
 import './App.css';
 
 export default function App() {
+	const [isLoggedIn, setLoggedIn] = useState(false)
 	return (
 		<BrowserRouter>
 			<Routes>
@@ -26,6 +28,16 @@ export default function App() {
 			</Routes>
 		</BrowserRouter>
 	);
+}
+
+function PrivateRoute(props) {
+	if (props.isLoggedIn) {
+		console.log(props.isLoggedIn)
+		return <Route path={props.path} element={props.element} />
+	}
+	else {
+		return <Navigate to="/LoginHome" />
+	}
 }
 
 function MissingPage() {

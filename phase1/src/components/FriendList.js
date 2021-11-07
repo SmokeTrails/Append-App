@@ -21,7 +21,7 @@ export default function FriendList() {
 	return (
 		<div className="complementary">
 			<div>
-				<h1>Friends Online</h1>
+				<h1 className="subtleHeading">Friends Online</h1>
 				{onlineFriends && onlineFriends.map((friend, index) =>
 					<FriendPreview key={index} simple={true} name={friend.name} username={friend.username} imageUrl={friend.imageUrl} />
 				)}

@@ -5,7 +5,7 @@ import './FriendPreview.css'
 
 export default function FriendPreview({ simple, name, username, imageUrl }) {
 	return (
-		<div className={`friendPreview ${!simple ? 'rich' : ''}`}>
+		<CustomLink className={`friendPreview ${!simple ? 'rich' : ''}`} to={`/user/${username}`} >
 			{imageUrl
 				? <img className="image" src={require(`../images/${imageUrl}`).default} alt={name + "'s photo"} />
 				: <div className="image"><UserIcon /></div>}
@@ -13,9 +13,10 @@ export default function FriendPreview({ simple, name, username, imageUrl }) {
 				<h1>{name}</h1>
 				<p>@{username}</p>
 			</div>
-			{!simple && <div className="link">
-				<CustomLink to={`/user/${username}`} >View Profile <ChevronRightIcon /></CustomLink>
-			</div>}
-		</div>
+			<div className="link">
+				{!simple && 'View Profile'}
+				<ChevronRightIcon className="icon" />
+			</div>
+		</CustomLink>
 	);
 }

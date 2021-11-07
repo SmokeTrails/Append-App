@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import CustomLink from './CustomLink';
 
-export default function GroupLink({ id, name, imageUrl }) {
+export default function CommunityLink({ path, name, imageUrl }) {
 	return (
-		<Link to={'/group/' + id}>
+		<CustomLink to={'/community/' + path}>
 			<img src={require(`../images/${imageUrl}`).default} alt={name + "'s photo"} />
 			<p className="text-nowrap">{name}</p>
-		</Link>
+		</CustomLink>
 	);
 }
