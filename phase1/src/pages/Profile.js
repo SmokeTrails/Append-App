@@ -7,7 +7,7 @@ function CardItem(props) {
 	return (
 		<li style={{ background: "#f6bd60" }}><h3 style={{ marginTop: "10px", marginLeft: "10px", fontWeight: "normal", wordWrap: "break-word" }}><strong>{props.courseCode}:</strong> {props.courseTitle}</h3>
 			<img style={{ width: "235px", height: "120px", border: "2px solid red", marginLeft: "5px", marginTop: "30px" }}
-				src="https://miro.medium.com/max/12000/0*tQQ7SLPOJfxaG4ZY" alt="Course Image" /></li>
+				src="https://miro.medium.com/max/12000/0*tQQ7SLPOJfxaG4ZY" alt="Group Banner" /></li>
 	);
 
 }
@@ -16,7 +16,7 @@ function Avatar(props) {
 	return (
 		<img className='Avatar'
 			style={{ width: "200px", height: "200px", borderRadius: "50%", border: "2px solid red" }}
-			src={`users/${props.imageURL}`}
+			src={require(`../images/users/${props.imageURL}`).default}
 			alt="Profile Pic"
 		/>
 	);
@@ -167,7 +167,7 @@ export default function UserProfile() {
 				<button onClick={isEditing ? saveClick : editClick}>{isEditing ? 'Save' : 'Edit'}</button>
 			}
 
-			<Avatar imageURL={("imageUrl" in User) ? User.imageUrl : 'DefaultPic.png'}/>
+			<Avatar imageURL={("imageUrl" in User) ? User.imageUrl : 'DefaultPic.jpg'}/>
 			
 			<ProfileDescription name={User.name} username={User.username} friendCount={User.friendCount} clubCount={User.clubCount} courseCount={User.courseCount} />
 			{isEditing &&
