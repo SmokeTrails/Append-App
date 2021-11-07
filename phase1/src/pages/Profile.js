@@ -1,5 +1,6 @@
-import React, { useState, Navigate } from 'react';
-import { useParams } from 'react-router';
+import React, { useState, useEffect } from 'react';
+import { useParams } from "react-router-dom";
+import MissingPage from '../pages/MissingPage'
 import './Profile.css';
 
 const users = [
@@ -15,7 +16,19 @@ const users = [
 		program: 'Engineering Science',
 		courseCodes: ['CSC309', 'CSC309', 'CSC309'],
 		communityNames: ['Golf', 'Chess', 'Tennis', 'Nature Lovers']
-
+	},
+	{
+		name: 'Joshua Lee',
+		username: 'Marvin',
+		friendCount: '6',
+		clubCount: '4',
+		courseCount: '3',
+		bio: 'yo',
+		interests: '#yo',
+		year: '2',
+		program: 'Engineering Science',
+		courseCodes: ['CSC309', 'CSC309', 'CSC309'],
+		communityNames: ['Golf', 'Chess', 'Tennis', 'Nature Lovers']
 	},
 	{
 		name: 'Kirill',
@@ -171,43 +184,46 @@ function GalleryView(props) {
 
 export default function UserProfile() {
 	const username = useParams().username;
+	const [isLoading, setIsLoading] = useState(true);
+	const [currentUser, setCurrentUser] = useState(null);
 	const [isEditing, setIsEditing] = useState(false);
-	
-	var filteredUsers = users.filter(user => {
-		return user.username === username
-	})
-	var User = filteredUsers[0]
 
-	if (filteredUsers.length === 0) {
-		<Navigate to="/*" />
-	}
-
-	const editClick = () => {
-		setIsEditing(true);
-	}
-
-	const saveClick = () => {
-		setIsEditing(false);
-	}
+	useEffect(() => {
+		if (isLoading) {
+			var filteredUsers = users.filter(user => {
+				return user.username === username
+			})
+			
+			setCurrentUser(filteredUsers[0]);
+			setIsLoading(false);
+		}
+	}, [isLoading, username]);
 
 	return (
 		<div>
-			{username === 'user' &&
-				<button onClick={isEditing ? saveClick : editClick}>{isEditing ? 'Save' : 'Edit'}</button>
+			{ isLoading
+				? 'Loading...'
+				: currentUser
+					? <div>
+						{username === 'user' &&
+						<button onClick={() => isEditing ? setIsEditing(false) : setIsEditing(true)}>{isEditing ? 'Save' : 'Edit'}</button>
+						}
+		
+						<Avatar imageURL={("imageUrl" in currentUser) ? currentUser.imageUrl : 'DefaultPic.jpg'} />
+		
+						<ProfileDescription name={currentUser.name} username={currentUser.username} friendCount={currentUser.friendCount} clubCount={currentUser.clubCount} courseCount={currentUser.courseCount} />
+						{isEditing &&
+						<ProfileEditingInfo setIsEditing={setIsEditing} username={currentUser.username} bio={currentUser.bio} interests={currentUser.interests} year={currentUser.year} program={currentUser.program} />
+						}
+						{!isEditing &&
+						<ProfileInfo bio={currentUser.bio} interests={currentUser.interests} year={currentUser.year} program={currentUser.program} />
+						}
+		
+						<GalleryView title='Current Courses' items={currentUser.courseCodes} />
+						<GalleryView title='Current Clubs' items={currentUser.communityNames} />
+					</div>
+					: <MissingPage username={username} />
 			}
-
-			<Avatar imageURL={("imageUrl" in User) ? User.imageUrl : 'DefaultPic.jpg'} />
-
-			<ProfileDescription name={User.name} username={User.username} friendCount={User.friendCount} clubCount={User.clubCount} courseCount={User.courseCount} />
-			{isEditing &&
-				<ProfileEditingInfo setIsEditing={setIsEditing} username={User.username} bio={User.bio} interests={User.interests} year={User.year} program={User.program} />
-			}
-			{!isEditing &&
-				<ProfileInfo bio={User.bio} interests={User.interests} year={User.year} program={User.program} />
-			}
-
-			<GalleryView title='Current Courses' items={User.courseCodes} />
-			<GalleryView title='Current Clubs' items={User.communityNames} />
 		</div>
 	);
 }

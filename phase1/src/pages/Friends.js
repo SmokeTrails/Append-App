@@ -12,6 +12,10 @@ export default function Friends() {
 				username: 'AlexDobbin'
 			},
 			{
+				name: 'Joshua Lee',
+				username: 'Marvin'
+			},
+			{
 				name: 'Kirill',
 				username: 'KirillTregubov',
 				imageUrl: 'users/kirill.png'

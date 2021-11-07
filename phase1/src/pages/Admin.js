@@ -16,6 +16,10 @@ export default function Admin() {
 				username: 'user'
 			},
 			{
+				name: 'Joshua Lee',
+				username: 'Marvin'
+			},
+			{
 				name: 'Kirill',
 				username: 'KirillTregubov',
 				imageUrl: 'users/kirill.png'

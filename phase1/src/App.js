@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import CustomLink from './components/CustomLink';
 import { UserProvider } from './hooks/UserContext'
 import Layout from './pages/Layout';
 import Home from './pages/Home';
@@ -9,7 +8,16 @@ import UserProfile from './pages/Profile';
 import CommunityPage from './pages/CommunityPage';
 import Login from './pages/Login'
 import Admin from './pages/Admin'
+import MissingPage from './pages/MissingPage'
 import './App.css';
+
+function RequireAuth(props) {
+	if (!props.isLoggedIn) {
+		return <Navigate to="/Login" />
+	}
+
+	return props.children;
+}
 
 export default function App() {
 	const [user, setUser] = useState(() => {
@@ -39,22 +47,5 @@ export default function App() {
 				</Routes>
 			</BrowserRouter>
 		</UserProvider>
-	);
-}
-
-function RequireAuth(props) {
-	if (!props.isLoggedIn) {
-		return <Navigate to="/Login" />
-	}
-
-	return props.children;
-}
-
-function MissingPage() {
-	return (
-		<div>
-			<h1>404</h1>
-			<CustomLink to="/">Go to the home page</CustomLink>
-		</div>
 	);
 }
