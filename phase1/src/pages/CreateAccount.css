@@ -1,10 +1,10 @@
-h3 {
+.accountForm h3 {
   position: relative;
   left: 25%;
   font-family: "Helvetica";
 }
 
-.text {
+.accountForm .text {
   position: relative;
   width: 50%;
   top: 15%;
@@ -15,7 +15,7 @@ h3 {
   font-family: "Helvetica";
 }
 
-.courseText {
+.accountForm .courseText {
   position: relative;
   width: 25%;
   top: 15%;
@@ -26,11 +26,11 @@ h3 {
   font-family: "Helvetica";
 }
 
-.courseText:hover {
+.accountForm .courseText:hover {
   border: 3px #8b5cf6 solid;
 }
 
-.bioText {
+.accountForm .bioText {
   position: relative;
   width: 50%;
   height: 85%;
@@ -41,25 +41,25 @@ h3 {
   font-family: "Helvetica";
 }
 
-.bioText:hover {
+.accountForm .bioText:hover {
   border: 3px #8b5cf6 solid;
 }
 
-.Container {
+.accountForm .Container {
   position: static;
   width: 100%;
 }
 
-.coursesContainer {
+.accountForm .coursesContainer {
   padding-bottom: 20px;
 }
 
-.courseContainer {
+.accountForm .courseContainer {
   padding-top: 10px;
   padding-bottom: 20px;
 }
 
-.addButton {
+.accountForm .addButton {
   position: relative;
   width: 24%;
   top: 25%;
@@ -70,11 +70,11 @@ h3 {
   font-family: "Helvetica";
 }
 
-.addButton:hover {
+.accountForm .addButton:hover {
   border: 3px #8b5cf6 solid;
 }
 
-.removeButton {
+.accountForm .removeButton {
   position: absolute;
   width: 15%;
   left: 53%;
@@ -84,7 +84,7 @@ h3 {
   font-family: "Helvetica";
 }
 
-.removeButton:hover {
+.accountForm .removeButton:hover {
   border: 3px #8b5cf6 solid;
 }
 

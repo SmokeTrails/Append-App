@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
-import { UserIcon } from '@heroicons/react/solid';
+import TextareaAutosize from 'react-textarea-autosize';
+import { UserIcon, CheckIcon, PencilIcon } from '@heroicons/react/solid';
 import MissingPage from '../pages/MissingPage'
 import './Profile.css';
 
@@ -40,7 +41,7 @@ const users = [
 		courseCount: '5',
 		bio: 'hey',
 		interests: '#hey',
-		year: '2',
+		year: '3',
 		program: 'Computer Science',
 		courseCodes: ['CSC309', 'CSC309', 'CSC309', 'CSC309', 'CSC309'],
 		communityNames: ['Anime', 'Gaming', 'Overwatch']
@@ -74,11 +75,11 @@ const users = [
 	{
 		name: 'Haider',
 		username: 'user',
-		friendCount: '3',
+		friendCount: '5',
 		clubCount: '3',
 		courseCount: '5',
-		bio: 'Hello 123',
-		interests: '#123',
+		bio: 'Hello everyone! I\'m a third year computer science student looking for people to study with.',
+		interests: '#coding #AI #anime #gaming',
 		year: '3',
 		program: 'Computer Science',
 		courseCodes: ['CSC309', 'CSC309', 'CSC309', 'CSC309', 'CSC309'],
@@ -102,7 +103,7 @@ function ProfileDescription(props) {
 		<div className="ProfileDescription">
 			<h1>{props.name}</h1>
 			<h4>@{props.username}</h4>
-			<div className="UserInfo">
+			<div className="userInfo">
 				<p><span className="count">{props.friendCount}</span> Friends</p>
 				<p><span className="count">{props.clubCount}</span> Clubs</p>
 				<p><span className="count">{props.courseCount}</span> Courses</p>
@@ -114,62 +115,84 @@ function ProfileDescription(props) {
 function ProfileInfo(props) {
 	return (
 		<div className="profileInfo">
-			<p style={{ fontSize: "120%" }}><strong>Bio:</strong></p>
-			<p style={{ fontSize: "130%", width: "1000px", height: "140px", marginBottom: "20px" }}>{props.bio}</p>
-			<p style={{ fontSize: "120%", width: "1000px", height: "30px" }}><strong>Interests:</strong> {props.interests}</p>
-			<p style={{ fontSize: "120%", width: "1000px", height: "30px" }}><strong>Current Year:</strong> {props.year}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Program:</strong> {props.program}</p>
+			<div>
+				<h2>About {props.name}</h2>
+				<p>{props.bio}</p>
+			</div>
+			<div>
+				<h2>Interests</h2>
+				<p>{props.interests}</p>
+			</div>
+			<div className="flex">
+				<div>
+					<h2>Year of Study</h2>
+					<p>{props.year}</p>
+				</div>
+				<div>
+					<h2>Program</h2>
+					<p>{props.program}</p>
+				</div>
+			</div>
 		</div>
 	)
 }
 
 function ProfileEditingInfo(props) {
-	const handleSubmit = (e) => {
-		e.preventDefault();
+	// const handleSubmit = (e) => {
+	// 	e.preventDefault();
 
-		// Users need to be fetched from backend
-		var filteredUsers = users.filter(user => {
-			return user.username === props.username
-		})
+	// 	// Users need to be fetched from backend
+	// 	var filteredUsers = users.filter(user => {
+	// 		return user.username === props.username
+	// 	})
 
-		filteredUsers[0].bio = e.target[0].value
-		filteredUsers[0].interests = e.target[1].value
-		filteredUsers[0].year = e.target[2].value
-		filteredUsers[0].program = e.target[3].value
+	// 	filteredUsers[0].bio = e.target[0].value
+	// 	filteredUsers[0].interests = e.target[1].value
+	// 	filteredUsers[0].year = e.target[2].value
+	// 	filteredUsers[0].program = e.target[3].value
 
-		props.setIsEditing(false);
-	}
+	// 	props.setIsEditing(false);
+	// }
+	const handleChange = (e) => props.setProfileInfo((state) => {
+		return {
+			...state,
+			[e.target.name]: e.target.value
+		}
+	});
 
 	return (
-		<form onSubmit={e => { handleSubmit(e) }}>
-			<label>
-				<p style={{ fontSize: "120%" }}><strong>Bio:</strong></p>
-				<input defaultValue={props.bio} type="textarea" name="bio" style={{ fontSize: "130%", width: "1000px", height: "140px", marginBottom: "20px" }} maxLength="500" />
-			</label>
-			<label>
-				<p style={{ fontSize: "120%", width: "1000px", height: "30px" }}><strong>Interests:</strong></p>
-				<input defaultValue={props.interests} type="text" name="interests" style={{ fontSize: "120%", width: "1000px", height: "30px" }} />
-			</label>
-			<label>
-				<p style={{ fontSize: "120%", width: "1000px", height: "30px" }}><strong>Current Year:</strong></p>
-				<input defaultValue={props.year} type="number" name="year" style={{ fontSize: "120%", width: "1000px", height: "30px" }} />
-			</label>
-			<label>
-				<p style={{ fontSize: "120%", width: "1000px", height: "30px" }}><strong>Program:</strong></p>
-				<input defaultValue={props.program} type="text" name="program" style={{ fontSize: "120%", width: "1000px", height: "30px" }} />
-			</label>
-
-			<input type="submit" value="Save" />
+		<form className="profileInfo">
+			<div>
+				<h2>About {props.name}</h2>
+				<TextareaAutosize value={props.profileInfo.bio} onChange={handleChange} name="bio" maxLength="500" />
+			</div>
+			<div>
+				<h2>Interests</h2>
+				<input value={props.profileInfo.interests} onChange={handleChange} type="text" name="interests" />
+			</div>
+			<div className="flex">
+				<div>
+					<h2>Year of Study</h2>
+					<input value={props.profileInfo.year} onChange={handleChange} type="number" name="year" />
+				</div>
+				<div>
+					<h2>Program</h2>
+					<input value={props.profileInfo.program} onChange={handleChange} type="text" name="program" />
+				</div>
+			</div>
 		</form>
 	)
 }
 
 function CardItem(props) {
 	return (
-		<li style={{ background: "#f6bd60" }}><h3 style={{ marginTop: "10px", marginLeft: "-50px", fontWeight: "normal", wordWrap: "break-word" }}><strong>{props.courseCode}:</strong> {props.courseTitle}</h3>
-			<img style={{ width: "235px", height: "120px", border: "2px solid red", marginLeft: "5px", marginTop: "30px" }}
-				src="https://miro.medium.com/max/12000/0*tQQ7SLPOJfxaG4ZY" alt="Group Banner" /></li>
+		<li>
+			<img src="https://miro.medium.com/max/12000/0*tQQ7SLPOJfxaG4ZY" alt="Group banner" />
+			<div>
+				<h3><span className="bold">{props.courseCode}:</span> {props.courseTitle}</h3>
+			</div>
+		</li>
 	);
-
 }
 
 function GalleryView(props) {
@@ -191,37 +214,65 @@ export default function UserProfile() {
 	const [isLoading, setIsLoading] = useState(true);
 	const [currentUser, setCurrentUser] = useState(null);
 	const [isEditing, setIsEditing] = useState(false);
+	const [profileInfo, setProfileInfo] = useState(null);
+
+	const saveForm = () => {
+		var filteredUser = users.filter(user => {
+			return user.username === currentUser.username
+		})[0]
+
+		filteredUser.bio = profileInfo.bio
+		filteredUser.interests = profileInfo.interests
+		filteredUser.year = profileInfo.year
+		filteredUser.program = profileInfo.program
+
+		setIsEditing(false);
+	}
 
 	useEffect(() => {
 		if (isLoading || username !== currentUser.username) {
 			var filteredUsers = users.filter(user => {
 				return user.username === username
 			})
-			
+
 			setCurrentUser(filteredUsers[0]);
 			setIsLoading(false);
 		}
 	}, [isLoading, username, currentUser]);
 
+	useEffect(() => {
+		if (currentUser) {
+			setProfileInfo({
+				bio: currentUser.bio,
+				interests: currentUser.interests,
+				year: currentUser.year,
+				program: currentUser.program
+			});
+		}
+	}, [currentUser]);
+
 	return (
 		<div>
-			{ isLoading
+			{isLoading
 				? 'Loading...'
 				: currentUser
 					? <div className="profile">
 						<Avatar imageUrl={currentUser.imageUrl} name={currentUser.name} />
-						
+
 						<div className="flexContainer">
 							<ProfileDescription name={currentUser.name} username={currentUser.username} friendCount={currentUser.friendCount} clubCount={currentUser.clubCount} courseCount={currentUser.courseCount} />
-							
+
 							{username === 'user' &&
-								<button className="editButton" onClick={() => isEditing ? setIsEditing(false) : setIsEditing(true)}>{isEditing ? 'Save Changes' : 'Edit Profile'}</button>
+								<button className="editButton" onClick={() => isEditing ? saveForm() : setIsEditing(true)}>
+									{isEditing ? <CheckIcon /> : <PencilIcon />}
+									{isEditing ? 'Save Changes' : 'Edit Profile'}
+								</button>
 							}
 						</div>
 
 						{isEditing
-							? <ProfileEditingInfo setIsEditing={setIsEditing} username={currentUser.username} bio={currentUser.bio} interests={currentUser.interests} year={currentUser.year} program={currentUser.program} />
-							: <ProfileInfo bio={currentUser.bio} interests={currentUser.interests} year={currentUser.year} program={currentUser.program} />
+							? <ProfileEditingInfo name={currentUser.name} profileInfo={profileInfo} setProfileInfo={setProfileInfo} />
+							: <ProfileInfo name={currentUser.name} bio={currentUser.bio} interests={currentUser.interests} year={currentUser.year} program={currentUser.program} />
 						}
 
 						<GalleryView title='Current Courses' items={currentUser.courseCodes} />

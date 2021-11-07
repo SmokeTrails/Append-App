@@ -8,6 +8,10 @@
 	margin-top: 75px;
 }
 
+.profile > div:last-child > *:last-child {
+	margin-bottom: 0;
+}
+
 .avatar {
 	width: 150px;
 	height: 150px;
@@ -59,8 +63,8 @@
 }
 
 button.editButton {
-	background: none;
-	color: inherit;
+	display: flex;
+	align-items: center;
 	border: none;
 	font: inherit;
 	cursor: pointer;
@@ -73,8 +77,58 @@ button.editButton {
 	font-weight: 500;
 }
 
-.UserInfo {
+.editButton svg {
+	width: var(--icon-size);
+	height: var(--icon-size);
+	margin-right: 4px;
+}
+
+.userInfo {
 	display: flex;
+}
+
+.profileInfo {
+	padding: 1rem 0;
+}
+
+.profileInfo > div {
+	padding: 0.5rem 0;
+}
+
+.profileInfo > div:first-child {
+	padding-top: 0;
+}
+
+.profileInfo div.flex {
+	display: flex;
+	align-items: center;
+}
+
+.profileInfo div.flex > :nth-child(2) {
+	margin-left: 2rem;
+}
+
+.profile h2 {
+	margin: 0;
+	margin-bottom: 0.25rem;
+	font-size: 1.25rem;
+	font-weight: 600;
+}
+
+.profileInfo p {
+	margin: 0;
+	font-size: 1.15rem;
+}
+
+.profileInfo input,
+.profileInfo textarea {
+	box-sizing: content-box;
+	width: 100%;
+	border-radius: var(--rounded-sm);
+	border: 2px solid var(--secondary-bg-accent-color);
+	padding: 0.5rem;
+	font-size: 1.15rem;
+	resize: none;
 }
 
 .ClubsCourses {
@@ -83,20 +137,53 @@ button.editButton {
 }
 
 .gallery {
-	padding: 10px;
+	margin: 0.5rem 0;
+	margin-bottom: 1rem;
+	padding: 0;
 	display: grid;
 	list-style: none;
 	grid-column-gap: 10px;
 	overflow: scroll;
 	overflow-y: hidden;
 	overflow-x: auto;
-	height: 200px;
 	scroll-snap-type: both mandatory;
-	scroll-padding: 10px;
 }
 
-.EditButton {
+.gallery h3 {
+	margin: 0;
+	display: inline-block;
+	margin-right: 4px;
+	font-weight: 400;
+}
+
+.gallery h3 .bold {
+	font-weight: 600;
+}
+
+.gallery li {
+	display: flex;
+	flex-direction: column;
+	padding: 1rem;
+	background-color: var(--tertiary-bg-color);
+	border-radius: var(--rounded);
+}
+
+.gallery li > div {
+	display: flex;
+	align-items: center;
+	flex-grow: 1;
+}
+
+.gallery img {
+	width: 100%;
+	height: 6rem;
+	object-fit: cover;
+	border-radius: var(--rounded-sm);
+	margin-bottom: 0.5rem;
+}
+
+/* .EditButton {
 	position: absolute;
 	margin-left: 1000px;
 	margin-top: 10px;
-}
+} */
