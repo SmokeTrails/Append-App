@@ -83,18 +83,6 @@ function GalleryView(props) {
 			<ul className = "gallery" style={{gridTemplateColumns: `repeat(${AllCards.length}, 250px)`}}>{AllCards}</ul>
 		</div>
 	);
-
-	// return (
-	// 	<div>
-	// 		<h3>{props.title}</h3>
-	// 		<ul className="gallery">
-	// 			<CardItem courseCode='CSC309' courseTitle="Web Programming" />
-	// 			<CardItem courseCode='CSC309' courseTitle="Web Programming" />
-	// 			<CardItem courseCode='CSC309' courseTitle="Web Programming" />
-	// 			<CardItem courseCode='CSC309' courseTitle="Web Programming" />
-	// 		</ul>
-	// 	</div>
-	// );
 }
 
 const users = [
