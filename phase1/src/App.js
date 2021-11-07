@@ -9,6 +9,7 @@ import CommunityPage from './pages/CommunityPage';
 import Login from './pages/Login'
 import Admin from './pages/Admin'
 import MissingPage from './pages/MissingPage'
+import CreateAccount from './pages/CreateAccount'
 import './App.css';
 
 function RequireAuth(props) {
@@ -34,7 +35,8 @@ export default function App() {
 		<UserProvider value={user}>
 			<BrowserRouter>
 				<Routes>
-					<Route path="/login" element={<Login setUser={setUser} />} />
+					<Route path="/CreateAccount" element={<CreateAccount />} />
+					<Route path="/Login" element={<Login setUser={setUser} />} />
 					<Route path="/" element={<RequireAuth isLoggedIn={user != null}><Layout setUser={setUser} /></RequireAuth>}>
 						<Route index element={<Home />} />
 						<Route path="friends" element={<Friends />} />
