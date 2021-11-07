@@ -15,9 +15,7 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path="/LoginHome" element={<LoginHome />} />
-				<Route path="/StudentLogin" element={<Login type="Student" setLoggedIn={setLoggedIn}/>} />
-				<Route path="/AdminLogin" element={<Login type="Admin" setLoggedIn={setLoggedIn}/>} />
+				<Route path="/Login" element={<Login setLoggedIn={setLoggedIn}/>} />
 				<Route path="/" element={<RequireAuth isLoggedIn={isLoggedIn}><Layout /></RequireAuth>}>
 					<Route index element={<Home />} />
 					<Route path="friends" element={<Friends />} />
@@ -33,7 +31,7 @@ export default function App() {
 
 function RequireAuth(props) {
 	if (!props.isLoggedIn) {
-		return <Navigate to="/LoginHome" />
+		return <Navigate to="/Login" />
 	}
 
 	return props.children;
