@@ -41,6 +41,7 @@ const communities = [
 export const posts = [
 	{
 		title: 'Welcome to our community!',
+		user: 'Joshua',
 		description: "yo yo yo yo yo yo",
 		date: "11/7/2021",
 		time: "6:23",
@@ -48,7 +49,8 @@ export const posts = [
 		postId: "0"
 	},
 	{
-		title: 'My first Post!!!',
+		title: 'My first Post !!!',
+		user: "Kirill",
 		description: "Happy to be here!",
 		date: "11/7/2021",
 		time: "13:19",
@@ -57,6 +59,7 @@ export const posts = [
 	},
 	{
 		title: 'Anyone done the assignment?',
+		user: "Rehan",
 		description: "Im kinda stuck on 2b",
 		date: "11/7/2021",
 		time: "4:23",
@@ -87,12 +90,10 @@ function AddPost(props) {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		
-		var today = new Date(),
-			time = today.getHours() + ':' + today.getMinutes();
-		var date = today.getMonth() + 1 + '/' + today.getDate() + '/' + today.getFullYear();
-		const newPost = { title: e.target[0].value, description: e.target[1].value, date: date, time: time, comments: '0', community: props.community, postId: props.comments + "_" + props.postId }
-		
-		// New post needs to be uploaded to backend
+		var today = new Date();
+		var time = today.getHours() + ':' + today.getMinutes();
+		var date = today.getMonth()+1 + '/' + today.getDate() + '/' + today.getFullYear();
+		const newPost = {title: e.target[0].value, user: props.user, description: e.target[1].value, date: date, time: time, comments: '0', community: props.community, postId: props.comments+"_"+props.postId};
 		posts.push(newPost);
 
 		props.setAddPost(false);
@@ -109,6 +110,15 @@ function AddPost(props) {
 			<input type="submit" value="Post" />
 		</form>
 	)
+}
+
+const removePost = index => {
+	var elem = document.getElementById(index);
+	elem.parentNode.removeChild(elem);
+}
+
+const warnUser = name => {
+	alert(name + " has been warned!");
 }
 
 export default function CommunityPage() {
@@ -145,7 +155,11 @@ export default function CommunityPage() {
 							</div>
 							<div>
 								{posts && posts.map((post, index) =>
+								<div>
 									<Post key={index} title={post.title} date={post.date} time={post.time} comments={post.comments} community={community} postId={index} />
+									<button onClick={() => { removePost(community+"_"+index) }}>Remove Post</button>
+									<button onClick={() => { warnUser(post.user) }}>Warn User</button>
+								</div>
 								)}
 							</div>
 
