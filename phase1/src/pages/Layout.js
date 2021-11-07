@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet } from "react-router-dom";
 import Navbar from '../components/Navbar'
-import FriendList from '../components/FriendList'
+import SideBar from '../components/SideBar'
 import './Layout.css'
 
 export default function Layout() {
@@ -12,7 +12,7 @@ export default function Layout() {
 				<div className="mainContent">
 					<Outlet />
 				</div>
-				<FriendList />
+				<SideBar />
 			</div>
 		</div>
 	);

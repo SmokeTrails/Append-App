@@ -1,5 +1,5 @@
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import React, {useState} from 'react';
 import CustomLink from './components/CustomLink';
 import Layout from './pages/Layout';
 import Home from './pages/Home';
@@ -17,7 +17,7 @@ export default function App() {
 			<Routes>
 				<Route path="/LoginHome" element={<LoginHome />} />
 				<Route path="/Login" element={<Login />} />
-				<Route path="/" element={<Layout />}>
+				<Route path="/" element={<RequireAuth isLoggedIn={isLoggedIn}><Layout /></RequireAuth>}>
 					<Route index element={<Home />} />
 					<Route path="friends" element={<Friends />} />
 					<Route path="user/:username" element={<UserProfile />} />
@@ -30,14 +30,12 @@ export default function App() {
 	);
 }
 
-function PrivateRoute(props) {
-	if (props.isLoggedIn) {
-		console.log(props.isLoggedIn)
-		return <Route path={props.path} element={props.element} />
-	}
-	else {
+function RequireAuth(props) {
+	if (!props.isLoggedIn) {
 		return <Navigate to="/LoginHome" />
 	}
+
+	return props.children;
 }
 
 function MissingPage() {
