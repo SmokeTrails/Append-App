@@ -4,9 +4,11 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 To run the app, from the team51 directory, run the following commands:
-`cd phase1`
-`npm install`
-`npm start`
+- `cd phase1`
+- `npm install`
+- `npm start`
+
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 # Instructions for logging in and using the app as a user:
 
@@ -44,7 +46,7 @@ all the fields, a user account will be created. Once you're logged in, you can u
 
 # Third Party Libraries we used
 
-[@heroicons/react](https://github.com/tailwindlabs/heroicons): A set of 450+ free icons to use in various parts of our interface.
-[react-router](https://github.com/remix-run/react-router): A React routing library that handles navigation between pages.
-[react-number-format](https://github.com/s-yadav/react-number-format): A React library for rendering formatted numbers.
-[react-textarea-autosize](https://github.com/Andarist/react-textarea-autosize): A React library for creating textareas that automatically adjust their size to fit the content.
+- [@heroicons/react](https://github.com/tailwindlabs/heroicons): A set of 450+ free icons to use in various parts of our interface.
+- [react-router](https://github.com/remix-run/react-router): A React routing library that handles navigation between pages.
+- [react-number-format](https://github.com/s-yadav/react-number-format): A React library for rendering formatted numbers.
+- [react-textarea-autosize](https://github.com/Andarist/react-textarea-autosize): A React library for creating textareas that automatically adjust their size to fit the content.
