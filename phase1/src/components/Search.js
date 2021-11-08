@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import './Search.css'
 
-
-
 export default function Search(props) {
   const navigate = useNavigate()
   const [query, setQuery] = useState(props.query)
