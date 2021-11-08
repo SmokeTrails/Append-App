@@ -14,8 +14,8 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The first page you will see is the login page, where you can use only the
 following credentials to log in:
-  Username: user
-  Password: user
+  - Username: user
+  - Password: user
 
 You can also create a new account from the login page by clicking the button,
 however, you cannot login with that new account (you must use the above credentials).
@@ -31,8 +31,8 @@ Once you're logged in, you can use the following features:
 
 The first page you will see is the login page, where you can use only the
 following credentials to log in:
-  Username: admin
-  Password: admin
+  - Username: admin
+  - Password: admin
 
 New admin accounts cannot be created. If you click the create account button and fill in
 all the fields, a user account will be created. Once you're logged in, you can use the following features:
