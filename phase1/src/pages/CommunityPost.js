@@ -6,6 +6,7 @@ import MissingPage from './MissingPage';
 import { posts } from './CommunityPage';
 import CustomLink from '../components/CustomLink';
 import './CommunityPost.css'
+import { WarnedUsers } from './Admin';
 
 const comments = [
 	{
@@ -99,6 +100,7 @@ const removePost = index => {
 
 const warnUser = name => {
 	alert(name + " has been warned!");
+    WarnedUsers.push(name);
 }
 
 export default function CommunityPost() {
