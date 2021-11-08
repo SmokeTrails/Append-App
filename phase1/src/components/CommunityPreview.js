@@ -2,7 +2,7 @@ import React from 'react';
 import NumberFormat from 'react-number-format';
 import { ChevronRightIcon } from '@heroicons/react/outline';
 import CustomLink from './CustomLink';
-import './CommunityPreview.css'
+import './CommunityPreview.css';
 
 export default function CommunityPreview({ path, name, description, memberCount, imageUrl }) {
 	return (

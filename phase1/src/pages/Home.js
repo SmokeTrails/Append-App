@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { ArrowNarrowRightIcon } from '@heroicons/react/solid';
-import UserContext from '../hooks/UserContext'
+import UserContext from '../hooks/UserContext';
 import CustomLink from '../components/CustomLink';
 import CommunityPreview from '../components/CommunityPreview';
-import Search from '../components/Search'
+import Search from '../components/Search';
 import './Home.css';
 
 export default function Home() {
@@ -16,13 +16,14 @@ export default function Home() {
 		setUpdates([
 			{
 				content: 'Mohsin created a post in CSC309',
-				link: '/group/csc309'
+				link: '/community/csc309'
 			},
 			{
 				content: 'Alex joined Anime Club',
-				link: '/group/AnimeClub'
+				link: '/community/AnimeClub'
 			},
 		]);
+
 		// Recommended Communities need to be fetched from backend
 		setRecommendedCommunities([
 			{
@@ -58,7 +59,7 @@ export default function Home() {
 
 	return (
 		<div>
-			<Search query=""/>
+			<Search query="" />
 			<h1 className="heading">Welcome back, {user.name}!</h1>
 			<div>
 				<div className="updateScreen">

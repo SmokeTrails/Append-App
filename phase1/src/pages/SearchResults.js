@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useParams } from "react-router-dom";
-import Search from '../components/Search'
-import FriendPreview from '../components/FriendPreview'
+import Search from '../components/Search';
+import FriendPreview from '../components/FriendPreview';
 import CommunityPreview from '../components/CommunityPreview';
 
 export default function SearchResults() {
 	// Users need to be fetched from backend
-	const [users, setUsers] = useState([
+	const [users] = useState([
 		{
 			name: 'Haider',
 			username: 'user'
@@ -35,7 +35,7 @@ export default function SearchResults() {
 	])
 
 	// Communities need to be fetched from backend
-	const [communities, setCommunities] = useState([
+	const [communities] = useState([
 		{
 			path: 'csc309',
 			name: 'CSC309',

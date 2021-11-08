@@ -1,5 +1,4 @@
 div.layout {
-	/* padding-right: calc(100vw - 100%); */
 	max-width: 1920px;
 	margin: 0 auto;
 	display: flex;
@@ -103,6 +102,3 @@ div.complementary {
 	padding: var(--outer-sidebar-padding);
 	margin-right: calc(-1 * (100vw - 100%));
 }
-
-/* @media (min-width: 2560px) {
-} */

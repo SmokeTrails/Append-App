@@ -1,7 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
-import Heading from './LoginHeading.js'
-import './Login.css'
+import { useNavigate } from "react-router-dom";
+import CustomLink from '../components/CustomLink';
+import './Login.css';
 
 export default function Login(props) {
 	const [username, setUsername] = useState("")
@@ -9,7 +9,7 @@ export default function Login(props) {
 	const [invalid, setInvalid] = useState("")
 	const navigate = useNavigate()
 
-	// Login user needs to be fetched from backend
+	// Login users needs to be fetched from backend
 	const loginUser = {
 		name: 'Haider',
 		username: 'user',
@@ -23,7 +23,6 @@ export default function Login(props) {
 		courseCodes: ['CSC309'],
 		communityNames: ['Anime', 'WebDevClub']
 	}
-
 	const loginAdmin = {
 		name: 'Admin',
 		username: 'admin',
@@ -39,11 +38,12 @@ export default function Login(props) {
 	}
 
 	function checkCredentials() {
+		// Needs to be changed to accept all users in backend
 		if (username === "admin" && password === "admin") {
 			props.setUser(loginAdmin)
 			navigate("/admin")
 		}
-		else if(username === "user" && password === "user") {
+		else if (username === "user" && password === "user") {
 			props.setUser(loginUser)
 			navigate("/")
 		}
@@ -54,7 +54,10 @@ export default function Login(props) {
 
 	return (
 		<div className="Login">
-			<Heading title={`Login`} />
+			<div className="header">
+				<h1>Welcome to Team 51's Project!</h1>
+				<h2>Please login to continue</h2>
+			</div>
 			<div className="usernameContainer">
 				<h3> Username: </h3>
 				<input className="text" type="text" value={username} onChange={event => setUsername(event.target.value)} />
@@ -69,11 +72,11 @@ export default function Login(props) {
 			<div className="submitContainer">
 				<button className="button" onClick={checkCredentials}> Login</button>
 			</div>
-			<Link className="link" to={"/CreateAccount"}>
+			<CustomLink className="link" to={"/create-account"}>
 				<div className="buttonContainer">
 					<button className="button"> Create a new account</button>
 				</div>
-			</Link>
+			</CustomLink>
 		</div>
-	)
+	);
 }

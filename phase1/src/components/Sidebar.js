@@ -3,9 +3,9 @@ import { useLocation } from "react-router-dom";
 import { UserIcon } from '@heroicons/react/solid';
 import { LogoutIcon } from '@heroicons/react/outline';
 import CustomLink from './CustomLink';
-import UserContext from '../hooks/UserContext'
-import FriendPreview from './FriendPreview'
-import './Sidebar.css'
+import UserContext from '../hooks/UserContext';
+import FriendPreview from './FriendPreview';
+import './Sidebar.css';
 
 export default function SideBar(props) {
 	const user = useContext(UserContext);
