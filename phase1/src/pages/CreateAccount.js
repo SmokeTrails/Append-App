@@ -6,12 +6,17 @@ import './CreateAccount.css'
 export default function CreateAccount() {
   const navigate = useNavigate()
   const [user, setUser] = useState({
-    username:"",
-    password:"",
-    name:"",
-    bio:"",
-    interests:"",
-    courses: [""]
+    name:'',
+    username:'',
+    friendCount: '0',
+    clubCount: '0',
+    courseCount: '',
+    bio:'',
+    interests:'',
+    year:'',
+    program:'',
+    courseCodes: [''],
+    communityNames: ['']
   })
   const [successful, setSuccessful] = useState("")
 
@@ -33,24 +38,24 @@ export default function CreateAccount() {
 
   function addCourse() {
     setUser({
-      ...user, courses: [...user.courses, ""]
+      ...user, courseCodes: [...user.courseCodes, ""]
     })
   }
 
   function removeCourse(i) {
-    const courses = user.courses
+    const courses = user.courseCodes
     courses.splice(i, 1)
     setUser({
-      ...user, courses: courses
+      ...user, courseCodes: courses
     })
 
   }
 
   function changeCourse(event, i) {
-    const courses = user.courses
+    const courses = user.courseCodes
     courses[i] = event.target.value
     setUser({
-      ...user, courses: courses
+      ...user, courseCodes: courses
     })
   }
 
@@ -66,8 +71,10 @@ export default function CreateAccount() {
         <input className="text" type="text" name="username" value={user.username} onChange={handleChange} />
       </div>
       <div className="Container">
-        <h3> Password </h3>
-        <input className="text" type="text" name="password" value={user.password} onChange={handleChange} />
+        <h3> Program </h3>
+        <input className="text" type="text" name="program" value={user.program} onChange={handleChange} />
+        <h3> Year </h3>
+        <input className="text" type="text" name="year" value={user.year} onChange={handleChange} />
       </div>
       <div className="Container">
         <h3> Bio </h3>
@@ -85,7 +92,7 @@ export default function CreateAccount() {
       </div>
       <div className="Container">
         <h3> {successful} </h3>
-				<button className="button" onClick={successfulCreation}> Create Account</button>
+				<button className="submitButton" onClick={successfulCreation}> Create Account</button>
 			</div>
     </div>
   )
@@ -93,11 +100,11 @@ export default function CreateAccount() {
 
 function CourseForm(props) {
   return (
-    props.user.courses.map((val, i) => {
+    props.user.courseCodes.map((val, i) => {
     //   const course = `courses[${i}]`
       return (
         <div className="courseContainer" key={i} >
-          <input className="courseText" type="text" value={props.user.courses[i]} onChange={(event) => props.changeCourse(event, i)}/>
+          <input className="courseText" type="text" value={props.user.courseCodes[i]} onChange={(event) => props.changeCourse(event, i)}/>
           <button className="removeButton" onClick={() => props.removeCourse(i)}> Remove </button>
         </div>
       )

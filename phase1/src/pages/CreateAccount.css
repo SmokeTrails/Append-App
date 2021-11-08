@@ -15,6 +15,10 @@
   font-family: "Helvetica";
 }
 
+.accountForm .text:hover {
+  border: 3px #8b5cf6 solid;
+}
+
 .accountForm .courseText {
   position: relative;
   width: 25%;
@@ -91,4 +95,15 @@
 .accountForm .submitContainer {
   position: static;
   width: 100%;
+}
+
+.submitButton {
+  position: relative;
+  width: 49%;
+  top: 25%;
+  left: 25%;
+  background-color: #8b5cf6;
+  color: white;
+  font-size: 16pt;
+  font-family: "Helvetica";
 }

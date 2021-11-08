@@ -2,7 +2,7 @@
   text-decoration: none;
 }
 
-.Login .titleContainer {
+.titleContainer {
   background-color: #8b5cf6;
   height: 100px;
   width: 100%;
@@ -11,7 +11,7 @@
   padding-top: 0;
 }
 
-.Login .titleContainer h1 {
+.titleContainer h1 {
   font-family: "Helvetica";
   font-size: 45px;
   color: white;
