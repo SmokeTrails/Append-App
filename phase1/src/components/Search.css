@@ -1,0 +1,32 @@
+.Search {
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+.searchBar {
+  position: relative;
+  width: 50%;
+  top: 25%;
+  background-color: white;
+  border: 2px #8b5cf6 solid;
+  font-size: 14pt;
+  font-family: "Helvetica";
+}
+
+.searchBar:hover {
+  border: 3px #8b5cf6 solid;
+}
+
+.searchButton {
+  width: 12%;
+  left: 53%;
+  background-color: #8b5cf6;
+  color: white;
+  font-size: 14pt;
+  font-family: "Helvetica";
+  border: 2px #8b5cf6 solid;
+}
+
+.searchButton:hover {
+  border: 3px #8b5cf6 solid;
+}
