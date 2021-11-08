@@ -134,7 +134,7 @@ function AddPost(props) {
 				<TextareaAutosize name="description" maxLength="500" />
 			</label>
 
-			<input type="submit" value="Post" />
+			<input className="button" type="submit" value="Post" />
 		</form>
 	)
 }
