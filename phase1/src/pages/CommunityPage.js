@@ -46,7 +46,8 @@ export const posts = [
 		date: "11/7/2021",
 		time: "6:23",
 		comments: "2",
-		postId: "0"
+		postId: "0",
+		forumId: "CSC309"
 	},
 	{
 		title: 'What do you guys think about our prof and TAs?',
@@ -55,7 +56,8 @@ export const posts = [
 		date: "11/7/2021",
 		time: "13:19",
 		comments: "2",
-		postId: "1"
+		postId: "1",
+		forumId: "CSC309"
 	},
 	{
 		title: 'Anyone done the assignment?',
@@ -64,7 +66,8 @@ export const posts = [
 		date: "11/7/2021",
 		time: "16:23",
 		comments: "2",
-		postId: "2"
+		postId: "2",
+		forumId: "CSC309"
 	}
 ];
 
@@ -73,7 +76,6 @@ function Post(props) {
 
 	const removePost = index => {
 		var elem = document.getElementById(index);
-		console.log(elem);
 		elem.parentNode.removeChild(elem);
 	}
 	

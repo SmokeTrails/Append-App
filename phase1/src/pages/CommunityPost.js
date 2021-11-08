@@ -12,13 +12,15 @@ const comments = [
 		user: 'Haider',
 		content: "It's great to be here!",
 		date: "11/7/2021",
-		time: "18:23"
+		time: "18:23",
+		ID: "CSC309_0"
 	},
 	{
 		user: 'Mohsin',
 		content: "Nice work everyone.",
 		date: "11/7/2021",
-		time: "11:42"
+		time: "11:42",
+		ID: "CSC309_1"
 	}
 ];
 
@@ -37,20 +39,32 @@ function Post(props) {
 }
 
 function Comment(props) {
-	return (
-		<div className="post">
-			<h4 className="title">{props.user}</h4>
-			<p className="content">{props.content}</p>
-			<div className="details">
-				<p className="date"> {props.date}</p>
-				<p className="timestamp"> {props.time}</p>
+	const removePost = index => {
+		console.log(index);
+		var elem = document.getElementById(index);
+		elem.parentNode.removeChild(elem);
+	}
+	console.log(props.commentId.toLowerCase());
+	console.log(props.postId.toLowerCase());
+	if(props.commentId.toLowerCase() === props.postId.toLowerCase()){
+		return (
+			<div className="post" id={props.commentId}>
+				<h4 className="title">{props.user}</h4>
+				<p className="content">{props.content}</p>
+				<div className="details">
+					<p className="date"> {props.date}</p>
+					<p className="timestamp"> {props.time}</p>
+				</div>
+				<div className="adminButtons">
+					<button className="small" onClick={() => { removePost(props.commentId) }}>Remove Comment</button>
+					<button className="small" onClick={() => { warnUser(props.user) }}>Warn User</button>
+				</div>
 			</div>
-			<div className="adminButtons">
-				<button className="small" onClick={() => { removePost(props.commentId) }}>Remove Comment</button>
-				<button className="small" onClick={() => { warnUser(props.user) }}>Warn User</button>
-			</div>
-		</div>
-	);
+		);
+	}else{
+		return(null);
+	}
+	
 }
 
 function AddComment(props) {
@@ -88,11 +102,6 @@ function AddComment(props) {
 	)
 }
 
-const removePost = index => {
-	var elem = document.getElementById(index);
-	elem.parentNode.removeChild(elem);
-}
-
 const warnUser = name => {
 	alert(name + " has been warned!");
     WarnedUsers.push(name);
@@ -119,7 +128,7 @@ export default function CommunityPost() {
 				<AddComment setValue={setValue} value={value} user="Haider" postId={postId} />
 				{comments && comments.map((comment, index) =>
 					<div key={index}>
-						<Comment user={comment.user} date={comment.date} time={comment.time} content={comment.content} postId={postId} commentId={comment.ID} />
+						<Comment user={comment.user} date={comment.date} time={comment.time} content={comment.content} postId={community+"_"+postId} commentId={comment.ID} />
 					</div>
 				)}
 			</div>
