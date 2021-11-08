@@ -3,6 +3,7 @@ import { ArrowNarrowRightIcon } from '@heroicons/react/solid';
 import UserContext from '../hooks/UserContext'
 import CustomLink from '../components/CustomLink';
 import CommunityPreview from '../components/CommunityPreview';
+import Search from '../components/Search'
 import './Home.css';
 
 export default function Home() {
@@ -57,6 +58,7 @@ export default function Home() {
 
 	return (
 		<div>
+			<Search query=""/>
 			<h1 className="heading">Welcome back, {user.name}!</h1>
 			<div>
 				<div className="updateScreen">
