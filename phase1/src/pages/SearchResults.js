@@ -68,7 +68,7 @@ export default function SearchResults() {
 
 	const query = useParams().query;
 	const matchingCommunities = communities.filter((community) => community.name.toLowerCase().includes(query.toLowerCase()))
-	const matchingUsers = users.filter((user) => user.username.toLowerCase().includes(query.toLowerCase()))
+	const matchingUsers = users.filter((user) => user.username.toLowerCase().includes(query.toLowerCase()) || user.name.toLowerCase().includes(query.toLowerCase()))
 
 	return (
 		<div>

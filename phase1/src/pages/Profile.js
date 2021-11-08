@@ -7,6 +7,19 @@ import './Profile.css';
 
 const users = [
 	{
+		name: 'Admin',
+		username: 'admin',
+		friendCount: '0',
+		clubCount: '0',
+		courseCount: '0',
+		bio: 'Here to moderate all users!',
+		interests: 'Being an admin',
+		year: '4',
+		program: 'None',
+		courseCodes: [],
+		communityNames: []
+	},
+	{
 		name: 'Alex D',
 		username: 'AlexDobbin',
 		friendCount: '2',
@@ -209,7 +222,7 @@ export default function UserProfile() {
 		filteredUser.interests = profileInfo.interests
 		filteredUser.year = profileInfo.year
 		filteredUser.program = profileInfo.program
-		
+
 		setProfileInfo(null);
 	}
 
