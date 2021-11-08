@@ -88,7 +88,8 @@ function AddComment(props) {
 		var today = new Date(),
 			time = today.getHours() + ':' + today.getMinutes();
 		var date = today.getMonth() + 1 + '/' + today.getDate() + '/' + today.getFullYear();
-		const newComment = { user: props.user, content: inputValue, date: date, time: time };
+		console.log(props.postId);
+		const newComment = { user: props.user, content: inputValue, date: date, time: time, ID: props.community+"_"+props.postId};
 
 		// New comment needs to be uploaded to backend
 		comments.push(newComment);
@@ -130,10 +131,10 @@ export default function CommunityPost() {
 			</CustomLink>
 			<div>
 				<Post title={post.title} date={post.date} time={post.time} comments={post.comments} description={post.description} />
-				<AddComment setValue={setValue} value={value} user="Haider" postId={postId} />
+				<AddComment setValue={setValue} value={value} user="Haider" postId={postId} community={community}/>
 				{comments && comments.map((comment, index) =>
 					<div key={index}>
-						<Comment user={comment.user} date={comment.date} time={comment.time} content={comment.content} postId={community + "_" + postId} commentId={comment.ID} />
+						<Comment user={comment.user} date={comment.date} time={comment.time} content={comment.content} postId={community + "_" + postId} commentId={comment.ID}/>
 					</div>
 				)}
 			</div>
