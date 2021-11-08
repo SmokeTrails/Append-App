@@ -187,9 +187,10 @@ function ProfileEditingInfo(props) {
 function CardItem(props) {
 	return (
 		<li>
+			{/* Image and course link need to be fetched from backend */}
 			<img src="https://miro.medium.com/max/12000/0*tQQ7SLPOJfxaG4ZY" alt="Group banner" />
 			<div>
-				<h3><span className="bold">{props.courseCode}:</span> {props.courseTitle}</h3>
+				<h3><span className="bold">{props.courseCode}</span></h3>
 			</div>
 		</li>
 	);
@@ -198,7 +199,7 @@ function CardItem(props) {
 function GalleryView(props) {
 	var cards = props.items
 	const AllCards = cards.map((item, index) =>
-		<CardItem key={index} courseCode={item} courseTitle="Lorem Ipsum" />
+		<CardItem key={index} courseCode={item} />
 	);
 
 	return (

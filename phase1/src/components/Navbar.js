@@ -47,12 +47,9 @@ export default function Navbar(props) {
 					</li>
 					{user.username === 'admin' && (
 						<li>
-							<CustomLink to="/admin">Admin Homepage</CustomLink>
+							<CustomLink to="/admin">Admin Page</CustomLink>
 						</li>
 					)}
-					<li>
-						<CustomLink to="/random">404 Page</CustomLink>
-					</li>
 				</ul>
 			</nav>
 			<div className="groupContainer">
