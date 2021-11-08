@@ -40,14 +40,16 @@ function Post(props) {
 }
 
 function Comment(props) {
+	const user = useContext(UserContext);
+
 	const removePost = index => {
-		console.log(index);
-		var elem = document.getElementById(index);
-		elem.parentNode.removeChild(elem);
+		var post = document.getElementById(index);
+
+		// Post needs to be removed from backend
+		post.parentNode.removeChild(post);
 	}
-	console.log(props.commentId.toLowerCase());
-	console.log(props.postId.toLowerCase());
-	if(props.commentId.toLowerCase() === props.postId.toLowerCase()){
+
+	if (props.commentId.toLowerCase() === props.postId.toLowerCase()) {
 		return (
 			<div className="post" id={props.commentId}>
 				<h4 className="title">{props.user}</h4>
@@ -56,16 +58,18 @@ function Comment(props) {
 					<p className="date"> {props.date}</p>
 					<p className="timestamp"> {props.time}</p>
 				</div>
-				<div className="adminButtons">
-					<button className="small" onClick={() => { removePost(props.commentId) }}>Remove Comment</button>
-					<button className="small" onClick={() => { warnUser(props.user) }}>Warn User</button>
-				</div>
+				{user.username === 'admin' && (
+					<div className="adminButtons">
+						<button className="small" onClick={() => { removePost(props.commentId) }}>Remove Comment</button>
+						<button className="small" onClick={() => { warnUser(props.user) }}>Warn User</button>
+					</div>
+				)}
 			</div>
 		);
-	}else{
-		return(null);
+	} else {
+		return (null);
 	}
-	
+
 }
 
 function AddComment(props) {
@@ -129,7 +133,7 @@ export default function CommunityPost() {
 				<AddComment setValue={setValue} value={value} user="Haider" postId={postId} />
 				{comments && comments.map((comment, index) =>
 					<div key={index}>
-						<Comment user={comment.user} date={comment.date} time={comment.time} content={comment.content} postId={community+"_"+postId} commentId={comment.ID} />
+						<Comment user={comment.user} date={comment.date} time={comment.time} content={comment.content} postId={community + "_" + postId} commentId={comment.ID} />
 					</div>
 				)}
 			</div>
