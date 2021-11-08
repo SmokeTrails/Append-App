@@ -14,7 +14,11 @@ export default function Search(props) {
 
 	function handleSearch() {
 		const path = `/search/${query}`;
-		navigate(path);
+		if (query.length > 0) {
+			navigate(path);
+		} else {
+			alert("Search field cannot be empty!")
+		}
 	}
 
 	return (
