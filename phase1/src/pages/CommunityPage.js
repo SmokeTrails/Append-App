@@ -46,7 +46,7 @@ export const posts = [
 		description: "Dont forget to be nice and have a fun time!",
 		date: "11/7/2021",
 		time: "6:23",
-		comments: "2",
+		comments: "1",
 		postId: "0",
 		forumId: "CSC309"
 	},
@@ -56,7 +56,7 @@ export const posts = [
 		description: "I feel like the TAs and profs for this course are really good, what do you guys think?",
 		date: "11/7/2021",
 		time: "13:19",
-		comments: "2",
+		comments: "1",
 		postId: "1",
 		forumId: "CSC309"
 	},
@@ -66,7 +66,7 @@ export const posts = [
 		description: "Im kinda stuck on 2b",
 		date: "11/7/2021",
 		time: "16:23",
-		comments: "2",
+		comments: "0",
 		postId: "2",
 		forumId: "CSC309"
 	}
