@@ -109,6 +109,8 @@ function AddComment(props) {
 
 const warnUser = name => {
 	alert(name + " has been warned!");
+
+	// Warned User must be uploaded to backend
 	WarnedUsers.push(name);
 }
 
