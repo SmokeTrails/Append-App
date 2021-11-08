@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { useParams } from "react-router-dom";
 import { ArrowNarrowLeftIcon, PlusIcon } from '@heroicons/react/solid';
-import CustomLink from '../components/CustomLink';
+import MissingPage from './MissingPage';
 import { posts } from './CommunityPage';
+import CustomLink from '../components/CustomLink';
 import './CommunityPost.css'
 
 const comments = [
@@ -98,8 +99,12 @@ const warnUser = name => {
 export default function CommunityPost() {
 	const community = useParams().community;
 	const postId = useParams().thread;
-	const post = posts.find(element => element.postId === postId);
 	const [value, setValue] = useState(0);
+
+	const post = posts.find(element => element.postId === postId);
+	if (!post) {
+		return <MissingPage community={community} postId={postId} />
+	}
 
 	return (
 		<div className="communityPost">

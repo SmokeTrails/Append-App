@@ -54,8 +54,11 @@
 	border-radius: var(--rounded-sm);
 	background-color: var(--tertiary-bg-color);
 	margin: 1rem 0;
-	padding: 1.5rem;
 	transition: transform var(--ease-animation);
+}
+
+.communityPage .post a {
+	padding: 1.5rem;
 }
 
 .communityPage .post:hover {
@@ -116,7 +119,7 @@
 
 .communityPage .adminButtons {
 	display: flex;
-	margin-top: 1rem;
+	padding: 0 1.5rem 1.5rem 1.5rem;
 }
 
 .communityPage .adminButtons >:first-child {
