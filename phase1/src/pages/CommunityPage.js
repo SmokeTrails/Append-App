@@ -94,7 +94,7 @@ function Post(props) {
 				</div>
 				<ChevronRightIcon className="icon" />
 			</CustomLink>
-			<div class="adminButtons">
+			<div className="adminButtons">
 				<button className="small" onClick={() => { /*removePost(props.community + "_" + index)*/ }}>Remove Post</button>
 				<button className="small" onClick={() => { /*warnUser(post.user)*/ }}>Warn User</button>
 			</div>
@@ -106,10 +106,17 @@ function AddPost(props) {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
+		if (e.target[0].value.length === 0 || e.target[1].value.length === 0) {
+			alert('Fields cannot be empty!');
+			return;
+		}
+
 		var today = new Date();
 		var time = today.getHours() + ':' + today.getMinutes();
 		var date = today.getMonth() + 1 + '/' + today.getDate() + '/' + today.getFullYear();
 		const newPost = { title: e.target[0].value, user: props.user, description: e.target[1].value, date: date, time: time, comments: '0', community: props.community, postId: props.comments + "_" + props.postId };
+		
+		// New post needs to be uploaded to backend
 		posts.push(newPost);
 
 		props.setAddPost(false);
@@ -117,11 +124,15 @@ function AddPost(props) {
 
 	return (
 		<form className="post new" onSubmit={handleSubmit}>
-			<label for="title" className="title">Title</label>
-			<TextareaAutosize name="title" maxLength="500" />
+			<label className="title">
+				Title
+				<TextareaAutosize name="title" maxLength="500" />
+			</label>
 
-			<label for="description" className="title">Description</label>
-			<TextareaAutosize name="description" maxLength="500" />
+			<label className="title">
+				Description
+				<TextareaAutosize name="description" maxLength="500" />
+			</label>
 
 			<input type="submit" value="Post" />
 		</form>
@@ -162,10 +173,7 @@ export default function CommunityPage() {
 							</div>
 							<div>
 								{posts && posts.map((post, index) =>
-									<div>
-										<Post key={index} title={post.title} date={post.date} time={post.time} comments={post.comments} community={community} postId={index} />
-
-									</div>
+									<Post key={index} title={post.title} date={post.date} time={post.time} comments={post.comments} community={community} postId={index} />
 								)}
 							</div>
 
