@@ -1,11 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { useParams } from "react-router-dom";
 import { ArrowNarrowLeftIcon, PlusIcon } from '@heroicons/react/solid';
+import UserContext from '../hooks/UserContext';
 import MissingPage from './MissingPage';
 import { posts } from './CommunityPage';
 import CustomLink from '../components/CustomLink';
-import './CommunityPost.css'
 import { WarnedUsers } from './Admin';
+import './CommunityPost.css';
 
 const comments = [
 	{
@@ -97,14 +98,14 @@ function AddComment(props) {
 				<input ref={textInput} type="textarea" name="comment" />
 			</label>
 
-			<button onClick={handleSubmit}><PlusIcon className="icon"/> Add Comment</button>
+			<button onClick={handleSubmit}><PlusIcon className="icon" /> Add Comment</button>
 		</form>
 	)
 }
 
 const warnUser = name => {
 	alert(name + " has been warned!");
-    WarnedUsers.push(name);
+	WarnedUsers.push(name);
 }
 
 export default function CommunityPost() {
