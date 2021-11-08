@@ -5,7 +5,6 @@ export const WarnedUsers = [];
 
 export default function Admin() {
 	const [users, setUsers] = useState(null);
-	const [value, setValue] = useState(0);
 
 	useEffect(() => {
 		// Users need to be fetched from backend
