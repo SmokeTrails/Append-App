@@ -48,8 +48,9 @@ export default function Admin() {
 
 	const warn = name => {
         alert(name + " has been warned!");
-        WarnedUsers.push(name);
-        setValue(value+1);
+		//For Next Phase
+        // WarnedUsers.push(name);
+        // setValue(value+1);
     }
 
 
@@ -69,14 +70,15 @@ export default function Admin() {
 					</div>
 				)}
 			</div>
-			<h2>Warned Users</h2>
+			
+			{/* <h2>Warned Users</h2>  For Next Phase
             <div>
                 {WarnedUsers.length > 0 && WarnedUsers.map((userW, index) =>
                 <div key={index+userW}>
-              <FriendPreview name={users.filter(user => user.name === userW)[0].name} username={users.filter(user => user.name === userW)[0].username} imageUrl={users.filter(user => user.name === userW)[0].imageUrl} />
+              		<FriendPreview name={users.filter(user => user.name === userW)[0].name} username={users.filter(user => user.name === userW)[0].username} imageUrl={users.filter(user => user.name === userW)[0].imageUrl} />
                 </div>
                 )}
-            </div>
+            </div> */}
         </div>
     );
 }
