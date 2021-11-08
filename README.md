@@ -8,6 +8,8 @@ To run the app, from the team51 directory, run the following commands:
 - `npm install`
 - `npm start`
 
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
 # Instructions for logging in and using the app as a user:
 
 The first page you will see is the login page, where you can use only the
