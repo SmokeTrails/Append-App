@@ -32,7 +32,7 @@ const communities = [
 	},
 	{
 		path: 'WebDevClub',
-		name: 'Web dev Club',
+		name: 'Web Dev Club',
 		description: "U of T's largest anime club. We have weekly meetings but feel free to make a post on the forum.",
 		memberCount: 405,
 		imageUrl: 'communities/webdev.jpg'
