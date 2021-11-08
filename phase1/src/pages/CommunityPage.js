@@ -5,8 +5,8 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { ChevronRightIcon } from '@heroicons/react/outline';
 import UserContext from '../hooks/UserContext';
 import CustomLink from '../components/CustomLink';
-import MissingPage from '../pages/MissingPage'
-import './CommunityPage.css'
+import MissingPage from '../pages/MissingPage';
+import './CommunityPage.css';
 
 const communities = [
 	{
@@ -74,11 +74,12 @@ function Post(props) {
 	const url = `/community/${props.community}/${props.postId}`
 
 	const removePost = index => {
-		var elem = document.getElementById(index);
-		console.log(elem);
-		elem.parentNode.removeChild(elem);
+		var post = document.getElementById(index);
+
+		// Post needs to be removed from backend
+		post.parentNode.removeChild(post);
 	}
-	
+
 	const warnUser = name => {
 		alert(name + " has been warned!");
 	}
@@ -96,7 +97,7 @@ function Post(props) {
 				</div>
 				<ChevronRightIcon className="icon" />
 			</CustomLink>
-			{ user.username === 'admin' && (
+			{user.username === 'admin' && (
 				<div className="adminButtons">
 					<button className="small" onClick={() => { removePost(url) }}>Remove Post</button>
 					<button className="small" onClick={() => { warnUser(props.user) }}>Warn User</button>
@@ -119,7 +120,7 @@ function AddPost(props) {
 		var time = today.getHours() + ':' + today.getMinutes();
 		var date = today.getMonth() + 1 + '/' + today.getDate() + '/' + today.getFullYear();
 		const newPost = { title: e.target[0].value, user: props.user, description: e.target[1].value, date: date, time: time, comments: '0', community: props.community, postId: props.comments + "_" + props.postId };
-		
+
 		// New post needs to be uploaded to backend
 		posts.push(newPost);
 
@@ -151,6 +152,7 @@ export default function CommunityPage() {
 
 	useEffect(() => {
 		if (isLoading || (currentCommunity && community !== currentCommunity.path)) {
+			// Communities need to be fetched from backend
 			var filteredCommunities = communities.filter(c => {
 				return c.path === community
 			})
@@ -176,6 +178,7 @@ export default function CommunityPage() {
 								<p>{currentCommunity.description}</p>
 							</div>
 							<div>
+								{/* Posts need to be fetched from backend */}
 								{posts && posts.map((post, index) =>
 									<Post key={index} title={post.title} user={post.user} date={post.date} time={post.time} comments={post.comments} community={community} postId={index} />
 								)}

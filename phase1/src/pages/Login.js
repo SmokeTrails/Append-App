@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import CustomLink from '../components/CustomLink';
-import './Login.css'
+import './Login.css';
 
 export default function Login(props) {
 	const [username, setUsername] = useState("")
@@ -9,7 +9,7 @@ export default function Login(props) {
 	const [invalid, setInvalid] = useState("")
 	const navigate = useNavigate()
 
-	// Login user needs to be fetched from backend
+	// Login users needs to be fetched from backend
 	const loginUser = {
 		name: 'Haider',
 		username: 'user',
@@ -23,7 +23,6 @@ export default function Login(props) {
 		courseCodes: ['CSC309'],
 		communityNames: ['Anime', 'WebDevClub']
 	}
-
 	const loginAdmin = {
 		name: 'Admin',
 		username: 'admin',
@@ -39,11 +38,12 @@ export default function Login(props) {
 	}
 
 	function checkCredentials() {
+		// Needs to be changed to accept all users in backend
 		if (username === "admin" && password === "admin") {
 			props.setUser(loginAdmin)
 			navigate("/admin")
 		}
-		else if(username === "user" && password === "user") {
+		else if (username === "user" && password === "user") {
 			props.setUser(loginUser)
 			navigate("/")
 		}
@@ -78,5 +78,5 @@ export default function Login(props) {
 				</div>
 			</CustomLink>
 		</div>
-	)
+	);
 }

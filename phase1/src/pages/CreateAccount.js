@@ -1,8 +1,8 @@
-import { useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import CustomLink from '../components/CustomLink';
-import Heading from '../components/LoginHeading.js'
-import './CreateAccount.css'
+import Heading from '../components/LoginHeading.js';
+import './CreateAccount.css';
 
 export default function CreateAccount() {
 	const navigate = useNavigate()
@@ -26,6 +26,8 @@ export default function CreateAccount() {
 			setSuccessful("Please complete all fields to create your account.")
 		}
 		else {
+			// User needs to be uploaded to backend
+
 			setSuccessful("Your account was created successfuly! Redirecting you to login...")
 			setTimeout(() => navigate("/Login"), 2000)
 		}
@@ -107,7 +109,6 @@ export default function CreateAccount() {
 function CourseForm(props) {
 	return (
 		props.user.courseCodes.map((val, i) => {
-			//   const course = `courses[${i}]`
 			return (
 				<div className="courseContainer" key={i} >
 					<input className="courseText" type="text" value={props.user.courseCodes[i]} onChange={(event) => props.changeCourse(event, i)} />
@@ -115,6 +116,5 @@ function CourseForm(props) {
 				</div>
 			)
 		})
-
 	)
 }

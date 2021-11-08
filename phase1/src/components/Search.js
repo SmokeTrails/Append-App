@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import './Search.css'
+import './Search.css';
 
 export default function Search(props) {
-	const navigate = useNavigate()
-	const [query, setQuery] = useState(props.query)
+	const navigate = useNavigate();
+	const [query, setQuery] = useState(props.query);
 
 	function handleKey(e) {
 		if (e.key === 'Enter' || e.key === 'Return') {
-			handleSearch()
+			handleSearch();
 		}
 	}
 
 	function handleSearch() {
-		const path = `/search/${query}`
-		navigate(path)
+		const path = `/search/${query}`;
+		navigate(path);
 	}
 
 	return (

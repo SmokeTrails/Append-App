@@ -5,8 +5,8 @@ import UserContext from '../hooks/UserContext';
 import MissingPage from './MissingPage';
 import { posts } from './CommunityPage';
 import CustomLink from '../components/CustomLink';
-import './CommunityPost.css'
 import { WarnedUsers } from './Admin';
+import './CommunityPost.css';
 
 const comments = [
 	{
@@ -48,7 +48,7 @@ function Comment(props) {
 				<p className="date"> {props.date}</p>
 				<p className="timestamp"> {props.time}</p>
 			</div>
-			{ user.username === 'admin' && (
+			{user.username === 'admin' && (
 				<div className="adminButtons">
 					<button className="small" onClick={() => { removePost(props.commentId) }}>Remove Comment</button>
 					<button className="small" onClick={() => { warnUser(props.user) }}>Warn User</button>
@@ -88,7 +88,7 @@ function AddComment(props) {
 				<input ref={textInput} type="textarea" name="comment" />
 			</label>
 
-			<button onClick={handleSubmit}><PlusIcon className="icon"/> Add Comment</button>
+			<button onClick={handleSubmit}><PlusIcon className="icon" /> Add Comment</button>
 		</form>
 	)
 }
@@ -100,7 +100,7 @@ const removePost = index => {
 
 const warnUser = name => {
 	alert(name + " has been warned!");
-    WarnedUsers.push(name);
+	WarnedUsers.push(name);
 }
 
 export default function CommunityPost() {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { HomeIcon, UserGroupIcon } from '@heroicons/react/solid';
-import UserContext from '../hooks/UserContext'
+import UserContext from '../hooks/UserContext';
 import CustomLink from './CustomLink';
 import GroupLink from './CommunityLink';
 
@@ -45,7 +45,7 @@ export default function Navbar(props) {
 					<li>
 						<CustomLink to="/friends"><UserGroupIcon /> Friends</CustomLink>
 					</li>
-					{ user.username === 'admin' && (
+					{user.username === 'admin' && (
 						<li>
 							<CustomLink to="/admin">Admin Homepage</CustomLink>
 						</li>

@@ -6,6 +6,7 @@ import MissingPage from '../pages/MissingPage';
 import UserContext from '../hooks/UserContext';
 import './Profile.css';
 
+// Users need to be fetched from backend
 const users = [
 	{
 		name: 'Admin',
@@ -203,7 +204,7 @@ function GalleryView(props) {
 	return (
 		<div>
 			<h2>{props.title}</h2>
-			{ cards.length === 0
+			{cards.length === 0
 				? <p>None</p>
 				: <ul className="gallery" style={{ gridTemplateColumns: `repeat(${AllCards.length}, 250px)` }}>{AllCards}</ul>
 			}
@@ -219,7 +220,7 @@ export default function UserProfile() {
 	const [profileInfo, setProfileInfo] = useState(null);
 
 	const saveForm = () => {
-		// Users need to be fetched from backend
+		// Filtered user needs to be fetched from backend
 		var filteredUser = users.filter(user => {
 			return user.username === currentUser.username
 		})[0]
@@ -243,12 +244,12 @@ export default function UserProfile() {
 
 	useEffect(() => {
 		if (isLoading || username !== currentUser.username) {
-			// Users need to be fetched from backend
-			var filteredUsers = users.filter(user => {
+			// Filtered user needs to be fetched from backend
+			var filteredUser = users.filter(user => {
 				return user.username === username
-			})
+			})[0]
 
-			setCurrentUser(filteredUsers[0]);
+			setCurrentUser(filteredUser);
 			setIsLoading(false);
 		}
 	}, [isLoading, username, currentUser]);

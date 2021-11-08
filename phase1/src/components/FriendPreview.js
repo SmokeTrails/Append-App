@@ -1,7 +1,7 @@
 import React from 'react';
 import { UserIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import CustomLink from './CustomLink';
-import './FriendPreview.css'
+import './FriendPreview.css';
 
 export default function FriendPreview({ simple, name, username, imageUrl }) {
 	return (

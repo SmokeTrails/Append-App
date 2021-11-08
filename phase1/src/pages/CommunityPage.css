@@ -75,11 +75,10 @@
 
 .communityPage .post label {
 	display: block;
-	height:fit-content;
+	height: fit-content;
 }
 
-.communityPage input,
-.communityPage textarea {
+.communityPage input, .communityPage textarea {
 	width: 100%;
 	border-radius: var(--rounded-sm);
 	border: 2px solid var(--secondary-bg-accent-color);
@@ -125,12 +124,11 @@
 	padding: 0 1.5rem 1.5rem 1.5rem;
 }
 
-.communityPage .adminButtons >:first-child {
+.communityPage .adminButtons>:first-child {
 	margin-right: 0.5rem;
 }
 
-.communityPage button,
-.communityPage input.button {
+.communityPage button, .communityPage input.button {
 	display: flex;
 	align-items: center;
 	border: none;
@@ -156,7 +154,6 @@
 	padding: 0.35rem 0.75rem;
 }
 
-.communityPage button:hover,
-.communityPage input.button:hover {
+.communityPage button:hover, .communityPage input.button:hover {
 	transform: var(--scale-transform);
 }

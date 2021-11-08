@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import FriendPreview from '../components/FriendPreview'
+import FriendPreview from '../components/FriendPreview';
 
 export default function Friends() {
 	const [friends, setFriends] = useState(null);

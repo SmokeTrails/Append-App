@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Outlet } from "react-router-dom";
-import Navbar from '../components/Navbar'
-import Sidebar from '../components/Sidebar'
-import './Layout.css'
+import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
+import './Layout.css';
 
 export default function Layout(props) {
 	const navbarRef = useRef(null);
