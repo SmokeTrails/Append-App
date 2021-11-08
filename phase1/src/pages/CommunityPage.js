@@ -42,16 +42,16 @@ export const posts = [
 	{
 		title: 'Welcome to our community!',
 		user: 'Joshua',
-		description: "yo yo yo yo yo yo",
+		description: "Dont forget to be nice and have a fun time!",
 		date: "11/7/2021",
 		time: "6:23",
 		comments: "3",
 		postId: "0"
 	},
 	{
-		title: 'My first Post !!!',
+		title: 'What do you guys think about our prof and TAs?',
 		user: "Kirill",
-		description: "Happy to be here!",
+		description: "I feel like the TAs and profs for this course are really good, what do you guys think?",
 		date: "11/7/2021",
 		time: "13:19",
 		comments: "3",
@@ -74,6 +74,7 @@ function Post(props) {
 
 	const removePost = index => {
 		var elem = document.getElementById(index);
+		console.log(elem);
 		elem.parentNode.removeChild(elem);
 	}
 	
@@ -82,7 +83,7 @@ function Post(props) {
 	}
 
 	return (
-		<div className="post">
+		<div id={url}>
 			<CustomLink to={url}>
 				<div>
 					<h4 className="title"> {props.title} </h4>
@@ -95,8 +96,8 @@ function Post(props) {
 				<ChevronRightIcon className="icon" />
 			</CustomLink>
 			<div className="adminButtons">
-				<button className="small" onClick={() => { /*removePost(props.community + "_" + index)*/ }}>Remove Post</button>
-				<button className="small" onClick={() => { /*warnUser(post.user)*/ }}>Warn User</button>
+				<button className="small" onClick={() => { removePost(url) }}>Remove Post</button>
+				<button className="small" onClick={() => { warnUser(props.user) }}>Warn User</button>
 			</div>
 		</div>
 	);
@@ -173,7 +174,7 @@ export default function CommunityPage() {
 							</div>
 							<div>
 								{posts && posts.map((post, index) =>
-									<Post key={index} title={post.title} date={post.date} time={post.time} comments={post.comments} community={community} postId={index} />
+									<Post key={index} title={post.title} user={post.user} date={post.date} time={post.time} comments={post.comments} community={community} postId={index} />
 								)}
 							</div>
 
