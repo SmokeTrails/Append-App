@@ -16,11 +16,11 @@ export default function Home() {
 		setUpdates([
 			{
 				content: 'Mohsin created a post in CSC309',
-				link: '/group/csc309'
+				link: '/community/csc309'
 			},
 			{
 				content: 'Alex joined Anime Club',
-				link: '/group/AnimeClub'
+				link: '/community/AnimeClub'
 			},
 		]);
 
