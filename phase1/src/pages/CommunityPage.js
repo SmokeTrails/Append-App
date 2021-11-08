@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from "react-router-dom";
 import NumberFormat from 'react-number-format';
 import TextareaAutosize from 'react-textarea-autosize';
 import { ChevronRightIcon } from '@heroicons/react/outline';
+import UserContext from '../hooks/UserContext';
 import CustomLink from '../components/CustomLink';
 import MissingPage from '../pages/MissingPage'
 import './CommunityPage.css'
@@ -69,6 +70,7 @@ export const posts = [
 ];
 
 function Post(props) {
+	const user = useContext(UserContext);
 	const url = `/community/${props.community}/${props.postId}`
 
 	const removePost = index => {
@@ -94,10 +96,12 @@ function Post(props) {
 				</div>
 				<ChevronRightIcon className="icon" />
 			</CustomLink>
-			<div className="adminButtons">
-				<button className="small" onClick={() => { removePost(url) }}>Remove Post</button>
-				<button className="small" onClick={() => { warnUser(props.user) }}>Warn User</button>
-			</div>
+			{ user.username === 'admin' && (
+				<div className="adminButtons">
+					<button className="small" onClick={() => { removePost(url) }}>Remove Post</button>
+					<button className="small" onClick={() => { warnUser(props.user) }}>Warn User</button>
+				</div>
+			)}
 		</div>
 	);
 }

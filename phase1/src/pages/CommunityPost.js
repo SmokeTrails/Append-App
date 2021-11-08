@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { useParams } from "react-router-dom";
 import { ArrowNarrowLeftIcon, PlusIcon } from '@heroicons/react/solid';
+import UserContext from '../hooks/UserContext';
 import MissingPage from './MissingPage';
 import { posts } from './CommunityPage';
 import CustomLink from '../components/CustomLink';
@@ -36,6 +37,8 @@ function Post(props) {
 }
 
 function Comment(props) {
+	const user = useContext(UserContext);
+
 	return (
 		<div className="post">
 			<h4 className="title">{props.user}</h4>
@@ -44,10 +47,12 @@ function Comment(props) {
 				<p className="date"> {props.date}</p>
 				<p className="timestamp"> {props.time}</p>
 			</div>
-			<div className="adminButtons">
-				<button className="small" onClick={() => { removePost(props.commentId) }}>Remove Comment</button>
-				<button className="small" onClick={() => { warnUser(props.user) }}>Warn User</button>
-			</div>
+			{ user.username === 'admin' && (
+				<div className="adminButtons">
+					<button className="small" onClick={() => { removePost(props.commentId) }}>Remove Comment</button>
+					<button className="small" onClick={() => { warnUser(props.user) }}>Warn User</button>
+				</div>
+			)}
 		</div>
 	);
 }

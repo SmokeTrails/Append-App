@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { HomeIcon, UserGroupIcon } from '@heroicons/react/solid';
+import UserContext from '../hooks/UserContext'
 import CustomLink from './CustomLink';
 import GroupLink from './CommunityLink';
 
 export default function Navbar(props) {
+	const user = useContext(UserContext);
 	const [enrolledCommunities, setEnrolledCommunities] = useState(null);
 
 	useEffect(() => {
@@ -43,9 +45,11 @@ export default function Navbar(props) {
 					<li>
 						<CustomLink to="/friends"><UserGroupIcon /> Friends</CustomLink>
 					</li>
-					<li>
-						<CustomLink to="/admin">Admin Homepage</CustomLink>
-					</li>
+					{ user.username === 'admin' && (
+						<li>
+							<CustomLink to="/admin">Admin Homepage</CustomLink>
+						</li>
+					)}
 					<li>
 						<CustomLink to="/random">404 Page</CustomLink>
 					</li>

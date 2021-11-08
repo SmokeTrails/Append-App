@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from "react-router-dom";
 import TextareaAutosize from 'react-textarea-autosize';
 import { UserIcon, CheckIcon, PencilIcon } from '@heroicons/react/solid';
-import MissingPage from '../pages/MissingPage'
+import MissingPage from '../pages/MissingPage';
+import UserContext from '../hooks/UserContext';
 import './Profile.css';
 
 const users = [
@@ -202,18 +203,23 @@ function GalleryView(props) {
 	return (
 		<div>
 			<h2>{props.title}</h2>
-			<ul className="gallery" style={{ gridTemplateColumns: `repeat(${AllCards.length}, 250px)` }}>{AllCards}</ul>
+			{ cards.length === 0
+				? <p>None</p>
+				: <ul className="gallery" style={{ gridTemplateColumns: `repeat(${AllCards.length}, 250px)` }}>{AllCards}</ul>
+			}
 		</div>
 	);
 }
 
 export default function UserProfile() {
 	const username = useParams().username;
+	const loggedinUser = useContext(UserContext);
 	const [isLoading, setIsLoading] = useState(true);
 	const [currentUser, setCurrentUser] = useState(null);
 	const [profileInfo, setProfileInfo] = useState(null);
 
 	const saveForm = () => {
+		// Users need to be fetched from backend
 		var filteredUser = users.filter(user => {
 			return user.username === currentUser.username
 		})[0]
@@ -237,6 +243,7 @@ export default function UserProfile() {
 
 	useEffect(() => {
 		if (isLoading || username !== currentUser.username) {
+			// Users need to be fetched from backend
 			var filteredUsers = users.filter(user => {
 				return user.username === username
 			})
@@ -257,7 +264,7 @@ export default function UserProfile() {
 						<div className="flexContainer">
 							<ProfileDescription name={currentUser.name} username={currentUser.username} friendCount={currentUser.friendCount} clubCount={currentUser.clubCount} courseCount={currentUser.courseCount} />
 
-							{username === 'user' &&
+							{username === loggedinUser.username &&
 								<button className="editButton" onClick={() => profileInfo ? saveForm() : startEditing()}>
 									{profileInfo ? <CheckIcon /> : <PencilIcon />}
 									{profileInfo ? 'Save Changes' : 'Edit Profile'}

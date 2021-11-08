@@ -1,6 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
-import Heading from './LoginHeading.js'
+import { useNavigate } from "react-router-dom";
+import CustomLink from '../components/CustomLink';
 import './Login.css'
 
 export default function Login(props) {
@@ -54,7 +54,10 @@ export default function Login(props) {
 
 	return (
 		<div className="Login">
-			<Heading title={`Login`} />
+			<div className="header">
+				<h1>Welcome to Team 51's Project!</h1>
+				<h2>Please login to continue</h2>
+			</div>
 			<div className="usernameContainer">
 				<h3> Username: </h3>
 				<input className="text" type="text" value={username} onChange={event => setUsername(event.target.value)} />
@@ -69,11 +72,11 @@ export default function Login(props) {
 			<div className="submitContainer">
 				<button className="button" onClick={checkCredentials}> Login</button>
 			</div>
-			<Link className="link" to={"/CreateAccount"}>
+			<CustomLink className="link" to={"/create-account"}>
 				<div className="buttonContainer">
 					<button className="button"> Create a new account</button>
 				</div>
-			</Link>
+			</CustomLink>
 		</div>
 	)
 }
