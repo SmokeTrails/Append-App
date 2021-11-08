@@ -8,22 +8,42 @@ export default function Login(props) {
 	const [password, setPassword] = useState("")
 	const [invalid, setInvalid] = useState("")
 	const navigate = useNavigate()
-	
+
 	// Login user needs to be fetched from backend
 	const loginUser = {
 		name: 'Haider',
 		username: 'user',
-		friendCount: '3',
-		clubCount: '5',
+		friendCount: '5',
+		clubCount: '3',
 		courseCount: '5',
-		bio: 'Hello 123',
-		interests: '#123',
+		bio: 'Hello everyone! I\'m a third year computer science student looking for people to study with.',
+		interests: '#coding #AI #anime #gaming',
 		year: '3',
-		program: 'Computer Science'
+		program: 'Computer Science',
+		courseCodes: ['CSC309'],
+		communityNames: ['Anime', 'WebDevClub']
+	}
+
+	const loginAdmin = {
+		name: 'Admin',
+		username: 'admin',
+		friendCount: '0',
+		clubCount: '0',
+		courseCount: '0',
+		bio: 'Here to moderate all users!',
+		interests: 'Being an admin',
+		year: '4',
+		program: 'None',
+		courseCodes: [],
+		communityNames: []
 	}
 
 	function checkCredentials() {
-		if ((username === "admin" && password === "admin") || (username === "user" && password === "user")) {
+		if (username === "admin" && password === "admin") {
+			props.setUser(loginAdmin)
+			navigate("/admin")
+		}
+		else if(username === "user" && password === "user") {
 			props.setUser(loginUser)
 			navigate("/")
 		}
