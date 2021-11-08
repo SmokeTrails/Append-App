@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Friends from './pages/Friends';
 import UserProfile from './pages/Profile';
 import CommunityPage from './pages/CommunityPage';
+import CommunityPost from './pages/CommunityPost';
 import Login from './pages/Login'
 import Admin from './pages/Admin'
 import MissingPage from './pages/MissingPage'
@@ -44,6 +45,7 @@ export default function App() {
 						<Route path="user/:username" element={<UserProfile />} />
 						<Route path="search/:query" element={<SearchResults />} />
 						<Route path="community/:community" element={<CommunityPage />} />
+						<Route path="community/:community/:thread" element={<CommunityPost />} />
 						<Route path="friends" element={<Friends />} />
 						<Route path="admin" element={<Admin />} />
 					</Route>

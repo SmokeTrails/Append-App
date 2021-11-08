@@ -45,7 +45,7 @@ export const posts = [
 		description: "Dont forget to be nice and have a fun time!",
 		date: "11/7/2021",
 		time: "6:23",
-		comments: "3",
+		comments: "2",
 		postId: "0"
 	},
 	{
@@ -54,7 +54,7 @@ export const posts = [
 		description: "I feel like the TAs and profs for this course are really good, what do you guys think?",
 		date: "11/7/2021",
 		time: "13:19",
-		comments: "3",
+		comments: "2",
 		postId: "1"
 	},
 	{
@@ -62,11 +62,10 @@ export const posts = [
 		user: "Rehan",
 		description: "Im kinda stuck on 2b",
 		date: "11/7/2021",
-		time: "4:23",
-		comments: "0",
+		time: "16:23",
+		comments: "2",
 		postId: "2"
 	}
-
 ];
 
 function Post(props) {
@@ -83,7 +82,7 @@ function Post(props) {
 	}
 
 	return (
-		<div id={url}>
+		<div className="post" id={url}>
 			<CustomLink to={url}>
 				<div>
 					<h4 className="title"> {props.title} </h4>

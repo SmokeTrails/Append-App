@@ -1,0 +1,108 @@
+.communityPost {
+	position: relative;
+	overflow: hidden;
+	border-radius: var(--rounded);
+	background-color: var(--secondary-bg-color);
+	box-shadow: var(--shadow);
+	border: 1px solid var(--secondary-bg-accent-color);
+	padding-top: 0;
+	padding: 2rem;
+}
+
+.communityPost svg.icon {
+	box-sizing: content-box;
+	width: var(--icon-size);
+	height: var(--icon-size);
+	color: inherit;
+	flex-shrink: 0;
+	margin-right: 4px;
+}
+
+.communityPost .backLink:hover {
+	color: var(--primary-highlight-color);
+}
+
+.communityPost .addComment {
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+
+.communityPost .addComment label {
+	flex-grow: 1;
+	margin-right: 0.5rem;
+}
+
+.communityPost input {
+	width: 100%;
+	border-radius: var(--rounded-sm);
+	border: 2px solid var(--secondary-bg-accent-color);
+	padding: 0.5rem;
+	font-size: 1.15rem;
+	resize: none;
+}
+
+.communityPost button {
+	display: flex;
+	align-items: center;
+	width: auto;
+	border: none;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+	margin: 0.25rem 0;
+	padding: 0.75rem 1rem;
+	background: var(--button-bg-color);
+	color: var(--button-color);
+	border-radius: var(--rounded-pill);
+	font-weight: 500;
+	transition: transform var(--ease-animation);
+}
+
+.communityPost button.small {
+	padding: 0.35rem 0.75rem;
+}
+
+.communityPost button:hover {
+	transform: var(--scale-transform);
+}
+
+.communityPost .adminButtons {
+	display: flex;
+	margin-top: 0.5rem;
+}
+
+.communityPost .adminButtons >:first-child {
+	margin-right: 0.5rem;
+}
+
+.communityPost .post {
+	width: 100%;
+	border-radius: var(--rounded-sm);
+	background-color: var(--tertiary-bg-color);
+	margin: 1rem 0;
+	padding: 1.5rem;
+	transition: transform var(--ease-animation);
+}
+
+.communityPost .post p {
+	margin: 0.25rem 0;
+}
+
+.communityPost .post .title {
+	display: block;
+	font-size: 1.05rem;
+	font-weight: 600;
+	margin: 0;
+	margin-bottom: 0.5rem;
+}
+
+.communityPost .post .details {
+	margin: 0;
+	display: flex;
+	color: gray;
+}
+
+.communityPost .post .details p:not(:last-child) {
+	margin-right: 1rem;
+}
