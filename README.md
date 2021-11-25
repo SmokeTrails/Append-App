@@ -1,10 +1,10 @@
-# team51
+# Team 51
 
 # To run the app:
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-To run the app, from the team51 directory, run the following commands:
-- `cd phase1`
+To run the frontend part of the app, from the team51 directory, run the following commands:
+- `cd frontend`
 - `npm install`
 - `npm start`
 
