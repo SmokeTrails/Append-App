@@ -36,28 +36,30 @@ export default function Navbar(props) {
 	}, []);
 
 	return (
-		<div className="navigation" ref={props.elementRef}>
-			<nav>
-				<ul>
-					<li>
-						<CustomLink to="/"><HomeIcon /><span>Home</span></CustomLink>
-					</li>
-					<li>
-						<CustomLink to="/friends"><UserGroupIcon /> Friends</CustomLink>
-					</li>
-					{user.username === 'admin' && (
+		<nav className="navigation">
+			<div>
+				<div>
+					<ul>
 						<li>
-							<CustomLink to="/admin">Admin Page</CustomLink>
+							<CustomLink to="/"><HomeIcon /><span>Home</span></CustomLink>
 						</li>
+						<li>
+							<CustomLink to="/friends"><UserGroupIcon /> Friends</CustomLink>
+						</li>
+						{user.username === 'admin' && (
+							<li>
+								<CustomLink to="/admin">Admin Page</CustomLink>
+							</li>
+						)}
+					</ul>
+				</div>
+				<div className="groupContainer">
+					<h1 className="subtleHeading">Your Communities</h1>
+					{enrolledCommunities && enrolledCommunities.map((group, index) =>
+						<GroupLink key={index} path={group.path} name={group.name} imageUrl={group.imageUrl} />
 					)}
-				</ul>
-			</nav>
-			<div className="groupContainer">
-				<h1 className="subtleHeading">Your Communities</h1>
-				{enrolledCommunities && enrolledCommunities.map((group, index) =>
-					<GroupLink key={index} path={group.path} name={group.name} imageUrl={group.imageUrl} />
-				)}
+				</div>
 			</div>
-		</div>
+		</nav>
 	);
 }

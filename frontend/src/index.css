@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+* {
+    box-sizing: inherit;
+	font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}

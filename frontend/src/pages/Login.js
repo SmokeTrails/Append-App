@@ -64,7 +64,7 @@ export default function Login(props) {
 			</div>
 			<div className="passwordContainer">
 				<h3> Password: </h3>
-				<input className="text" type="text" value={password} onChange={event => setPassword(event.target.value)} />
+				<input className="text" type="password" value={password} onChange={event => setPassword(event.target.value)} />
 			</div>
 			<div className="invalidMessageContainer">
 				<h3>{invalid}</h3>

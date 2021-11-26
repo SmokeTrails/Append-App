@@ -12,16 +12,22 @@ div.layout a {
 	text-decoration: inherit;
 }
 
-div.navigation {
-	z-index: 1;
-	position: fixed;
+nav {
+	position: relative;
 	height: 100vh;
-	width: 275px;
+	width: var(--navbar-width);
 	flex-shrink: 0;
+	font-weight: 500;
+	font-size: 1.1rem;
+}
+
+nav>div {
+	position: fixed;
+	height: inherit;
+	width: inherit;
 	padding: var(--outer-sidebar-padding);
 	background-color: var(--white-bg-color);
 	box-shadow: var(--shadow-md);
-	font-weight: 500;
 }
 
 nav a {
@@ -46,18 +52,18 @@ nav a:hover {
 nav a svg {
 	width: var(--icon-size);
 	height: var(--icon-size);
-	margin-right: 4px;
+	margin-right: 0.5rem;
 }
 
-div.groupContainer {
+nav div.groupContainer {
 	padding-top: 1rem;
 }
 
-div.groupContainer .subtleHeading {
+nav div.groupContainer .subtleHeading {
 	margin: var(--inner-sidebar-padding);
 }
 
-div.groupContainer a {
+nav div.groupContainer a {
 	margin: 1rem var(--inner-sidebar-padding);
 	padding: 0.65rem 0.75rem;
 	border-radius: var(--rounded);
@@ -66,18 +72,18 @@ div.groupContainer a {
 	transition: transform var(--ease-animation), box-shadow var(--ease-animation), border var(--ease-animation);
 }
 
-div.groupContainer>:nth-child(2) {
+nav div.groupContainer>:nth-child(2) {
 	margin-top: 0;
 }
 
-div.groupContainer a:hover {
+nav div.groupContainer a:hover {
 	transform: var(--scale-transform);
 	box-shadow: var(--shadow-lg);
 	background-color: var(--primary-highlight-bg-color);
 	border: 1px solid var(--primary-highlight-bg-accent-color);
 }
 
-div.groupContainer img {
+nav div.groupContainer img {
 	width: 3rem;
 	height: 3rem;
 	border-radius: var(--rounded-full);
@@ -85,20 +91,57 @@ div.groupContainer img {
 	margin-right: 0.5rem;
 }
 
-div.mainContent {
+main {
 	width: 100%;
 	max-width: 767px;
-	margin: 2rem;
-	margin-top: var(--outer-sidebar-padding);
+	padding: var(--outer-sidebar-padding);
 	margin-right: calc(-1 * (100vw - 100%));
 }
 
-div.complementary {
-	z-index: 1;
-	position: fixed;
-	right: 0;
-	width: 275px;
+aside {
+	position: relative;
 	flex-shrink: 0;
+	width: var(--sidebar-width);
+}
+
+aside>div {
+	position: fixed;
+	width: inherit;
 	padding: var(--outer-sidebar-padding);
-	margin-right: calc(-1 * (100vw - 100%));
+}
+
+@media only screen and (max-width: 1024px) {
+	nav {
+		width: calc(var(--navbar-width)*0.8);
+	}
+	
+	aside {
+		width: calc(var(--sidebar-width)*0.85);
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	div.layout {
+		flex-direction: column;
+	}
+
+	nav {
+		width: 100%;
+	}
+
+	nav>div {
+		position: static;
+	}
+
+	main {
+		margin-right: 0;
+	}
+
+	aside {
+		width: 100%;
+	}
+
+	aside>div {
+		position: static;
+	}
 }

@@ -28,7 +28,7 @@ export default function SideBar(props) {
 	}, []);
 
 	return (
-		<div className="complementary" ref={props.elementRef}>
+		<aside>
 			<div>
 				<div className="profileLink">
 					<CustomLink className={`${path === `/user/${user.username}` ? 'active' : ''}`} to={`/user/${user.username}`} >
@@ -48,6 +48,6 @@ export default function SideBar(props) {
 					<FriendPreview key={index} simple={true} name={friend.name} username={friend.username} imageUrl={friend.imageUrl} />
 				)}
 			</div>
-		</div>
+		</aside>
 	);
 }
