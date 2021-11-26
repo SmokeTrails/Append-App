@@ -32,7 +32,7 @@
 	--rounded-full: 50%;
 	--icon-size: 1.25rem;
 	--ease-animation: .2s ease;
-	--scale-transform: scale(1.05);
+	--scale-transform: perspective(1px) scale(1.05);
 }
 
 body {
@@ -42,6 +42,10 @@ body {
 	background-color: var(--primary-bg-color);
 	font-size: 1rem;
 	line-height: 1;
+}
+
+svg, img {
+	user-select: none;
 }
 
 nav ul {

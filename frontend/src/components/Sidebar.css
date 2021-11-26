@@ -5,27 +5,27 @@
 	margin-bottom: 1.5rem;
 }
 
-.profileLink > a {
+.profileLink>a {
 	flex-grow: 1;
 	transition: transform var(--ease-animation);
 }
 
 .profileLink .active,
-.profileLink > a:hover {
+.profileLink>a:hover {
 	color: var(--primary-highlight-color);
 }
 
-.profileLink > a:hover {
+.profileLink>a:hover {
 	transform: var(--scale-transform);
 }
 
 .profileLink .active .image,
-.profileLink > a:hover .image {
+.profileLink>a:hover .image {
 	background-color: var(--profile-icon-active-bg);
 }
 
 .profileLink .active .image svg,
-.profileLink > a:hover .image svg {
+.profileLink>a:hover .image svg {
 	color: var(--profile-icon-active);
 }
 
@@ -55,6 +55,7 @@
 }
 
 .profileLink .iconLink {
+	position: relative;
 	display: flex;
 	align-items: center;
 	padding: 0.25rem 0.75rem;
@@ -76,6 +77,25 @@
 
 .profileLink .iconLink:hover svg.icon {
 	transform: scale(1.15);
+}
+
+.profileLink .tooltip {
+	user-select: none;
+	position: absolute;
+	bottom: -1.5rem;
+	left: -50%;
+	margin: 0.25rem;
+	padding: 0.5rem;
+	border-radius: var(--rounded-sm);
+	color: var(--primary-highlight-color);
+	background-color: var(--primary-highlight-bg-color);
+	opacity: 0;
+	transition: opacity var(--ease-animation);
+}
+
+/* .profileLink .iconLink:hover +  */
+.profileLink .iconLink:hover .tooltip {
+	opacity: 1;
 }
 
 .profileLink button {

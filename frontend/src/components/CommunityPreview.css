@@ -46,21 +46,19 @@ div.layout .communityPreview:hover {
 }
 
 .communityPreview .content {
-	padding: 1rem;
-	padding-top: 0.75rem;
+	padding: 1.5rem 1.5rem 2rem 1.5rem;
 	display: flex;
 	align-items: center;
 }
 
 .communityPreview h1 {
 	margin: 0;
-	margin-bottom: 0.5rem;
-	font-size: 1.5rem;
+	margin-bottom: 0.75rem;
+	font-size: 1.65rem;
 }
 
 .communityPreview p {
 	margin: 0;
-	font-size: 0.9rem;
 	color: var(--secondary-dark-text-color);
 }
 

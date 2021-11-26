@@ -41,6 +41,7 @@ export default function SideBar(props) {
 					</CustomLink>
 					<button className="iconLink" onClick={() => props.setUser(null)}>
 						<LogoutIcon className="icon" />
+						<div className="tooltip">Logout</div>
 					</button>
 				</div>
 				<h1 className="subtleHeading">Friends Online</h1>
