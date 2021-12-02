@@ -1,0 +1,22 @@
+.communityLink {
+	padding: 0.65rem 0.75rem;
+	border-radius: var(--rounded);
+	box-shadow: var(--shadow-md);
+	border: 1px solid var(--secondary-bg-accent-color);
+	transition: transform var(--ease-animation), box-shadow var(--ease-animation), border var(--ease-animation);
+}
+
+.communityLink:hover {
+	transform: var(--scale-transform);
+	box-shadow: var(--shadow-lg);
+	background-color: var(--primary-highlight-bg-color);
+	border: 1px solid var(--primary-highlight-bg-accent-color);
+}
+
+.communityLink img {
+	width: 3rem;
+	height: 3rem;
+	border-radius: var(--rounded-full);
+	object-fit: cover;
+	margin-right: 0.5rem;
+}

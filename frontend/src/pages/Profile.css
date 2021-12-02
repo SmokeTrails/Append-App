@@ -8,8 +8,9 @@
 	margin-top: 75px;
 }
 
-.profile > div:last-child > *:last-child {
-	margin-bottom: 0;
+.profile .flexContainer {
+	display: flex;
+	align-items: center;
 }
 
 .avatar {
@@ -32,24 +33,27 @@
 	color: var(--profile-icon-color);
 }
 
-.profile .flexContainer {
-	display: flex;
-	align-items: center;
-
+.profile .CommunityList {
+	display: grid;
+	grid-template-columns: repeat( auto-fit, minmax(200px, 1fr) );
+	grid-gap: 1rem;
 }
 
 .ProfileDescription h1 {
+	font-size: 1.75rem;
 	margin-top: 0;
 	margin-bottom: 4px;
 }
 
 .ProfileDescription h4 {
+	font-size: 1.15rem;
 	margin: 0;
 	color: var(--secondary-text-color);
-	font-weight: 600;
+	font-weight: 500;
 }
 
 .ProfileDescription p {
+	font-size: 1.05rem;
 	margin-right: 1rem;
 	color: var(--secondary-dark-text-color);
 }

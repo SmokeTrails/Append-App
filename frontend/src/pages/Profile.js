@@ -2,8 +2,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from "react-router-dom";
 import TextareaAutosize from 'react-textarea-autosize';
 import { UserIcon, CheckIcon, PencilIcon } from '@heroicons/react/solid';
-import MissingPage from '../pages/MissingPage';
+import MissingPage from './MissingPage';
 import UserContext from '../hooks/UserContext';
+import CommunityLink from '../components/CommunityLink';
 import './Profile.css';
 
 // Users need to be fetched from backend
@@ -18,8 +19,7 @@ const users = [
 		interests: 'Being an admin',
 		year: '4',
 		program: 'None',
-		courseCodes: [],
-		communityNames: []
+		communities: []
 	},
 	{
 		name: 'Alex D',
@@ -31,8 +31,23 @@ const users = [
 		interests: '#Sports #BoardGames',
 		year: '2',
 		program: 'Engineering Science',
-		courseCodes: ['CSC309', 'CSC309', 'CSC309'],
-		communityNames: ['Golf', 'Chess', 'Tennis', 'Nature Lovers']
+		communities: [
+			{
+				path: 'csc309',
+				name: 'CSC309',
+				imageUrl: 'communities/csc309.jpg'
+			},
+			{
+				path: 'AnimeClub',
+				name: 'Anime Club',
+				imageUrl: 'communities/anime.jpg'
+			},
+			{
+				path: 'WebDevClub',
+				name: 'Web Dev Club',
+				imageUrl: 'communities/webdev.jpg'
+			}
+		]
 	},
 	{
 		name: 'Joshua Lee',
@@ -44,8 +59,23 @@ const users = [
 		interests: '#Basketball #Sports #Soccer',
 		year: '2',
 		program: 'Engineering Science',
-		courseCodes: ['CSC309', 'CSC309', 'CSC309'],
-		communityNames: ['Soccer', 'Basketball', 'Nature Lovers']
+		communities: [
+			{
+				path: 'csc309',
+				name: 'CSC309',
+				imageUrl: 'communities/csc309.jpg'
+			},
+			{
+				path: 'AnimeClub',
+				name: 'Anime Club',
+				imageUrl: 'communities/anime.jpg'
+			},
+			{
+				path: 'WebDevClub',
+				name: 'Web Dev Club',
+				imageUrl: 'communities/webdev.jpg'
+			}
+		]
 	},
 	{
 		name: 'Kirill',
@@ -58,8 +88,23 @@ const users = [
 		interests: '#Gaming #Anime #Book Lovers',
 		year: '3',
 		program: 'Computer Science',
-		courseCodes: ['CSC309', 'CSC309', 'CSC309', 'CSC309', 'CSC309'],
-		communityNames: ['Anime', 'Gaming', 'Overwatch']
+		communities: [
+			{
+				path: 'csc309',
+				name: 'CSC309',
+				imageUrl: 'communities/csc309.jpg'
+			},
+			{
+				path: 'AnimeClub',
+				name: 'Anime Club',
+				imageUrl: 'communities/anime.jpg'
+			},
+			{
+				path: 'WebDevClub',
+				name: 'Web Dev Club',
+				imageUrl: 'communities/webdev.jpg'
+			}
+		]
 	},
 	{
 		name: 'Mohsin',
@@ -71,8 +116,23 @@ const users = [
 		interests: '#Sports #Jogging #Outdoors',
 		year: '3',
 		program: 'Computer Science',
-		courseCodes: ['CSC309', 'CSC309', 'CSC309', 'CSC309', 'CSC309'],
-		communityNames: ['Soccer']
+		communities: [
+			{
+				path: 'csc309',
+				name: 'CSC309',
+				imageUrl: 'communities/csc309.jpg'
+			},
+			{
+				path: 'AnimeClub',
+				name: 'Anime Club',
+				imageUrl: 'communities/anime.jpg'
+			},
+			{
+				path: 'WebDevClub',
+				name: 'Web Dev Club',
+				imageUrl: 'communities/webdev.jpg'
+			}
+		]
 	},
 	{
 		name: 'Rehan',
@@ -84,8 +144,23 @@ const users = [
 		interests: '#Reading #Gym #Entrepreneurship',
 		year: '1',
 		program: 'Business',
-		courseCodes: ['CSC309', 'CSC309', 'CSC309'],
-		communityNames: ['Anime', 'Movies', 'Book Lovers']
+		communities: [
+			{
+				path: 'csc309',
+				name: 'CSC309',
+				imageUrl: 'communities/csc309.jpg'
+			},
+			{
+				path: 'AnimeClub',
+				name: 'Anime Club',
+				imageUrl: 'communities/anime.jpg'
+			},
+			{
+				path: 'WebDevClub',
+				name: 'Web Dev Club',
+				imageUrl: 'communities/webdev.jpg'
+			}
+		]
 	},
 	{
 		name: 'Haider',
@@ -97,8 +172,23 @@ const users = [
 		interests: '#coding #AI #anime #gaming',
 		year: '3',
 		program: 'Computer Science',
-		courseCodes: ['CSC309'],
-		communityNames: ['Anime', 'WebDevClub']
+		communities: [
+			{
+				path: 'csc309',
+				name: 'CSC309',
+				imageUrl: 'communities/csc309.jpg'
+			},
+			{
+				path: 'AnimeClub',
+				name: 'Anime Club',
+				imageUrl: 'communities/anime.jpg'
+			},
+			{
+				path: 'WebDevClub',
+				name: 'Web Dev Club',
+				imageUrl: 'communities/webdev.jpg'
+			}
+		]
 	}
 ];
 
@@ -184,58 +274,29 @@ function ProfileEditingInfo(props) {
 	)
 }
 
-function CardItem(props) {
-	return (
-		<li>
-			{/* Image and course link need to be fetched from backend */}
-			<img src="https://miro.medium.com/max/12000/0*tQQ7SLPOJfxaG4ZY" alt="Group banner" />
-			<div>
-				<h3><span className="bold">{props.courseCode}</span></h3>
-			</div>
-		</li>
-	);
-}
-
-function GalleryView(props) {
-	var cards = props.items
-	const AllCards = cards.map((item, index) =>
-		<CardItem key={index} courseCode={item} />
-	);
-
-	return (
-		<div>
-			<h2>{props.title}</h2>
-			{cards.length === 0
-				? <p>None</p>
-				: <ul className="gallery" style={{ gridTemplateColumns: `repeat(${AllCards.length}, 250px)` }}>{AllCards}</ul>
-			}
-		</div>
-	);
-}
-
 export default function UserProfile() {
 	const username = useParams().username;
 	const loggedinUser = useContext(UserContext);
 	const [isLoading, setIsLoading] = useState(true);
 	const [currentUser, setCurrentUser] = useState(null);
-	const [profileInfo, setProfileInfo] = useState(null);
+	const [editInfo, setEditInfo] = useState(null);
 
 	const saveForm = () => {
+		// User needs to be updated in backend
 		// Filtered user needs to be fetched from backend
 		var filteredUser = users.filter(user => {
 			return user.username === currentUser.username
 		})[0]
+		filteredUser.bio = editInfo.bio
+		filteredUser.interests = editInfo.interests
+		filteredUser.year = editInfo.year
+		filteredUser.program = editInfo.program
 
-		filteredUser.bio = profileInfo.bio
-		filteredUser.interests = profileInfo.interests
-		filteredUser.year = profileInfo.year
-		filteredUser.program = profileInfo.program
-
-		setProfileInfo(null);
+		setEditInfo(null);
 	}
 
 	const startEditing = () => {
-		setProfileInfo({
+		setEditInfo({
 			bio: currentUser.bio,
 			interests: currentUser.interests,
 			year: currentUser.year,
@@ -244,15 +305,19 @@ export default function UserProfile() {
 	}
 
 	useEffect(() => {
-		if (isLoading || username !== currentUser.username) {
+		// if (isLoading || (currentUser && username !== currentUser.username)) {
 			// Filtered user needs to be fetched from backend
-			var filteredUser = users.filter(user => {
+			let filteredUser = users.filter(user => {
 				return user.username === username
 			})[0]
+			if (!filteredUser)
+				filteredUser = null;
 
 			setCurrentUser(filteredUser);
-			setIsLoading(false);
-		}
+			if (isLoading) {
+				setIsLoading(false);
+			}
+		// }
 	}, [isLoading, username, currentUser]);
 
 	return (
@@ -267,20 +332,23 @@ export default function UserProfile() {
 							<ProfileDescription name={currentUser.name} username={currentUser.username} friendCount={currentUser.friendCount} clubCount={currentUser.clubCount} courseCount={currentUser.courseCount} />
 
 							{username === loggedinUser.username &&
-								<button className="editButton" onClick={() => profileInfo ? saveForm() : startEditing()}>
-									{profileInfo ? <CheckIcon /> : <PencilIcon />}
-									{profileInfo ? 'Save Changes' : 'Edit Profile'}
+								<button className="editButton" onClick={() => editInfo ? saveForm() : startEditing()}>
+									{editInfo ? <CheckIcon /> : <PencilIcon />}
+									{editInfo ? 'Save Changes' : 'Edit Profile'}
 								</button>
 							}
 						</div>
 
-						{profileInfo
-							? <ProfileEditingInfo name={currentUser.name} profileInfo={profileInfo} setProfileInfo={setProfileInfo} />
+						{editInfo
+							? <ProfileEditingInfo name={currentUser.name} profileInfo={editInfo} setProfileInfo={setEditInfo} />
 							: <ProfileInfo name={currentUser.name} bio={currentUser.bio} interests={currentUser.interests} year={currentUser.year} program={currentUser.program} />
 						}
 
-						<GalleryView title='Current Courses' items={currentUser.courseCodes} />
-						<GalleryView title='Current Clubs' items={currentUser.communityNames} />
+						<div className="CommunityList">
+							{currentUser.communities && currentUser.communities.map((group, index) =>
+								<CommunityLink key={index} path={group.path} name={group.name} imageUrl={group.imageUrl} />
+							)}
+						</div>
 					</div>
 					: <MissingPage username={username} />
 			}

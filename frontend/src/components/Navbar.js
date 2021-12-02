@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { HomeIcon, UserGroupIcon } from '@heroicons/react/solid';
 import UserContext from '../hooks/UserContext';
 import CustomLink from './CustomLink';
-import GroupLink from './CommunityLink';
+import CommunityLink from './CommunityLink';
 
 export default function Navbar(props) {
 	const user = useContext(UserContext);
@@ -56,7 +56,7 @@ export default function Navbar(props) {
 				<div className="groupContainer">
 					<h1 className="subtleHeading">Your Communities</h1>
 					{enrolledCommunities && enrolledCommunities.map((group, index) =>
-						<GroupLink key={index} path={group.path} name={group.name} imageUrl={group.imageUrl} />
+						<CommunityLink key={index} path={group.path} name={group.name} imageUrl={group.imageUrl} />
 					)}
 				</div>
 			</div>
