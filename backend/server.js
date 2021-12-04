@@ -1,5 +1,6 @@
 'use strict';
 
+const log = console.log;
 const cors = require('cors');
 const express = require('express')
 const app = express();
@@ -22,7 +23,7 @@ function isMongoError(error) {
 }
 
 // import the mongoose models
-const { Post } = require('./models/post')
+const { Post } = require('./models/community')
 
 //Create new post and send to database.
 app.post('/api/posts', async (req, res) => {
@@ -68,7 +69,7 @@ app.get('/api/posts', async (req, res) => {
 
 	//Get posts
 	try {
-		const posts = await post.find()
+		const posts = await Post.find()
 		res.send(posts) // just the array
 		//res.send({ posts }) // can wrap in object if want to add more properties
 	} catch(error) {
