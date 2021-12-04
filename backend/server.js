@@ -1,8 +1,11 @@
 'use strict';
 
+const cors = require('cors');
 const express = require('express')
 const app = express();
 const path = require('path');
+app.use(cors());
+app.options('*', cors());
 
 // mongoose and mongo connection
 const { mongoose } = require('./mongoose')
