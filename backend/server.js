@@ -92,7 +92,7 @@ app.get('/api/posts/:id', async (req, res) => {
 	//If id valid, findById
 	try {
 		const post = await Post.findById(id)
-		if (!student) {
+		if (!post) {
 			res.status(404).send('Post not found')
 		} else {
 			//res.send({post})   
