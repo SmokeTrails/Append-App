@@ -36,13 +36,13 @@
 	color: var(--profile-icon-color);
 }
 
-.friendPreview h1 {
+.friendPreview div h1 {
 	margin: 0;
 	font-size: 1rem;
-	margin-bottom: 3px;
+	margin-bottom: 0.35rem;
 }
 
-.friendPreview p {
+.friendPreview div p {
 	margin: 0;
 	font-size: 0.95rem;
 	color: var(--secondary-dark-text-color);

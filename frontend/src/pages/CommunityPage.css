@@ -1,26 +1,16 @@
-.communityPage {
-	position: relative;
-	overflow: hidden;
-	border-radius: var(--rounded);
-	background-color: var(--secondary-bg-color);
-	box-shadow: var(--shadow);
-	border: 1px solid var(--secondary-bg-accent-color);
-	padding-top: 0;
-}
-
 .communityPage .communityContent {
-	padding: 2rem;
-	padding-top: 1rem;
-}
-
-.communityPage .communityInfo {
-	margin-bottom: 2rem;
+	margin: 1.25rem 2rem 2rem 2rem;
 }
 
 .communityPage h1 {
 	margin: 0;
 	margin-bottom: 0.5rem;
 	font-size: 1.5rem;
+}
+
+.communityPage h2 {
+	margin: 0;
+	font-size: 1.15rem;
 }
 
 .communityPage p {
@@ -36,11 +26,12 @@
 }
 
 .communityPage .badge {
+	cursor: pointer;
 	position: absolute;
 	top: 0;
 	right: 0;
 	margin: 0.5rem;
-	padding: 0.25rem 0.5rem;
+	padding: 0.5rem 0.75rem;
 	backdrop-filter: blur(10px) invert(20%);
 	border-radius: var(--rounded-pill);
 	background-color: rgba(139, 92, 246, 0.4);
@@ -156,4 +147,38 @@
 
 .communityPage button:hover, .communityPage input.button:hover {
 	transform: var(--scale-transform);
+}
+
+.communityCard {
+	position: relative;
+	overflow: hidden;
+	border-radius: var(--rounded);
+	background-color: var(--secondary-bg-color);
+	box-shadow: var(--shadow);
+	border: 1px solid var(--secondary-bg-accent-color);
+	margin-bottom: 2rem;
+}
+
+.communityCard button {
+	padding: 0.55rem 0.9rem;
+	margin-top: 1rem;
+}
+
+.communityCard button svg {
+	width: var(--icon-size);
+	height: var(--icon-size);
+	margin-right: 4px;
+}
+
+.communityCard button.disabled {
+	background-color: var(--button-disabled-bg-color);
+	color: var(--button-disabled-color);
+}
+
+.communityList {
+	margin-top: 1rem;
+}
+
+.communityCard .friendPreview {
+	margin: 0.75rem 0;
 }

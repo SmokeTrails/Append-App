@@ -2,9 +2,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from "react-router-dom";
 import NumberFormat from 'react-number-format';
 import TextareaAutosize from 'react-textarea-autosize';
+import { UserGroupIcon } from '@heroicons/react/solid';
 import { ChevronRightIcon } from '@heroicons/react/outline';
 import UserContext from '../hooks/UserContext';
 import CustomLink from '../components/CustomLink';
+import FriendPreview from '../components/FriendPreview';
 import MissingPage from '../pages/MissingPage';
 import './CommunityPage.css';
 
@@ -14,28 +16,35 @@ const communities = [
 		name: 'CSC309',
 		description: "This course provides an introduction to the technologies used for developing Web applications. We discuss technologies for static and dynamic content generation, including N-tier, MVC architectures, and mobile supported web development. We also cover general web design principles, security, and web performance.",
 		memberCount: 1012,
-		imageUrl: 'communities/csc309.jpg'
+		imageUrl: 'communities/csc309.jpg',
+		users: [
+			{ name: 'Haider', username: 'user' },
+			{ name: 'Kirill', username: 'KirillTregubov', imageUrl: 'users/kirill.png', }
+		]
 	},
 	{
 		path: 'csc301',
 		name: 'CSC301',
 		description: "An introduction to agile development methods appropriate for medium-sized teams and rapidly-moving projects. Basic software development infrastructure; requirements elicitation and tracking; estimation and prioritization; teamwork skills; basic UML; design patterns and refactoring; security, discussion of ethical issues, and professional responsibility.",
 		memberCount: 536,
-		imageUrl: 'communities/csc301.jpg'
+		imageUrl: 'communities/csc301.jpg',
+		users: [{ name: 'Haider', username: 'user' }]
 	},
 	{
 		path: 'AnimeClub',
 		name: 'Anime Club',
 		description: "U of T's largest anime club. We have weekly meetings but feel free to make a post on the forum.",
 		memberCount: 1998,
-		imageUrl: 'communities/anime.jpg'
+		imageUrl: 'communities/anime.jpg',
+		users: [{ name: 'Haider', username: 'user' }]
 	},
 	{
 		path: 'WebDevClub',
 		name: 'Web Dev Club',
 		description: "U of T's largest anime club. We have weekly meetings but feel free to make a post on the forum.",
 		memberCount: 405,
-		imageUrl: 'communities/webdev.jpg'
+		imageUrl: 'communities/webdev.jpg',
+		users: []
 	}
 ];
 
@@ -151,6 +160,8 @@ export default function CommunityPage() {
 	const community = useParams().community;
 	const [isLoading, setIsLoading] = useState(true);
 	const [currentCommunity, setCurrentCommunity] = useState(null);
+	const [isCommunityMember, setIsCommunityMember] = useState(false);
+	const [showUserList, setShowUserList] = useState(false);
 	const [addPost, setAddPost] = useState(false);
 
 	useEffect(() => {
@@ -162,8 +173,27 @@ export default function CommunityPage() {
 
 			setCurrentCommunity(filteredCommunities[0]);
 			setIsLoading(false);
+
+			// Temporarily hardcode state
+			setIsCommunityMember(false);
+			setShowUserList(false);
 		}
 	}, [community, isLoading, currentCommunity]);
+
+	// Implement joining community in backend
+	const joinCommunity = () => {
+		if (isCommunityMember) {
+			alert(`Left ${currentCommunity.name}`);
+			setIsCommunityMember(false);
+		} else {
+			alert(`Joined ${currentCommunity.name}`);
+			setIsCommunityMember(true);
+		}
+	}
+
+	const toggleUserList = () => {
+		setShowUserList(!showUserList);
+	}
 
 	return (
 		<div>
@@ -171,28 +201,51 @@ export default function CommunityPage() {
 				? 'Loading...'
 				: currentCommunity
 					? <div className="communityPage">
-						<img className="cover" src={require(`../images/${currentCommunity.imageUrl}`).default} alt={currentCommunity.name + "'s banner"} />
-						<h2 className="badge">
-							<NumberFormat value={currentCommunity.memberCount} displayType={'text'} thousandSeparator={true} /> members
-						</h2>
-						<div className="communityContent">
-							<div className="communityInfo">
-								<h1>{currentCommunity.name}</h1>
-								<p>{currentCommunity.description}</p>
+						<div className="communityCard">
+							<img className="cover" src={require(`../images/${currentCommunity.imageUrl}`).default} alt={currentCommunity.name + "'s banner"} />
+							<h2 className="badge" onClick={() => toggleUserList()}>
+								<NumberFormat value={currentCommunity.memberCount} displayType={'text'} thousandSeparator={true} /> members
+							</h2>
+							<div className="communityContent">
+								<div className="communityInfo">
+									<h1>{currentCommunity.name}</h1>
+									<p>{currentCommunity.description}</p>
+									<div>
+										<button className={isCommunityMember ? 'disabled' : ''} onClick={() => joinCommunity(currentCommunity)}>
+											<UserGroupIcon />
+											{isCommunityMember ? 'Joined' : 'Join community'}
+										</button>
+									</div>
+									<div className="communityList">
+										
+										{currentCommunity.users && currentCommunity.users.length > 0
+											? showUserList && [ <h2 key="memberTitle">Members</h2>,
+												currentCommunity.users && currentCommunity.users.map((user, index) =>
+													<div key={index}>
+														<FriendPreview name={user.name} username={user.username} imageUrl={user.imageUrl} />
+													</div>
+												)
+											]
+											: showUserList && <div>
+												<h2>This community has no members.</h2>
+											</div>
+										}
+									</div>
+								</div>
 							</div>
-							<div>
-								{/* Posts need to be fetched from backend */}
-								{posts && posts.map((post, index) =>
-									<Post key={index} title={post.title} user={post.user} date={post.date} time={post.time} comments={post.comments} community={community} postId={index} />
-								)}
-							</div>
-
+						</div>
+						<div>
 							{addPost &&
 								<AddPost setAddPost={setAddPost} community={community} />
 							}
 							{!(addPost) &&
 								<button onClick={() => setAddPost(true)}>{'Add Post'}</button>
 							}
+
+							{/* Posts need to be fetched from backend */}
+							{posts && posts.map((post, index) =>
+								<Post key={index} title={post.title} user={post.user} date={post.date} time={post.time} comments={post.comments} community={community} postId={index} />
+							)}
 						</div>
 					</div>
 					: <MissingPage community={community} />

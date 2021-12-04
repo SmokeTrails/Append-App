@@ -36,7 +36,7 @@ div.layout .communityPreview:hover {
 	top: 0;
 	right: 0;
 	margin: 0.5rem;
-	padding: 0.25rem 0.5rem;
+	padding: 0.5rem 0.75rem;
 	backdrop-filter: blur(10px) invert(20%);
 	border-radius: var(--rounded-pill);
 	background-color: rgba(139, 92, 246, 0.4);
