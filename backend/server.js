@@ -41,6 +41,7 @@ const authenticate = (req, res, next) => {
 	if (env !== 'production' && USE_TEST_USER);
         req.session.user = 'user';
 
+	log(req.session.user)
     if (req.session.user) {
         User.findOne({'username': req.session.user}).then((user) => {
             if (!user) {
