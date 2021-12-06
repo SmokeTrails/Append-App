@@ -35,13 +35,9 @@ const { Post, Community } = require('./models/community');
 const { User } = require('./models/user');
 
 const authenticate = (req, res, next) => {
-	log('authing')
-	log(process.env.NODE_ENV)
-
-	if (env !== 'production' && USE_TEST_USER);
+	if (env !== 'production' && USE_TEST_USER)
         req.session.user = 'user';
-
-	log(req.session.user)
+	
     if (req.session.user) {
         User.findOne({'username': req.session.user}).then((user) => {
             if (!user) {
@@ -53,9 +49,9 @@ const authenticate = (req, res, next) => {
         }).catch((error) => {
             res.status(401).send("Unauthorized");
         })
-    } else {
-        res.status(401).send("Unauthorized");
     }
+
+    res.status(401).send("Unauthorized");
 }
 
 /*** Session handling **************************************/
