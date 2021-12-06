@@ -69,7 +69,7 @@ app.use(sessions({
 }))
 
 // A route to login and create a session
-app.post("/api/users/login", async (req, res) => {
+app.post("/api/login", async (req, res) => {
 	const username = req.body.username
 	const password = req.body.password
 	if (mongoose.connection.readyState != 1) {
@@ -100,7 +100,7 @@ app.post("/api/users/login", async (req, res) => {
 })
 
 // A route to logout a user
-app.get("/api/users/logout", async (req, res) => {
+app.get("/api/logout", async (req, res) => {
 	req.session.destroy(error => {
         if (error) {
             res.status(500).send(error);
@@ -111,7 +111,7 @@ app.get("/api/users/logout", async (req, res) => {
 })
 
 // A route to check if a user is logged in on the session
-app.get("/api/users/check-session", (req, res) => {
+app.get("/api/check-session", (req, res) => {
     if (env !== 'production' && USE_TEST_USER) { // test user on development environment.
 		log(process.env.TEST_USER_ON)
         req.session.user = 'user'
