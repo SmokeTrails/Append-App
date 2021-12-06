@@ -2,6 +2,7 @@
 
 const log = console.log;
 const cors = require('cors');
+const bcrypt = require('bcrypt');
 const express = require('express')
 const app = express();
 const path = require('path');
@@ -24,6 +25,7 @@ function isMongoError(error) {
 
 // import the mongoose models
 const { Post } = require('./models/community')
+const { User } = require('./models/user')
 
 //Create new post and send to database.
 app.post('/api/posts', async (req, res) => {
@@ -175,6 +177,108 @@ app.patch('/api/posts/:id', async (req, res) => {
 	}
 })
 
+/*** User API Routes below ************************************/
+// A post route to create a new user
+app.post('/api/users', async (req, res) => {
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	const salt = await bcrypt.genSalt(10)
+	const hash = await bcrypt.hash(req.body.password, salt)
+	const user = new User({
+		name: req.body.name,
+		username: req.body.username,
+		password: hash,
+		bio: req.body.bio,
+		interests: req.body.interests,
+		year: req.body.year,
+		program: req.body.program,
+		communities: [],
+		friends: [],
+		warnings: []
+	})
+
+	try {
+		log(user)
+		const newUser = await user.save()
+		res.send(newUser)
+
+	} catch(error) {
+		if (isMongoError(error)) {
+            res.status(500).send('Internal server error')
+        } else {
+            log(error)
+            res.status(400).send('Bad Request')
+        }
+	}
+})
+
+// A get route to get all the users
+app.get('/api/users', async (req, res) => {
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	try {
+		const users = await User.find()
+		res.send(users)
+		// res.send({users}) // just in case we need this
+	} catch(error) {
+		log(error)
+        res.status(500).send("Internal Server Error")
+	}
+})
+
+// A get route to get a user with a specific username
+app.get('/api/users/:username', async (req, res) => {
+	const username = req.params.username
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+	try {
+		const user = await User.findOne({'username': username})
+		if (!user) {
+			res.status(404).send('Resource not found')
+		}
+		else {
+			res.send(user)
+		}
+	} catch(error) {
+		log(error)
+        res.status(500).send("Internal Server Error")
+	}
+})
+
+// A delete route to delete a user with a specific username
+app.delete('/api/users/:username', async (req, res) => {
+	const username = req.params.username
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+	try {
+		const user = await User.findOneAndRemove({'username': username})
+		if (!user) {
+			res.status(404).send('Resource not found')
+		}
+		else {
+			res.send(user)
+		}
+	} catch(error) {
+		log(error)
+        res.status(500).send("Internal Server Error")
+	}
+})
+
+/*** Webpage Routes below ************************************/
 app.get('*', (req, res) => {
 	res.send('<h1>Hello World</h1>')
 })

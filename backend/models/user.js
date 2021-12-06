@@ -1,7 +1,6 @@
 /* Mongoose model for user accounts */
 const mongoose = require('mongoose');
-
-const User = mongoose.model('User',{
+const UserSchema = new mongoose.Schema({ 
     name: {
         type: String,
         required: true,
@@ -14,16 +13,12 @@ const User = mongoose.model('User',{
         minlegth: 1,
         trim: true
     },
-    // friendCount: {
-    //     type: Number,
-    //     required: true,
-    //     default: 0
-    // },
-    // clubCount: {
-    //     type: Number,
-    //     required: true,
-    //     default: 0
-    // },
+    password: {
+        type: String,
+        required: true,
+        minlegth: 1, 
+        trim: true
+    },
     bio: {
         type: String,
         required: true,
@@ -45,22 +40,25 @@ const User = mongoose.model('User',{
         required: true,
         trim: true
     },
-    // courseCodes: {
-    //     type: [String],
-    //     required: true,
-    //     trim: true
-    // },
-    // communityNames: {
-	// 	type: [String],
-    //     required: true,
-    //     trim: true
-    // }
 	communities: [
 		{
 		  type: mongoose.Schema.Types.ObjectId,
 		  ref: 'Community'
 		}
-	]
-})
+	],
+
+    friends: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ], 
+    warnings: { // Warnings they receive from admin
+        type: [String],
+        required: true,
+        trim: true
+    }}, {collection: 'Users'})
+
+const User = mongoose.model('User', UserSchema)
 
 module.exports = { User };
