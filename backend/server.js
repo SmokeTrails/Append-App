@@ -24,7 +24,7 @@ function isMongoError(error) {
 }
 
 // import the mongoose models
-const { Comment, Post, Community } = require('./models/community')
+const { Post, Community } = require('./models/community')
 const { User } = require('./models/user')
 
 //Create new community:

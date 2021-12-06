@@ -1,7 +1,7 @@
 /* Community mongoose model */
 const mongoose = require('mongoose');
 
-const Comment = mongoose.model('Comment', {
+const CommentS = new mongoose.Schema({
 	User: {
 		type: String,
 		required: true,
@@ -28,7 +28,7 @@ const Comment = mongoose.model('Comment', {
 	}
 })
 
-const Post = mongoose.model('Post', {
+const PostS = new mongoose.Schema({
 	Title: {
 		type: String,
 		required: true,
@@ -71,10 +71,10 @@ const Post = mongoose.model('Post', {
 		minlegth: 1,
 		trim: true
 	},
-	Comments: [Comment]
+	Comments: [CommentS]
 })
 
-const Community = mongoose.model('Community', {
+const CommunityS = new mongoose.Schema({
 	path: {
 		type: String,
 		required: true,
@@ -108,7 +108,10 @@ const Community = mongoose.model('Community', {
 		}
 	],
 
-	posts: [Post]
+	posts: [PostS]
 })
 
-module.exports = { Comment, Post, Community };
+const Community = mongoose.model('Community', CommunityS);
+const Post = mongoose.model('Post', PostS);
+
+module.exports = { Post, Community };
