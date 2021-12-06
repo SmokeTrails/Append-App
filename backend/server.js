@@ -418,6 +418,97 @@ app.delete('/api/users/:username', async (req, res) => {
 	}
 })
 
+// A post route to add a post or community to the user
+app.post('/api/users/:username', async (req, res) => {
+	const username = req.params.username
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+	try {
+		const user = await User.findOne({'username': username})
+		if (!user) {
+			res.status(404).send('Resource not found')
+		}
+		else {
+			if (req.body.what === "friend") {
+				const friend = await User.findOne({'username': req.body.friendUsername})
+				if (!friend) {
+					res.status(404).send('Resource not found')
+				}
+				else {
+					user.friends.push(friend._id)
+					await user.save()
+					res.send({friend, user})
+				}
+			} else if(req.body.what === "community") {
+				const community = await Community.findOne({'name': req.body.communityName})
+				if (!community) {
+					res.status(404).send('Resource not found')
+
+				}
+				else {
+					user.communities.push(community._id)
+					await user.save()
+					res.send({community, user})
+				}
+			} else {
+				res.status(400).send('Bad Request')
+			}
+		}
+	} catch(error) {
+		log(error)
+        res.status(500).send("Internal Server Error")
+	}
+
+})
+
+// A delete route to delete a friend or community from the user 
+app.delete('/api/users/:username/:what', async (req, res) => {
+	const username = req.params.username
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+	try {
+		const user = await User.findOne({'username': username})
+		if (!user) {
+			res.status(404).send('Resource not found')
+		}
+		else {
+			if (req.params.what === "friend") {
+				const friend = await User.findOne({'username': req.body.friendUsername})
+				if (!friend) {
+					res.status(404).send('Resource not found')
+				}
+				else {
+					user.friends.pull(friend._id)
+					await user.save()
+					res.send({friend, user})
+				}
+			} else if(req.params.what === "community") {
+				const community = await Community.findOne({'name': req.body.communityName})
+				if (!community) {
+					res.status(404).send('Resource not found')
+
+				}
+				else {
+					user.communities.pull(community._id)
+					await user.save()
+					res.send({community, user})
+				}
+			} else {
+				res.status(400).send('Bad Request')
+			}
+		}
+	} catch(error) {
+		log(error)
+        res.status(500).send("Internal Server Error")
+	}
+})
+
 /*** Webpage Routes below ************************************/
 app.get('*', (req, res) => {
 	res.send('<h1>Hello World</h1>')
