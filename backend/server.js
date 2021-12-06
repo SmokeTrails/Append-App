@@ -35,6 +35,9 @@ const { Post, Community } = require('./models/community');
 const { User } = require('./models/user');
 
 const authenticate = (req, res, next) => {
+	log('authing')
+	log(process.env.NODE_ENV)
+
 	if (env !== 'production' && USE_TEST_USER);
         req.session.user = 'user';
 
