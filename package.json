@@ -1,7 +1,7 @@
 {
 	"scripts": {
 		"dev": "concurrently --kill-others-on-fail \"cd backend && nodemon server.js\" \"cd frontend && npm run start\"",
-		"production": "node backend/server.js",
+		"production": "cd backend && npm install && node server.js",
 		"heroku-postbuild": "cd frontend && npm install && npm run build"
 	},
 	"dependencies": {
