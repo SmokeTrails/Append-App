@@ -375,7 +375,7 @@ app.get('/api/users', async (req, res) => {
 })
 
 // A get route to get a user with a specific username
-app.get('/api/users/:username', async (req, res) => {
+app.get('/api/users/byusername/:username', async (req, res) => {
 	const username = req.params.username
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
@@ -384,6 +384,32 @@ app.get('/api/users/:username', async (req, res) => {
 	}
 	try {
 		const user = await User.findOne({'username': username})
+		if (!user) {
+			res.status(404).send('Resource not found')
+		}
+		else {
+			res.send(user)
+		}
+	} catch(error) {
+		log(error)
+        res.status(500).send("Internal Server Error")
+	}
+})
+
+// A get route to get a user with a specific id
+app.get('/api/users/byid/:id', async (req, res) => {
+	const id = req.params.id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send()
+		return;
+	}
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+	try {
+		const user = await User.findById(id)
 		if (!user) {
 			res.status(404).send('Resource not found')
 		}
@@ -506,6 +532,44 @@ app.delete('/api/users/:username/:what', async (req, res) => {
 	} catch(error) {
 		log(error)
         res.status(500).send("Internal Server Error")
+	}
+})
+
+// A route for changing a user's profile
+app.patch('/api/users/:username', async (req, res) => {
+	const username = req.params.username
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+	// Find the fields to update and their values.
+	const fieldsToUpdate = {}
+	req.body.map((change) => {
+		const propertyToChange = change.path.substr(1) // getting rid of the '/' character
+		fieldsToUpdate[propertyToChange] = change.value
+	})
+	// If the password is being changed, rehash the password
+	if ("password" in fieldsToUpdate) {
+		const salt = await bcrypt.genSalt(10)
+		const hash = await bcrypt.hash(fieldsToUpdate["password"], salt)
+		fieldsToUpdate["password"] = hash
+	}
+	try {
+		const user = await User.findOneAndUpdate({'username': username}, {$set: fieldsToUpdate}, {new: true, useFindAndModify: false})
+		if (!user) {
+			res.status(404).send('Resource not found')
+		} else {   
+			res.send(user)
+		}
+	} catch (error) {
+		log(error)
+		if (isMongoError(error)) {
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request')
+		}
 	}
 })
 
