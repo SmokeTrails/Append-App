@@ -24,31 +24,29 @@ function isMongoError(error) {
 }
 
 // import the mongoose models
-const { Post } = require('./models/community')
+const { Comment, Post, Community } = require('./models/community')
 const { User } = require('./models/user')
 
-//Create new post and send to database.
-app.post('/api/posts', async (req, res) => {
-	// check mongoose connection established.
+//Create new community:
+app.post('/api/community', async (req, res) => {
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
 		res.status(500).send('Internal server error')
 		return;
 	}  
-	//title: e.target[0].value, user: props.user, description: e.target[1].value, date: date, time: time, comments: '0', community: props.community, postId: props.comments + "_" + props.postId };
-	const post = new Post({
-		Title: req.body.Title,
-		User: req.body.User,
-		Description: req.body.Description,
-		Date: req.body.Date,
-		Time: req.body.Time,
-		Comments: req.body.Comments,
-		Community: req.body.Community,
-		PostID: req.body.PostID,
+
+	const community = new Community({
+		path: req.body.path,
+		name: req.body.name,
+		creator: req.body.creator,
+		description: req.body.description,
+		imageUrl: req.body.imageURL,
+		members: [],
+		posts: []
 	})
 
 	try {
-		const result = await post.save()	
+		const result = await community.save()	
 		res.send(result)
 	} catch(error) {
 		log(error) 
@@ -60,8 +58,97 @@ app.post('/api/posts', async (req, res) => {
 	}
 })
 
-//Get all posts
-app.get('/api/posts', async (req, res) => {
+//Create new post inside community
+app.post('/api/community/:communityID', async (req, res) => {
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}  
+
+	const id = req.params.communityID
+
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send()
+		return;
+	}
+
+	const post = new Post({
+		Title: req.body.title,
+		User: req.body.user,
+		Description: req.body.description,
+		Date: req.body.date,
+		Time: req.body.time,
+		Comments: [],
+		CommunityID: req.body.communityID,
+		PostID: req.body.postID,
+	})
+
+	try {
+		const community = await Community.findById(id)
+		
+		if (!community) {
+			res.status(404).send('Resteraunt not found')
+		} else {
+			community.posts.push(post)
+			res.send({community, post})
+			community.save()
+		}
+	} catch(error) {
+		log(error) 
+		if (isMongoError(error)) { 
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request')
+		}
+	}
+})
+
+//Create comment inside of post
+app.post('/api/posts/:postID', async (req, res) => {
+	// check mongoose connection established.
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	} 
+	const post_id = req.params.postID
+
+	if (!ObjectID.isValid(post_id)) {
+		res.status(404).send()
+		return;
+	}
+
+	const comment = new Comment({
+		user: req.body.user,
+		content: req.body.content,
+		date: req.body.date,
+		time: req.body.time,
+	})
+
+	try {
+		const post = await Community.posts.findById(id)
+		
+		if (!post) {
+			res.status(404).send('Resteraunt not found')
+		} else {
+			post.comments.push(comment)
+			res.send({post, comment})
+			post.save()
+		}
+	} catch(error) {
+		log(error) 
+		if (isMongoError(error)) { 
+			res.status(500).send('Internal server error')
+		} else {
+			res.status(400).send('Bad Request')
+		}
+	}
+})
+
+//Get all communities
+app.get('/api/community', async (req, res) => {
 
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
@@ -71,17 +158,16 @@ app.get('/api/posts', async (req, res) => {
 
 	//Get posts
 	try {
-		const posts = await Post.find()
-		res.send(posts) // just the array
-		//res.send({ posts }) // can wrap in object if want to add more properties
+		const communities = await Community.find()
+		res.send(communities)
 	} catch(error) {
 		log(error)
 		res.status(500).send("Internal Server Error")
 	}
 })
 
-//Get specific post using PostID
-app.get('/api/posts/:id', async (req, res) => {
+//Get specific community
+app.get('/api/community/:id', async (req, res) => {
 	const id = req.params.id
 
 	if (!ObjectId.isValid(id)) {
@@ -97,12 +183,11 @@ app.get('/api/posts/:id', async (req, res) => {
 
 	//If id valid, findById
 	try {
-		const post = await Post.findById(id)
-		if (!post) {
-			res.status(404).send('Post not found')
+		const community = await Community.findById(id)
+		if (!community) {
+			res.status(404).send('Community not found')
 		} else {
-			//res.send({post})   
-			res.send(post)
+			res.send(community)
 		}
 	} catch(error) {
 		log(error)
@@ -110,11 +195,11 @@ app.get('/api/posts/:id', async (req, res) => {
 	}
 })
 
-//Delete Post by ID
-app.delete('/api/posts/:id', async (req, res) => {
+//Delete Community by ID
+app.delete('/api/community/:id',  async (req, res) => {
 	const id = req.params.id
 
-	if (!ObjectId.isValid(id)) {
+	if (!ObjectID.isValid(id)) {
 		res.status(404).send('Resource not found')
 		return;
 	}
@@ -126,24 +211,26 @@ app.delete('/api/posts/:id', async (req, res) => {
 	} 
 
 	try {
-		const post = await Post.findByIdAndRemove(id)
-		if (!post) {
-			res.status(404).send()
-		} else {   
-			res.send(post)
-		}
+		const community = await Community.findById(id)
+		
+		if (!resteraunt) {
+			res.status(404).send('Resteraunt not found')
+		} else {
+			res.send(community)
+	}
 	} catch(error) {
 		log(error)
-		res.status(500).send() // server error, could not delete.
+		res.status(500).send('Internal Server Error')
 	}
 })
 
-//Edit Post using patch since dont need to replace all information, only the description
-app.patch('/api/posts/:id', async (req, res) => {
-	const id = req.params.id
+//Delete Post by ID
+app.delete('/api/community/:id/:postID',  async (req, res) => {
+	const community_id = req.params.id
+	const post_id = req.params.postID
 
-	if (!ObjectId.isValid(id)) {
-		res.status(404).send()
+	if (!ObjectID.isValid(community_id) || !ObjectID.isValid(post_id)) {
+		res.status(404).send('Resource not found')
 		return;
 	}
 
@@ -153,30 +240,83 @@ app.patch('/api/posts/:id', async (req, res) => {
 		return;
 	}
 
-	// Find the fields to update and their values.
-	const fieldsToUpdate = {}
-	req.body.map((change) => {
-		const propertyToChange = change.path.substr(1) // getting rid of the '/' character
-		fieldsToUpdate[propertyToChange] = change.value
-	})
-
 	try {
-		const post = await Post.findOneAndUpdate({_id: id}, {$set: fieldsToUpdate}, {new: true, useFindAndModify: false})
-		if (!post) {
-			res.status(404).send('Resource not found')
-		} else {   
-			res.send(post)
-		}
-	} catch (error) {
-		log(error)
-		if (isMongoError(error)) {
-			res.status(500).send('Internal server error')
+		const community = await Community.findById(community_id)
+		
+		if (!community) {
+			res.status(404).send('Community not found')
 		} else {
-			res.status(400).send('Bad Request')
-		}
+		Community.findById(id, function(err, parent) {
+			var post = parent.posts.id(post_id);
+			if (!post) {
+				res.status(404).send('Post not found')
+			} else {
+				
+				for (let index = 0; index < parent.posts.length; index++) {
+					if (parent.posts[index]._id == resv_id){
+						const remov = parent.post[index]
+						parent.posts.splice(index, 1);
+						parent.save()
+						res.send({remov, parent})
+					}
+				}
+			}
+		});
+	}
+	} catch(error) {
+		log(error)
+		res.status(500).send('Internal Server Error')
 	}
 })
 
+//Delete Comment by ID
+app.delete('/api/posts/:postID/:commentID',  async (req, res) => {
+	const post_id = req.params.postID
+	const comment_id = req.params.commentID
+
+	if (!ObjectID.isValid(comment_id) || !ObjectID.isValid(post_id)) {
+		res.status(404).send('Resource not found')
+		return;
+	}
+
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	try {
+		const post = await Post.findById(post_id)
+		
+		if (!post) {
+			res.status(404).send('Post not found')
+		} else {
+			Post.findById(id, function(err, parent) {
+			var comment = parent.posts.id(comment_id);
+			if (!comment) {
+				res.status(404).send('Comment not found')
+			} else {
+				
+				for (let index = 0; index < parent.comments.length; index++) {
+					if (parent.comments[index]._id == resv_id){
+						const remov = parent.comments[index]
+						parent.comments.splice(index, 1);
+						parent.save()
+						res.send({remov, parent})
+					}
+				}
+			}
+		});
+	}
+	} catch(error) {
+		log(error)
+		res.status(500).send('Internal Server Error')
+	}
+})
+
+// app.get('*', (req, res) => {
+// 	res.send('<h1>Hello World</h1>')
+// })
 /*** User API Routes below ************************************/
 // A post route to create a new user
 app.post('/api/users', async (req, res) => {
