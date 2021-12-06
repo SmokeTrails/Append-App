@@ -1,5 +1,7 @@
 'use strict';
 
+const env = process.env.NODE_ENV
+const USE_TEST_USER = env !== 'production' && process.env.TEST_USER_ON
 const log = console.log;
 const cors = require('cors');
 const bcrypt = require('bcrypt');
@@ -7,7 +9,7 @@ const express = require('express')
 const app = express();
 const path = require('path');
 const sessions = require('express-session')
-const cookieParser = require('cookie-parser')
+const MongoStore = require('connect-mongo')
 app.use(cors());
 app.options('*', cors());
 
@@ -29,8 +31,100 @@ function isMongoError(error) {
 const { Post, Community } = require('./models/community')
 const { User } = require('./models/user')
 
+const authenticate = (req, res, next) => {
+	if (env !== 'production' && USE_TEST_USER)
+        req.session.user = 'user'
+
+    if (req.session.user) {
+        User.findOne({'username': req.session.user}).then((user) => {
+            if (!user) {
+                return Promise.reject()
+            } else {
+                req.user = user
+                next()
+            }
+        }).catch((error) => {
+            res.status(401).send("Unauthorized")
+        })
+    } else {
+        res.status(401).send("Unauthorized")
+    }
+}
+
+/*** Session handling **************************************/
+// Create a session and session cookie
+const oneDay = 1000 * 60 * 60 * 24
+app.use(sessions({
+	secret: "thisismysecretkeyngrieugbitgk",
+	saveUninitialized: true,
+	cookie: { maxAge: oneDay},
+	resave: false,
+	store: env === 'production' ? MongoStore.create({
+		mongoUrl: 'mongodb+srv://team51:54321@cluster0.dsirf.mongodb.net/Team51?retryWrites=true&w=majority'
+}) : null
+}))
+
+// A route to login and create a session
+app.post("/users/login", async (req, res) => {
+	const username = req.body.username
+	const password = req.body.password
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+	try {
+		const user = await User.findOne({'username': username})
+		if (!user) {
+			res.status(400).send()
+		}
+		else {
+			const match = await bcrypt.compare(password, user.password)
+			if (match) {
+				req.session.user = username
+				res.send({currentUser: username})
+			} 
+			else {
+				res.status(400).send()
+			}
+		}
+	} catch(error) {
+		log(error)
+        res.status(400).send()
+	}
+	
+})
+
+// A route to logout a user
+app.get("/users/logout", async (req, res) => {
+	req.session.destroy(error => {
+        if (error) {
+            res.status(500).send(error);
+        } else {
+            res.send()
+        }
+    });
+})
+
+// A route to check if a user is logged in on the session
+app.get("/users/check-session", (req, res) => {
+    if (env !== 'production' && USE_TEST_USER) { // test user on development environment.
+		log(process.env.TEST_USER_ON)
+        req.session.user = 'user'
+        res.send({ currentUser: 'user' })
+        return;
+    }
+    if (req.session.user) {
+        res.send({ currentUser: req.session.user});
+    } else {
+        res.status(401).send();
+    }
+});
+
+
+/*** Community API routes **************************************/
 //Create new community:
-app.post('/api/community', async (req, res) => {
+app.post('/api/community', authenticate, async (req, res) => {
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
 		res.status(500).send('Internal server error')
@@ -61,7 +155,7 @@ app.post('/api/community', async (req, res) => {
 })
 
 //Create new post inside community
-app.post('/api/community/:communityID', async (req, res) => {
+app.post('/api/community/:communityID', authenticate, async (req, res) => {
 	// check mongoose connection established.
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
@@ -108,7 +202,7 @@ app.post('/api/community/:communityID', async (req, res) => {
 })
 
 //Create comment inside of post
-app.post('/api/posts/:postID', async (req, res) => {
+app.post('/api/posts/:postID', authenticate, async (req, res) => {
 	// check mongoose connection established.
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
@@ -150,7 +244,7 @@ app.post('/api/posts/:postID', async (req, res) => {
 })
 
 //Get all communities
-app.get('/api/community', async (req, res) => {
+app.get('/api/community', authenticate, async (req, res) => {
 
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
@@ -169,7 +263,7 @@ app.get('/api/community', async (req, res) => {
 })
 
 //Get specific community
-app.get('/api/community/:id', async (req, res) => {
+app.get('/api/community/:id', authenticate, async (req, res) => {
 	const id = req.params.id
 
 	if (!ObjectId.isValid(id)) {
@@ -198,7 +292,7 @@ app.get('/api/community/:id', async (req, res) => {
 })
 
 //Delete Community by ID
-app.delete('/api/community/:id',  async (req, res) => {
+app.delete('/api/community/:id', authenticate, async (req, res) => {
 	const id = req.params.id
 
 	if (!ObjectID.isValid(id)) {
@@ -227,7 +321,7 @@ app.delete('/api/community/:id',  async (req, res) => {
 })
 
 //Delete Post by ID
-app.delete('/api/community/:id/:postID',  async (req, res) => {
+app.delete('/api/community/:id/:postID', authenticate, async (req, res) => {
 	const community_id = req.params.id
 	const post_id = req.params.postID
 
@@ -272,7 +366,7 @@ app.delete('/api/community/:id/:postID',  async (req, res) => {
 })
 
 //Delete Comment by ID
-app.delete('/api/posts/:postID/:commentID',  async (req, res) => {
+app.delete('/api/posts/:postID/:commentID', authenticate, async (req, res) => {
 	const post_id = req.params.postID
 	const comment_id = req.params.commentID
 
@@ -359,7 +453,7 @@ app.post('/api/users', async (req, res) => {
 })
 
 // A get route to get all the users
-app.get('/api/users', async (req, res) => {
+app.get('/api/users', authenticate, async (req, res) => {
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
 		res.status(500).send('Internal server error')
@@ -377,7 +471,7 @@ app.get('/api/users', async (req, res) => {
 })
 
 // A get route to get a user with a specific username
-app.get('/api/users/byusername/:username', async (req, res) => {
+app.get('/api/users/byusername/:username', authenticate, async (req, res) => {
 	const username = req.params.username
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
@@ -399,7 +493,7 @@ app.get('/api/users/byusername/:username', async (req, res) => {
 })
 
 // A get route to get a user with a specific id
-app.get('/api/users/byid/:id', async (req, res) => {
+app.get('/api/users/byid/:id', authenticate, async (req, res) => {
 	const id = req.params.id
 	if (!ObjectID.isValid(id)) {
 		res.status(404).send()
@@ -425,7 +519,7 @@ app.get('/api/users/byid/:id', async (req, res) => {
 })
 
 // A delete route to delete a user with a specific username
-app.delete('/api/users/:username', async (req, res) => {
+app.delete('/api/users/:username', authenticate, async (req, res) => {
 	const username = req.params.username
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
@@ -447,7 +541,7 @@ app.delete('/api/users/:username', async (req, res) => {
 })
 
 // A post route to add a post or community to the user
-app.post('/api/users/:username', async (req, res) => {
+app.post('/api/users/:username', authenticate, async (req, res) => {
 	const username = req.params.username
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
@@ -493,7 +587,7 @@ app.post('/api/users/:username', async (req, res) => {
 })
 
 // A delete route to delete a friend or community from the user 
-app.delete('/api/users/:username/:what', async (req, res) => {
+app.delete('/api/users/:username/:what', authenticate, async (req, res) => {
 	const username = req.params.username
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
@@ -538,7 +632,7 @@ app.delete('/api/users/:username/:what', async (req, res) => {
 })
 
 // A route for changing a user's profile
-app.patch('/api/users/:username', async (req, res) => {
+app.patch('/api/users/:username', authenticate, async (req, res) => {
 	const username = req.params.username
 	// check mongoose connection established.
 	if (mongoose.connection.readyState != 1) {
