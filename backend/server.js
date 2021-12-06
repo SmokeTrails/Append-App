@@ -18,7 +18,7 @@ const { mongoose } = require('./mongoose');
 mongoose.set('bufferCommands', false);  // don't buffer db requests if the db server isn't connected - minimizes http requests hanging if this is the case.
 
 // to validate object IDs
-const { ObjectID } = require('mongodb');
+const { ObjectId } = require('mongodb');
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -133,7 +133,7 @@ app.post('/api/community/create', authenticate, async (req, res) => {
 		log('Issue with mongoose connection')
 		res.status(500).send('Internal server error')
 		return;
-	}  
+	}
 
 	const community = new Community({
 		path: req.body.path,
@@ -169,7 +169,7 @@ app.post('/api/community/:communityID', authenticate, async (req, res) => {
 
 	const id = req.params.communityID
 
-	if (!ObjectID.isValid(id)) {
+	if (!ObjectId.isValid(id)) {
 		res.status(404).send()
 		return;
 	}
@@ -215,7 +215,7 @@ app.post('/api/posts/:postID', authenticate, async (req, res) => {
 	} 
 	const post_id = req.params.postID
 
-	if (!ObjectID.isValid(post_id)) {
+	if (!ObjectId.isValid(post_id)) {
 		res.status(404).send()
 		return;
 	}
@@ -299,7 +299,7 @@ app.get('/api/community/:id', authenticate, async (req, res) => {
 app.delete('/api/community/:id', authenticate, async (req, res) => {
 	const id = req.params.id
 
-	if (!ObjectID.isValid(id)) {
+	if (!ObjectId.isValid(id)) {
 		res.status(404).send('Resource not found')
 		return;
 	}
@@ -329,7 +329,7 @@ app.delete('/api/community/:id/:postID', authenticate, async (req, res) => {
 	const community_id = req.params.id
 	const post_id = req.params.postID
 
-	if (!ObjectID.isValid(community_id) || !ObjectID.isValid(post_id)) {
+	if (!ObjectId.isValid(community_id) || !ObjectId.isValid(post_id)) {
 		res.status(404).send('Resource not found')
 		return;
 	}
@@ -374,7 +374,7 @@ app.delete('/api/posts/:postID/:commentID', authenticate, async (req, res) => {
 	const post_id = req.params.postID
 	const comment_id = req.params.commentID
 
-	if (!ObjectID.isValid(comment_id) || !ObjectID.isValid(post_id)) {
+	if (!ObjectId.isValid(comment_id) || !ObjectId.isValid(post_id)) {
 		res.status(404).send('Resource not found')
 		return;
 	}
@@ -500,7 +500,7 @@ app.get('/api/users/byusername/:username', authenticate, async (req, res) => {
 // A get route to get a user with a specific id
 app.get('/api/users/byid/:id', authenticate, async (req, res) => {
 	const id = req.params.id
-	if (!ObjectID.isValid(id)) {
+	if (!ObjectId.isValid(id)) {
 		res.status(404).send()
 		return;
 	}
