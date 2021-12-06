@@ -1,59 +1,63 @@
 'use strict';
 
-const env = process.env.NODE_ENV
-const USE_TEST_USER = env !== 'production' && process.env.TEST_USER_ON
+const env = process.env.NODE_ENV;
+const USE_TEST_USER = env !== 'production' && process.env.TEST_USER_ON;
 const log = console.log;
 const cors = require('cors');
 const bcrypt = require('bcrypt');
-const express = require('express')
+const express = require('express');
 const app = express();
 const path = require('path');
-const sessions = require('express-session')
-const MongoStore = require('connect-mongo')
+const sessions = require('express-session');
+const MongoStore = require('connect-mongo');
 app.use(cors());
 app.options('*', cors());
 
 // mongoose and mongo connection
-const { mongoose } = require('./mongoose')
+const { mongoose } = require('./mongoose');
 mongoose.set('bufferCommands', false);  // don't buffer db requests if the db server isn't connected - minimizes http requests hanging if this is the case.
 
 // to validate object IDs
-const { ObjectID } = require('mongodb')
+const { ObjectID } = require('mongodb');
 
-const bodyParser = require('body-parser') 
-app.use(bodyParser.json())
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
+// serve static react build
+app.use(express.static(path.join(__dirname, '../frontend/build')));
 
 function isMongoError(error) {
 	return typeof error === 'object' && error !== null && error.name === "MongoNetworkError"
 }
 
 // import the mongoose models
-const { Post, Community } = require('./models/community')
-const { User } = require('./models/user')
+const { Post, Community } = require('./models/community');
+const { User } = require('./models/user');
 
 const authenticate = (req, res, next) => {
-	if (env !== 'production' && USE_TEST_USER)
-        req.session.user = 'user'
+	if (env !== 'production' && USE_TEST_USER);
+        req.session.user = 'user';
 
     if (req.session.user) {
         User.findOne({'username': req.session.user}).then((user) => {
             if (!user) {
-                return Promise.reject()
+                return Promise.reject();
             } else {
-                req.user = user
-                next()
+                req.user = user;
+                next();
             }
         }).catch((error) => {
-            res.status(401).send("Unauthorized")
+            res.status(401).send("Unauthorized");
         })
     } else {
-        res.status(401).send("Unauthorized")
+        res.status(401).send("Unauthorized");
     }
 }
 
 /*** Session handling **************************************/
 // Create a session and session cookie
-const oneDay = 1000 * 60 * 60 * 24
+const oneDay = 1000 * 60 * 60 * 24;
+
 app.use(sessions({
 	secret: "thisismysecretkeyngrieugbitgk",
 	saveUninitialized: true,
@@ -65,7 +69,7 @@ app.use(sessions({
 }))
 
 // A route to login and create a session
-app.post("/users/login", async (req, res) => {
+app.post("/api/users/login", async (req, res) => {
 	const username = req.body.username
 	const password = req.body.password
 	if (mongoose.connection.readyState != 1) {
@@ -96,7 +100,7 @@ app.post("/users/login", async (req, res) => {
 })
 
 // A route to logout a user
-app.get("/users/logout", async (req, res) => {
+app.get("/api/users/logout", async (req, res) => {
 	req.session.destroy(error => {
         if (error) {
             res.status(500).send(error);
@@ -107,7 +111,7 @@ app.get("/users/logout", async (req, res) => {
 })
 
 // A route to check if a user is logged in on the session
-app.get("/users/check-session", (req, res) => {
+app.get("/api/users/check-session", (req, res) => {
     if (env !== 'production' && USE_TEST_USER) { // test user on development environment.
 		log(process.env.TEST_USER_ON)
         req.session.user = 'user'
@@ -124,7 +128,7 @@ app.get("/users/check-session", (req, res) => {
 
 /*** Community API routes **************************************/
 //Create new community:
-app.post('/api/community', authenticate, async (req, res) => {
+app.post('/api/community/create', authenticate, async (req, res) => {
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
 		res.status(500).send('Internal server error')
@@ -671,8 +675,11 @@ app.patch('/api/users/:username', authenticate, async (req, res) => {
 })
 
 /*** Webpage Routes below ************************************/
+// app.get('*', (req, res) => {
+// 	res.sendFile(__dirname + "/frontend/public/index.html");
+// })
 app.get('*', (req, res) => {
-	res.sendFile(__dirname + "/frontend/public/index.html");
+	res.sendFile(path.join(__dirname + '/../frontend/build/index.html'));
 })
 
 /*************************************************/
