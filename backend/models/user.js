@@ -19,13 +19,19 @@ const UserSchema = new mongoose.Schema({
         minlegth: 1, 
         trim: true
     },
+    imageUrl: {
+        type: String,
+        required: true,
+        minlegth: 1, 
+        trim: true
+    },
     bio: {
         type: String,
         required: true,
         trim: true
     },
     interests: {
-        type: [String],
+        type: String,
         required: true,
         trim: true
     },

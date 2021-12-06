@@ -428,6 +428,7 @@ app.post('/api/users', async (req, res) => {
 		name: req.body.name,
 		username: req.body.username,
 		password: hash,
+		imageUrl: 'users/DefaultPic.png',
 		bio: req.body.bio,
 		interests: req.body.interests,
 		year: req.body.year,
@@ -671,7 +672,7 @@ app.patch('/api/users/:username', authenticate, async (req, res) => {
 
 /*** Webpage Routes below ************************************/
 app.get('*', (req, res) => {
-	res.send('<h1>Hello World</h1>')
+	res.sendFile(__dirname + "/frontend/public/index.html");
 })
 
 /*************************************************/
