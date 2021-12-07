@@ -334,8 +334,8 @@ export const addComment = (formComp, dashboardComp) => {
 
 export const deleteCommunity = (communityPath) => {
 	return fetch(`/api/community/${communityPath}`, {
+		method: 'DELETE',
 		headers: {
-			method: "delete",
 			"Content-Type": "application/json"
 		}
 	})

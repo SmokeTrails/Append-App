@@ -430,12 +430,11 @@ app.delete('/api/community/:communityPath', authenticate, async (req, res) => {
 
 	// Find by path
 	try {
-		const community = await Community.findOne({"path" : {$regex : communityPath}}).populate("members")
+		const community = await Community.findOne({"path" : {$regex : communityPath}}).remove().exec();
 		if (!community) {
 			res.status(404).send('Community not found')
 			return
 		}
-		
 		res.send(community)
 	} catch (error) {
 		log(error)
