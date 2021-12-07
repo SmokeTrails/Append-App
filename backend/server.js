@@ -831,11 +831,18 @@ app.patch('/api/users/:username', authenticate, async (req, res) => {
 		return;
 	}
 	// Find the fields to update and their values.
+	// console.log(req.body)
+	// const fieldsToUpdate = {}
+	// req.body.map((change) => {
+	// 	console.log(change)
+	// 	const propertyToChange = change.path.substr(1) // getting rid of the '/' character
+	// 	fieldsToUpdate[propertyToChange] = change.value
+	// })
 	const fieldsToUpdate = {}
-	req.body.map((change) => {
-		const propertyToChange = change.path.substr(1) // getting rid of the '/' character
-		fieldsToUpdate[propertyToChange] = change.value
-	})
+	for (const [key, value] of Object.entries(req.body)) {
+		fieldsToUpdate[key] = value;
+	  }
+
 	// If the password is being changed, rehash the password
 	if ("password" in fieldsToUpdate) {
 		const salt = await bcrypt.genSalt(10)
@@ -843,6 +850,7 @@ app.patch('/api/users/:username', authenticate, async (req, res) => {
 		fieldsToUpdate["password"] = hash
 	}
 	try {
+		console.log(fieldsToUpdate)
 		const user = await User.findOneAndUpdate({ 'username': username }, { $set: fieldsToUpdate }, { new: true, useFindAndModify: false })
 		if (!user) {
 			res.status(404).send('Resource not found')

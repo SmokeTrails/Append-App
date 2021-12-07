@@ -19,6 +19,26 @@ export const getUser = (username) => {
 		});
 }
 
+export const updateUser = (username, user) => {
+	return fetch(`/api/users/${username}`, {
+		method: 'PATCH',
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(user)
+	})
+		.then(res => {
+			// console.log(res)
+			if (res.status === 200)
+				return res.json();
+			else throw 'Error'
+		})
+		.catch(error => {
+			console.log(error);
+			return null;
+		});
+}
+
 export const getUserById = (userId) => {
 	return fetch(`/api/users/byid/${userId}`, {
 		headers: {

@@ -98,11 +98,8 @@ function AddPost(props) {
 		var date = today.getMonth() + 1 + '/' + today.getDate() + '/' + today.getFullYear();
 		const newPost = { title: e.target[0].value, user: props.user, description: e.target[1].value, date: date, time: time };
 
-		// New post needs to be uploaded to backend
-		console.log(newPost);
-		// posts.push(newPost);
+		// Upload to backend
 		await createPost(props.community._id, newPost).then(res => {
-			console.log(res);
 			navigate(`/community/${props.community.path}/${res.post._id}`);
 		});
 		
