@@ -9,7 +9,7 @@ import CustomLink from '../components/CustomLink';
 import FriendPreview from '../components/FriendPreview';
 import MissingPage from '../pages/MissingPage';
 import './CommunityPage.css';
-import { getCommunity, joinCommunity, addCommunity, addPost } from "../hooks/Api";
+import { getCommunity, leaveCommunity, joinCommunity, addCommunity, addPost } from "../hooks/Api";
 
 const communities = [
 	{
@@ -176,7 +176,7 @@ export default function CommunityPage(props) {
 				console.log('community', community);
 
 				setCurrentCommunity(community);
-				setIsCommunityMember(community.members.contains(loggedinUser._id));
+				setIsCommunityMember(community.members.some(member => member._id === loggedinUser._id));
 				setIsLoading(false);
 			}).catch(err => {
 				console.log(err)
@@ -185,35 +185,19 @@ export default function CommunityPage(props) {
 		}
 	}, [isLoading]);
 
-	// useEffect(() => {
-	// 	if (isLoading || (currentCommunity && community !== currentCommunity.path)) {
-	// 		// Communities need to be fetched from backend
-	// 		var filteredCommunities = communities.filter(c => {
-	// 			return c.path === community
-	// 		})
-
-	// 		setCurrentCommunity(filteredCommunities[0]);
-	// 		setIsLoading(false);
-
-	// 		// Temporarily hardcode state
-	// 		setIsCommunityMember(false);
-	// 		setShowUserList(false);
-	// 	}
-	// }, [community, isLoading, currentCommunity]);
-
-	// Implement joining community in backend
 	const handleJoin = () => {
 		if (isCommunityMember) {
-			alert(`Left ${currentCommunity.name}`);
-			setIsCommunityMember(false);
-		} else {
-			joinCommunity(loggedinUser.username, currentCommunity._id).then(res => {
-				console.log('joined community')
+			leaveCommunity(loggedinUser.username, currentCommunity._id).then(res => {
 				setCurrentCommunity(res.community);
+				setIsCommunityMember(false);
 				props.setUser(res.user)
 			})
-			alert(`Joined ${currentCommunity.name}`);
-			setIsCommunityMember(true);
+		} else {
+			joinCommunity(loggedinUser.username, currentCommunity._id).then(res => {
+				setCurrentCommunity(res.community);
+				setIsCommunityMember(true);
+				props.setUser(res.user);
+			})
 		}
 	}
 

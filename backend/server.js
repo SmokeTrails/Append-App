@@ -42,7 +42,7 @@ const { User } = require('./models/user');
 const authenticate = async (req, res, next) => {
 	// if (env !== 'production' && USE_TEST_USER)
 	//     req.session.user = 'user';
-	console.log(req.session.user)
+	// console.log(req.session.user)
 
 	if (req.session.user) {
 		try {
@@ -350,7 +350,7 @@ app.get('/api/suggested-communities', authenticate, async (req, res) => {
 		const community = await Community.aggregate([
 			{ $sample: { size: 5 } }
 		]);
-		console.log(community)
+		// console.log(community)
 
 		if (!community) {
 			res.status(404).send('Community not found');
@@ -718,13 +718,15 @@ app.post('/api/users/:username', authenticate, async (req, res) => {
 				const community = await Community.findById(community_id);
 				if (!community) {
 					res.status(404).send('Resource not found');
+					return;
 				}
-				else {
-					user.communities.push(community._id)
-					const newUser = await user.save();
-					newUser.password = undefined;
-					res.send({ community, newUser })
-				}
+
+				community.members.push(user._id);
+				await community.save();
+				user.communities.push(community._id)
+				const newUser = await user.save();
+				newUser.password = undefined;
+				res.send({ community, 'user': newUser })
 			} else {
 				res.status(400).send('Bad Request')
 			}
@@ -760,16 +762,23 @@ app.delete('/api/users/:username/:what', authenticate, async (req, res) => {
 					res.send({ friend, user })
 				}
 			} else if (req.params.what === "community") {
-				const community = await Community.findOne({ 'name': req.body.communityName })
+				const community_id = req.body.communityId;
+				if (!ObjectId.isValid(community_id)) {
+					res.status(404).send('Resource not found');
+					return;
+				}
+				const community = await Community.findById(community_id);
 				if (!community) {
-					res.status(404).send('Resource not found')
+					res.status(404).send('Resource not found');
+					return;
+				}
 
-				}
-				else {
-					user.communities.pull(community._id)
-					await user.save()
-					res.send({ community, user })
-				}
+				community.members.pull(user._id);
+				await community.save();
+				user.communities.pull(community._id)
+				const newUser = await user.save();
+				newUser.password = undefined;
+				res.send({ community, 'user': newUser })
 			} else {
 				res.status(400).send('Bad Request')
 			}
