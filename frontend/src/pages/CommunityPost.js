@@ -8,6 +8,7 @@ import MissingPage from './MissingPage';
 import CustomLink from '../components/CustomLink';
 // import { WarnedUsers } from './Admin';
 import './CommunityPost.css';
+import { createComment } from "../hooks/Api";
 
 // const comments = [
 // 	{
@@ -97,6 +98,8 @@ function AddComment(props) {
 		// comments.push(newComment);
 		console.log(newComment)
 
+		createComment(props.currentPost._id, newComment)
+
 		props.setValue(props.value + 1);
 	}
 
@@ -159,7 +162,7 @@ export default function CommunityPost() {
 			</CustomLink>
 			<div>
 				<Post title={post.title} date={post.date} time={post.time} comments={post.comments} description={post.description} />
-				<AddComment setValue={setValue} value={value} postId={postId} community={community}/>
+				<AddComment setValue={setValue} value={value} postId={postId} community={community} currentPost={post}/>
 				{/* {comments && comments.map((comment, index) =>
 					<div key={index}>
 						<Comment user={comment.user} date={comment.date} time={comment.time} content={comment.content} postId={community + "_" + postId} commentId={comment.ID}/>

@@ -304,7 +304,7 @@ app.post('/api/posts/:postID', authenticate, async (req, res) => {
 	})
 
 	try {
-		const post = await Community.posts.findById(id)
+		const post = await Post.findById(post_id)
 
 		if (!post) {
 			res.status(404).send('Resteraunt not found')
@@ -748,7 +748,7 @@ app.post('/api/users/:username', authenticate, async (req, res) => {
 					res.status(404).send('Resource not found');
 					return;
 				}
-				const community = await Community.findById(community_id);
+				const community = await Community.findById(community_id).populate("members");
 				if (!community) {
 					res.status(404).send('Resource not found');
 					return;
@@ -800,7 +800,7 @@ app.delete('/api/users/:username/:what', authenticate, async (req, res) => {
 					res.status(404).send('Resource not found');
 					return;
 				}
-				const community = await Community.findById(community_id);
+				const community = await Community.findById(community_id).populate("members");
 				if (!community) {
 					res.status(404).send('Resource not found');
 					return;
