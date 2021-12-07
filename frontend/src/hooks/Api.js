@@ -1,5 +1,4 @@
 import ENV from '../config.js'
-// const axios = require('axios');
 const API_HOST = ENV.api_host;
 
 export const getUser = (username) => {
@@ -63,7 +62,7 @@ export const getCommunityById = (communityId) => {
 		}
 	})
 		.then(res => {
-			console.log(res)
+			// console.log(res)
 			if (res.status === 200)
 				return res.json();
 			else throw 'Error'
@@ -129,6 +128,25 @@ export const getSuggestedCommunities = () => {
 		});
 }
 
+export const createPost = (communityId, newPost) => {
+	return fetch(`/api/community/${communityId}`, {
+		method: 'POST',
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({ ...newPost })
+	})
+		.then(res => {
+			if (res.status === 200)
+				return res.json();
+			else throw 'Error'
+		})
+		.catch(error => {
+			console.log(error);
+			return null;
+		});
+}
+
 export const addFriend = (username, userToFriend) => {
 	return fetch(`/api/users/${username}`, {
 		method: 'POST',
@@ -138,7 +156,7 @@ export const addFriend = (username, userToFriend) => {
 		body: JSON.stringify({ 'what': 'friend', 'friendUsername': userToFriend })
 	})
 		.then(res => {
-			console.log(res)
+			// console.log(res)
 			if (res.status === 200)
 				return res.json();
 			else throw 'Error'
@@ -156,7 +174,7 @@ export const getFriends = (username) => {
 		}
 	})
 		.then(res => {
-			console.log(res)
+			// console.log(res)
 			if (res.status === 200)
 				return res.json();
 			else throw 'Error'
@@ -170,7 +188,7 @@ export const getFriends = (username) => {
 //Add new community
 export const addCommunity = (community) => { //, dashboardComp) => {
 	// the URL for the request
-	console.log(community)
+	// console.log(community)
 
 	// const formData = new FormData();
 	// formData.append('name', community.name);

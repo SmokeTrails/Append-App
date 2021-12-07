@@ -5,7 +5,7 @@ import { getCommunityById } from "../hooks/Api";
 import CommunityLink from './CommunityLink';
 import CustomLink from './CustomLink';
 
-export default function Navbar(props) {
+export default function Navbar() {
 	const user = useContext(UserContext);
 	const [enrolledCommunities, setEnrolledCommunities] = useState(null);
 

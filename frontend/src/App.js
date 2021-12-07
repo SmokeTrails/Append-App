@@ -47,7 +47,7 @@ export default function App() {
 	useEffect(() => {
 		fetch(`${api_host}/check-session`)
 		.then(res => {
-			console.log("The status is", res.status)
+			// console.log("The status is", res.status)
 			if (res.status === 200) {
 				return res.json();
 			} else {
@@ -56,7 +56,7 @@ export default function App() {
 		})
 		.then(json => {
 			if (json) {
-				console.log('setting user')
+				// console.log('setting user')
 				setUser(json);
 			}
 		})

@@ -226,8 +226,6 @@ app.post('/api/community/create', [authenticate], async (req, res) => {
 			res.status(400).send('Bad Request')
 		}
 	}
-
-	res.send('Success')
 })
 
 //Create new post inside community
@@ -253,8 +251,7 @@ app.post('/api/community/:communityID', authenticate, async (req, res) => {
 		Date: req.body.date,
 		Time: req.body.time,
 		Comments: [],
-		CommunityID: req.body.communityID,
-		PostID: req.body.postID,
+		CommunityID: id
 	})
 
 	try {

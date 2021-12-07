@@ -59,17 +59,9 @@ const PostS = new mongoose.Schema({
 		minlegth: 1,
 		trim: true
 	},
-    CommunityID: {
-		type: String,
-		required: true,
-		minlegth: 1,
-		trim: true
-	},
-	PostID: {
-		type: String,
-		required: true,
-		minlegth: 1,
-		trim: true
+    CommunityId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Community'
 	},
 	Comments: [CommentS]
 })
