@@ -10,23 +10,28 @@ export default function Navbar(props) {
 	const [enrolledCommunities, setEnrolledCommunities] = useState(null);
 
 	const getCommunities = (communityId) => {
-		getCommunityById(communityId).then(community => {
+		return getCommunityById(communityId).then(community => {
 			return community;
 		}).catch(err => {
 			console.log(err)
 		});
 	}
 
-	const saveCommunities = () => {
-		console.log('save')
+	const saveCommunities = (communities) => {
+		setEnrolledCommunities(communities);
 	}
 
-	const func1 = async () => {
-		console.log('func 1')
-		const promises = user.communities.map((communityId) => console.log(getCommunities(communityId)));
-		await Promise.all(promises);
-		saveCommunities();
+	const fetchCommunities = async () => {
+		const promises = user.communities.map((communityId) => getCommunities(communityId));
+		await Promise.all(promises).then(communities => {
+			saveCommunities(communities);
+		});
+		
 	}
+
+	useEffect(() => {
+		if (user.communities.length > 0 && !user.stale) fetchCommunities();
+	}, [user.communities]);
 
 	/*
 	useEffect(() => {

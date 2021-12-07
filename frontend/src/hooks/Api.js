@@ -45,7 +45,7 @@ export const getCommunity = (communityPath) => {
 		}
 	})
 		.then(res => {
-			console.log(res)
+			// console.log(res)
 			if (res.status === 200)
 				return res.json();
 			else throw 'Error'
@@ -64,6 +64,25 @@ export const getCommunityById = (communityId) => {
 	})
 		.then(res => {
 			console.log(res)
+			if (res.status === 200)
+				return res.json();
+			else throw 'Error'
+		})
+		.catch(error => {
+			console.log(error);
+			return null;
+		});
+}
+
+export const leaveCommunity = (username, communityId) => {
+	return fetch(`/api/users/${username}/community`, {
+		method: 'DELETE',
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({ 'communityId': communityId })
+	})
+		.then(res => {
 			if (res.status === 200)
 				return res.json();
 			else throw 'Error'

@@ -28,9 +28,13 @@ export default function App() {
 	const [user, setUser] = useState(() => {
 		const user = localStorage.getItem("user");
 		if (user !== null) {
-			const parsed = JSON.parse(user);
-			parsed.stale = true;
-			return parsed;
+			try {
+				const parsed = JSON.parse(user);
+				parsed.stale = true;
+				return parsed;
+			} catch (e) {
+				return null;
+			}
 		} else {
 			return null;
 		}
