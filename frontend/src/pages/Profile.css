@@ -62,7 +62,7 @@
 	font-weight: 600;
 }
 
-button.editButton {
+.profile button {
 	display: flex;
 	align-items: center;
 	border: none;
@@ -78,11 +78,11 @@ button.editButton {
 	transition: transform var(--ease-animation);
 }
 
-button.editButton:hover {
+.profile button:hover {
 	transform: var(--scale-transform);
 }
 
-.editButton svg {
+.profile button svg {
 	width: var(--icon-size);
 	height: var(--icon-size);
 	margin-right: 4px;
