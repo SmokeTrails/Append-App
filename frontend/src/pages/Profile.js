@@ -4,6 +4,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { UserIcon, UserAddIcon, CheckIcon, PencilIcon } from '@heroicons/react/solid';
 import MissingPage from './MissingPage';
 import UserContext from '../hooks/UserContext';
+import { getUser } from "../hooks/Api";
 import CommunityLink from '../components/CommunityLink';
 import './Profile.css';
 
@@ -285,8 +286,11 @@ export default function UserProfile() {
 	const [isLoading, setIsLoading] = useState(true);
 	const [currentUser, setCurrentUser] = useState(null);
 	const [editInfo, setEditInfo] = useState(null);
-
+	
 	const saveForm = () => {
+		console.log("TODO")
+		setEditInfo(null);
+		/*
 		// User needs to be updated in backend
 		// Filtered user needs to be fetched from backend
 		var filteredUser = users.filter(user => {
@@ -297,7 +301,8 @@ export default function UserProfile() {
 		filteredUser.year = editInfo.year
 		filteredUser.program = editInfo.program
 
-		setEditInfo(null);
+		
+		*/
 	}
 
 	const startEditing = () => {
@@ -314,20 +319,32 @@ export default function UserProfile() {
 	}
 
 	useEffect(() => {
-		// if (isLoading || (currentUser && username !== currentUser.username)) {
-			// Filtered user needs to be fetched from backend
-			let filteredUser = users.filter(user => {
-				return user.username === username
-			})[0]
-			if (!filteredUser)
-				filteredUser = null;
+		setIsLoading(true);
+	}, [username]);
 
-			setCurrentUser(filteredUser);
-			if (isLoading) {
-				setIsLoading(false);
-			}
-		// }
-	}, [isLoading, username, currentUser]);
+	useEffect(() => {
+		if (isLoading === true) {
+			getUser(username).then(user => {
+				console.log('user', user);
+				if (!user)
+					user = null;
+
+				setCurrentUser(user);
+				if (isLoading) {
+					setIsLoading(false);
+				}
+			}).catch(err => {
+				// got error
+			});
+		}
+	}, [isLoading]);
+
+	// useEffect(() => {
+	// 	// if (isLoading || (currentUser && username !== currentUser.username)) {
+	// 		// Filtered user needs to be fetched from backend
+			
+	// 	// }
+	// }, [isLoading, username, currentUser]);
 
 	return (
 		<div>

@@ -1,20 +1,59 @@
-import ENV from './../config.js'
-const API_HOST = ENV.api_host
+import ENV from '../config.js'
+const axios = require('axios');
+const API_HOST = ENV.api_host;
+
+export const getUser = (username) => {
+	// /api/users/byusername/
+	return fetch(`/api/users/byusername/${username}`, {headers: {
+		"Content-Type": "application/json"
+	}})
+	.then(res => {
+		console.log(res)
+		if (res.status === 200)
+			return res.json();
+		else throw 'Error'
+	})
+	.catch(error => {
+		console.log(error);
+		return null;
+	});
+}
 
 //Add new community
-export const addCommunity = (newComm) => { //, dashboardComp) => {
+export const addCommunity = (community) => { //, dashboardComp) => {
     // the URL for the request
-    
-    const url = `${API_HOST}/api/community`;
+	console.log(community)
 
-    // The data we are going to send in our request
+	// const formData = new FormData();
+	// formData.append('name', community.name);
+	// formData.append('path', community.path);
+	// formData.append('creator', community.creator);
+	// formData.append('description', community.description);
+	// formData.append('image', community.image);
+
+	// axios.post(`/api/community/create`, formData)
+	fetch(`/api/community/create`, {
+		method: 'POST',
+		headers: {
+            'Content-Type': 'application/json'
+        },
+		body: JSON.stringify(community)
+	})
+	.then(res => {
+		console.log(res)
+	})
+	.catch(error => {
+		console.log(error);
+	});
+
+    /* The data we are going to send in our request
     const community = newComm
     // Create our request constructor with all the parameters we need
     const request = new Request(url, {
         method: "post",
         body: JSON.stringify(community),
         headers: {
-            Accept: "application/json, text/plain, */*",
+            Accept: "application/json, text/plain",
             "Content-Type": "application/json"
         }
     });
@@ -31,6 +70,7 @@ export const addCommunity = (newComm) => { //, dashboardComp) => {
         .catch(error => {
             console.log(error);
         });
+		*/
 };
 
 //Add new post

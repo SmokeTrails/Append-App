@@ -75,9 +75,10 @@ export default function Home() {
 						)}
 					</ul>
 				</div>
-				<form action="/createcommunity">
-    				<input type="submit" value="Create Community"/>
-				</form>
+				<CustomLink to="/community/create" >
+					<input type="submit" value="Create Community"/>
+				</CustomLink>
+    				
 				<h1 className="heading">Suggested Communities</h1>
 				<div>
 					{recommendedCommunities && recommendedCommunities.map((group, index) =>

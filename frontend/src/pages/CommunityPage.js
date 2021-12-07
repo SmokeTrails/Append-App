@@ -9,7 +9,7 @@ import CustomLink from '../components/CustomLink';
 import FriendPreview from '../components/FriendPreview';
 import MissingPage from '../pages/MissingPage';
 import './CommunityPage.css';
-import { addCommunity, addPost } from "../actions/Communities";
+import { addCommunity, addPost } from "../hooks/Api";
 
 const communities = [
 	{

@@ -1,52 +1,95 @@
-import React from 'react';
-import { addCommunity } from "../actions/Communities";
+import React, { useState, useContext } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
+import { addCommunity } from "../hooks/Api";
+import UserContext from '../hooks/UserContext';
+import './CreateCommunity.css';
+
+const convertBase64 = (file) => {
+	return new Promise((resolve, reject) => {
+		const fileReader = new FileReader();
+		fileReader.readAsDataURL(file)
+		fileReader.onload = () => {
+			resolve(fileReader.result);
+		}
+		fileReader.onerror = (error) => {
+			reject(error);
+		}
+	})
+}
 
 function NewCommunity(props) {
-    const saveCommunity = (e) => {
-		e.preventDefault();
+	const [name, setName] = useState("");
+	const [path, setPath] = useState("");
+	const [description, setDescription] = useState("");
+	const [image, setImage] = useState(null);
+	const user = useContext(UserContext);
 
-        if (e.target[0].value.length === 0 || e.target[1].value.length === 0) {
-			alert('Fields cannot be empty!');
-			return;
-		}
+	const uploadImage = (file) => {
+		// const formData = new FormData();
+		// console.log(file)
+		// formData.append('image', file, file.name);
 
-		const community = { title: e.target[0].value, description: e.target[1].value, imageURL: e.target[2].value }
-		//Send new community to backend database:
+		// fetch(`/api/upload-image`, {
+		// 	method: 'POST',
+		// 	body: formData
+		// })
+		// .then(res => {
+		// 	console.log(res)
+		// })
+		// .catch(error => {
+		// 	console.log(error);
+		// });
 
-	    //Send post to backend database:
-		addCommunity(community)
+   		setImage(file);
 	}
 
-    return (
-		<form className="post new" onSubmit={saveCommunity}>
+	const saveCommunity = async (e) => {
+		e.preventDefault();
+
+		// const communityImage = await convertBase64(image);
+
+		addCommunity({
+			name: name,
+			path: path,
+			// creator: user.username,
+			description: description,
+			// image: image,
+		})
+	}
+
+	return (
+		<form className="createCommunity" onSubmit={saveCommunity}>
 			<label className="title">
 				Community Name
-				<TextareaAutosize name="title" maxLength="50" />
+				<TextareaAutosize name="name" maxLength="50" value={name} onChange={event => setName(event.target.value)} />
+			</label>
+
+			<label className="title">
+				Customize Web Address
+				<TextareaAutosize name="path" maxLength="50" value={path} onChange={event => setPath(event.target.value)} />
 			</label>
 
 			<label className="title">
 				Community Description
-				<TextareaAutosize name="description" maxLength="200" />
+				<TextareaAutosize name="description" maxLength="200" value={description} onChange={event => setDescription(event.target.value)} />
 			</label>
 
-            <label className="title">
-				Profile Picture URL
-				<TextareaAutosize name="ImageURL" maxLength="100" />
+			<label className="title">
+				Profile Picture
+				<input name="image" type="file" accept=".png, .jpg, .jpeg" maxLength="100" onChange={event => uploadImage(event.target.files[0])} />
 			</label>
 
-			<input className="button" type="submit" value="Create Community"/>
+			<input className="button" type="submit" value="Create Community" />
 		</form>
 	)
-
 }
 
 export default function CommunityPage() {
-    return (
-        <div>
-            <NewCommunity/>
-        </div>
-    )
+	return (
+		<div>
+			<NewCommunity />
+		</div>
+	)
 }
 
 // path: 'csc309',

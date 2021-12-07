@@ -86,9 +86,8 @@ const CommunityS = new mongoose.Schema({
 		trim: true
 	},
 	creator: {
-		type: String,
-		required: true,
-		trim: true
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User'
 	},
 	description: {
 		type: String,
@@ -97,7 +96,6 @@ const CommunityS = new mongoose.Schema({
 	},
     imageUrl: {
 		type: String,
-		required: true,
 		minlegth: 1,
 		trim: true
 	},
@@ -107,7 +105,6 @@ const CommunityS = new mongoose.Schema({
 		  ref: 'User'
 		}
 	],
-
 	posts: [PostS]
 })
 

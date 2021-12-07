@@ -41,6 +41,7 @@ export default function App() {
 	useEffect(() => {
 		fetch(`${api_host}/check-session`)
 		.then(res => {
+			console.log("The status is", res.status)
 			if (res.status === 200) {
 					return res.json();
 			}
@@ -58,50 +59,6 @@ export default function App() {
 		});
 	}, []);
 
-	/*
-	useEffect(() => {
-		// Check if user is logged in in the backend
-		// if (!env.use_frontend_test_user) {
-		async function fetchMyAPI() {
-			try {
-				const res = await fetch(`${api_host}/check-session`);
-				if (res.status === 200) {
-					setUser(data.currentUser)
-				}
-				if (res.status === 401) {
-
-				}
-			} catch (e) {
-				console.log(e)
-			}
-		}
-
-		fetchMyAPI()
-
-		fetch(`${api_host}/check-session`)
-		.then(res => {
-			console.log(res)
-			if (res.status === 200) {
-				return res.json()
-			}
-		})
-		.then(data => {
-			console.log(data)
-			if (data && data.currentUser) {
-				setUser(data.currentUser)
-			}
-		})
-		.catch(error => {
-			console.log('yo')
-			console.log(error)
-		})
-		// } else {
-		// 	setUser(env.user)
-		// }
-		// console.log("User: ", user)
-	}, []);
-	*/
-
 	return (
 		<UserProvider value={user}>
 			<BrowserRouter>
@@ -113,11 +70,14 @@ export default function App() {
 						<Route path="friends" element={<Friends />} />
 						<Route path="user/:username" element={<UserProfile />} />
 						<Route path="search/:query" element={<SearchResults />} />
+						
+						{/* Hardcoded communities */}
+						<Route path="community/create" element={<CreateCommunity />} />
+						
 						<Route path="community/:community" element={<CommunityPage />} />
 						<Route path="community/:community/:thread" element={<CommunityPost />} />
 						<Route path="friends" element={<Friends />} />
 						<Route path="admin" element={<Admin />} />
-						<Route path="createcommunity" element={<CreateCommunity />} />
 					</Route>
 					<Route path="*" element={<MissingPage />} />
 				</Routes>

@@ -10,6 +10,8 @@ const app = express();
 const path = require('path');
 const sessions = require('express-session');
 const MongoStore = require('connect-mongo');
+const multer = require('multer');
+var fs = require('fs');
 app.use(cors());
 app.options('*', cors());
 
@@ -21,6 +23,9 @@ mongoose.set('bufferCommands', false);  // don't buffer db requests if the db se
 const { ObjectId } = require('mongodb');
 
 const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+	extended: true
+  })); 
 app.use(bodyParser.json());
 
 // serve static react build
@@ -34,21 +39,25 @@ function isMongoError(error) {
 const { Post, Community } = require('./models/community');
 const { User } = require('./models/user');
 
-const authenticate = (req, res, next) => {
-	if (env !== 'production' && USE_TEST_USER)
-        req.session.user = 'user';
-
+const authenticate = async (req, res, next) => {
+	// if (env !== 'production' && USE_TEST_USER)
+    //     req.session.user = 'user';
+	console.log(req.session.user)
+	
     if (req.session.user) {
-        User.findOne({'username': req.session.user}).then((user) => {
-            if (!user) {
-                return Promise.reject();
-            } else {
-                req.user = user;
-                next();
-            }
-        }).catch((error) => {
+		try {
+			const user = await User.findOne({'username': req.session.user});
+			if (!user) {
+				return Promise.reject();
+			}
+
+			req.user = user;
+			next();
+			return;
+		} catch(error) {
             res.status(401).send("Unauthorized");
-        })
+			return;
+        }
     }
 
     res.status(401).send("Unauthorized");
@@ -72,6 +81,7 @@ app.use(sessions({
 app.post("/api/login", async (req, res) => {
 	const username = req.body.username
 	const password = req.body.password
+	log('yo')
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
 		res.status(500).send('Internal server error')
@@ -80,7 +90,8 @@ app.post("/api/login", async (req, res) => {
 	try {
 		const user = await User.findOne({'username': username})
 		if (!user) {
-			res.status(400).send()
+			res.status(400).send();
+			return;
 		}
 		else {
 			const match = await bcrypt.compare(password, user.password)
@@ -143,27 +154,52 @@ app.get("/api/check-session", async (req, res) => {
 
 
 /*** Community API routes **************************************/
+const restrictedCommunities = ['create'];
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, '../uploads');
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now() + file.originalname.substring(file.originalname.lastIndexOf('.')));
+    }
+});
+
+const upload = multer({ storage: storage });
+
 //Create new community:
-app.post('/api/community/create', authenticate, async (req, res) => {
+// upload.single('image')
+app.post('/api/community/create', [authenticate], async (req, res) => {
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
 		res.status(500).send('Internal server error')
 		return;
 	}
 
+	if (req.body.path === restrictedCommunities) {
+		res.status(400).send('Bad Request: restricted community path');
+		return;
+	}
+
+	console.log('CREATE COMMUNITY')
+
+	console.log(req.body)
+	console.log('creator:', req.user._id)
+	// res.send('Success')
+
 	const community = new Community({
 		path: req.body.path,
 		name: req.body.name,
-		creator: req.body.creator,
+		creator: req.user._id,
 		description: req.body.description,
-		imageUrl: req.body.imageURL,
-		members: [],
+		members: [req.user._id],
 		posts: []
 	})
+	// imageUrl: req.file.filename,
+	log(community)
 
 	try {
-		const result = await community.save()
-		res.send(result)
+		const result = await community.save();
 		console.log("Community added to backend!!");
 	} catch(error) {
 		log(error)
@@ -173,6 +209,8 @@ app.post('/api/community/create', authenticate, async (req, res) => {
 			res.status(400).send('Bad Request')
 		}
 	}
+
+	res.send('Success')
 })
 
 //Create new post inside community

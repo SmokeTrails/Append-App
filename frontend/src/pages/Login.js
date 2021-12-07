@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import UserContext from '../hooks/UserContext';
 import CustomLink from '../components/CustomLink';
 import './Login.css';
 import env from '../config.js'
 const api_host = env.api_host
 
 export default function Login(props) {
-	const [username, setUsername] = useState("")
-	const [password, setPassword] = useState("")
-	const [invalid, setInvalid] = useState("")
-	const navigate = useNavigate()
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+	const [invalid, setInvalid] = useState("");
+	const navigate = useNavigate();
+	const user = useContext(UserContext);
+
+	useEffect(() => {
+		if (user !== null) {
+			navigate("/");
+		}
+	}, []);
 
 	/*
 	// Login users needs to be fetched from backend
@@ -51,29 +59,27 @@ export default function Login(props) {
 			}
 		});
 		fetch(request)
-        .then(res => {
-            if (res.status === 200) {
-                return res.json();
-            }
-        })
-        .then(json => {
-            if (json !== undefined) {
-								console.log("Sucessfully logged in with: ", json)
-                props.setUser(json);
-								if (username === "admin") {
-									navigate("/admin")
-								}
-								else {
-									navigate("/")
-								}
-            }
-						else {
-								setInvalid("Your username or password is incorrect.")
-						}
-        })
-        .catch(error => {
-            console.log(error);
-        });
+		.then(res => {
+			if (res.status === 200) {
+				// fetch(`${api_host}/check-session`)
+				// .then(res => {
+				// 	console.log(res)
+				// })
+				return res.json();
+			}
+		})
+		.then(json => {
+			props.setUser(json);
+			if (json.username === "admin") {
+				navigate("/admin")
+			} else {
+				navigate("/")
+			}
+		})
+		.catch(error => {
+			console.log(error);
+			setInvalid("Your username or password is incorrect.");
+		});
 	}
 
 	return (
