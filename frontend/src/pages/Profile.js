@@ -216,8 +216,9 @@ function ProfileDescription(props) {
 			<h4>@{props.username}</h4>
 			<div className="userInfo">
 				<p><span className="count">{props.friendCount}</span> Friends</p>
-				<p><span className="count">{props.clubCount}</span> Clubs</p>
-				<p><span className="count">{props.courseCount}</span> Courses</p>
+				<p><span className="count">{props.communityCount}</span> Communities</p>
+				{/* <p><span className="count">{props.clubCount}</span> Clubs</p>
+				<p><span className="count">{props.courseCount}</span> Courses</p> */}
 			</div>
 		</div>
 	);
@@ -355,7 +356,8 @@ export default function UserProfile() {
 						<Avatar imageUrl={currentUser.imageUrl} name={currentUser.name} />
 
 						<div className="flexContainer">
-							<ProfileDescription name={currentUser.name} username={currentUser.username} friendCount={currentUser.friendCount} clubCount={currentUser.clubCount} courseCount={currentUser.courseCount} />
+							{/* clubCount={currentUser.clubCount} courseCount={currentUser.courseCount} */}
+							<ProfileDescription name={currentUser.name} username={currentUser.username} friendCount={currentUser.friends.length} communityCount={currentUser.communities.length} />
 
 							{currentUser.username === loggedinUser.username
 								? <button className="editButton" onClick={() => editInfo ? saveForm() : startEditing()}>

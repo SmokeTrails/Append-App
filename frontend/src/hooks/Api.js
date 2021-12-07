@@ -8,7 +8,7 @@ export const getUser = (username) => {
 		"Content-Type": "application/json"
 	}})
 	.then(res => {
-		console.log(res)
+		// console.log(res)
 		if (res.status === 200)
 			return res.json();
 		else throw 'Error'

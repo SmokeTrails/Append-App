@@ -527,6 +527,9 @@ app.get('/api/users', authenticate, async (req, res) => {
 
 	try {
 		const users = await User.find()
+		users.forEach(user => {
+			user.password = undefined;
+		})
 		res.send(users)
 		// res.send({users}) // just in case we need this
 	} catch(error) {
@@ -549,6 +552,7 @@ app.get('/api/users/byusername/:username', authenticate, async (req, res) => {
 			res.status(404).send('Resource not found')
 		}
 		else {
+			user.password = undefined;
 			res.send(user)
 		}
 	} catch(error) {
@@ -575,6 +579,7 @@ app.get('/api/users/byid/:id', authenticate, async (req, res) => {
 			res.status(404).send('Resource not found')
 		}
 		else {
+			user.password = undefined;
 			res.send(user)
 		}
 	} catch(error) {
