@@ -1,12 +1,10 @@
 const prod = {
     env: 'production',
-    api_host: '' // an empty string to signify a relative path. can also put a deployment URL.
+    api_host: '/api' // an empty string to signify a relative path. can also put a deployment URL.
 };
 const dev = {
     env: 'development',
-    api_host: 'http://localhost:5000', // web server localhost port
-    use_frontend_test_user: false,
-    user: "user"
+    api_host: 'http://localhost:5000/api', // web server localhost port
 };
 
 // export the appropriate environment

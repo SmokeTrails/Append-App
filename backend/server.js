@@ -63,9 +63,9 @@ app.use(sessions({
 	saveUninitialized: true,
 	cookie: { maxAge: oneDay},
 	resave: false,
-	store: env === 'production' ? MongoStore.create({
+	store: MongoStore.create({
 		mongoUrl: 'mongodb+srv://team51:54321@cluster0.dsirf.mongodb.net/Team51?retryWrites=true&w=majority'
-}) : null
+})
 }))
 
 // A route to login and create a session
@@ -85,8 +85,9 @@ app.post("/api/login", async (req, res) => {
 		else {
 			const match = await bcrypt.compare(password, user.password)
 			if (match) {
-				req.session.user = username
-				res.send({currentUser: username})
+				req.session.user = username;
+				user.password = undefined;
+				res.send(user)
 			} 
 			else {
 				res.status(400).send()
@@ -118,7 +119,8 @@ app.get("/api/check-session", (req, res) => {
         res.send({ currentUser: 'user' })
         return;
     }
-	log(req.session.user)
+	log(req.session)
+	log(req.cookie)
     if (req.session.user) {
         res.send({ currentUser: req.session.user});
     } else {
