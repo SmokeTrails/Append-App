@@ -6,7 +6,7 @@ import { getPost } from "../hooks/Api";
 import MissingPage from './MissingPage';
 // import { posts } from './CommunityPage';
 import CustomLink from '../components/CustomLink';
-import { WarnedUsers } from './Admin';
+// import { WarnedUsers } from './Admin';
 import './CommunityPost.css';
 
 // const comments = [
@@ -62,7 +62,7 @@ function Comment(props) {
 				{user.username === 'admin' && (
 					<div className="adminButtons">
 						<button className="small" onClick={() => { removePost(props.commentId) }}>Remove Comment</button>
-						<button className="small" onClick={() => { warnUser(props.user) }}>Warn User</button>
+						{/* <button className="small" onClick={() => { warnUser(props.user) }}>Warn User</button> */}
 					</div>
 				)}
 			</div>
@@ -111,12 +111,12 @@ function AddComment(props) {
 	)
 }
 
-const warnUser = name => {
-	alert(name + " has been warned!");
+// const warnUser = name => {
+// 	alert(name + " has been warned!");
 
-	// Warned User must be uploaded to backend
-	WarnedUsers.push(name);
-}
+// 	// Warned User must be uploaded to backend
+// 	WarnedUsers.push(name);
+// }
 
 export default function CommunityPost() {
 	const community = useParams().community;

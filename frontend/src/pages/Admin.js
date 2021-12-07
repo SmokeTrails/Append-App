@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import FriendPreview from '../components/FriendPreview'
-import { getAllCommunities, deleteCommunity } from '../hooks/Api';
+import { getAllCommunities, deleteCommunity, getAllUsers, deleteUser } from '../hooks/Api';
 import CommunityPreview from '../components/CommunityPreview';
-
-export const WarnedUsers = [];
 
 export default function Admin() {
 	const [users, setUsers] = useState(null);
 	const [allCommunities, setAllCommunities] = useState(null);
+	const [allUsers, setAllUsers] = useState(null);
 
 	useEffect(() => {
 		getAllCommunities().then(communities => {
 			setAllCommunities(communities);
+		})
+	});
+
+	useEffect(() => {
+		getAllUsers().then(user => {
+			setAllUsers(user);
 		})
 	});
 
@@ -46,10 +51,6 @@ export default function Admin() {
 		]);
 	}, []);
 
-    const removeUser = name => {
-        setUsers(users.filter(user => user.name !== name))
-    }
-
     const resetPassword = name => {
         alert('Reset request sent to ' + name);
     }
@@ -67,11 +68,11 @@ export default function Admin() {
 			<h1 className="heading">User Management</h1>
 			<h2>All Users</h2>
             <div>
-				{users && users.map((user, index) =>
+				{allUsers && allUsers.map((user, index) =>
 					<div key={index}>
 						<FriendPreview name={user.name} username={user.username} imageUrl={user.imageUrl} />
                         
-                        <button onClick={() => { removeUser(user.name) }}>Remove User</button>
+                        <button onClick={() => { deleteUser(user.username) }}>Ban User</button>
                         <button onClick={() => { resetPassword(user.name) }}>Reset Password</button>
 						<button onClick={() => { warn(user.name) }}>Warn</button>
 
