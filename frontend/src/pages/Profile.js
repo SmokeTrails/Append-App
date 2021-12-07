@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from "react-router-dom";
 import TextareaAutosize from 'react-textarea-autosize';
-import { UserIcon, CheckIcon, PencilIcon } from '@heroicons/react/solid';
+import { UserIcon, UserAddIcon, CheckIcon, PencilIcon } from '@heroicons/react/solid';
 import MissingPage from './MissingPage';
 import UserContext from '../hooks/UserContext';
 import CommunityLink from '../components/CommunityLink';
@@ -12,19 +12,18 @@ const users = [
 	{
 		name: 'Admin',
 		username: 'admin',
-		friendCount: '0',
 		clubCount: '0',
 		courseCount: '0',
 		bio: 'Here to moderate all users!',
 		interests: 'Being an admin',
 		year: '4',
 		program: 'None',
-		communities: []
+		communities: [],
+		friends: []
 	},
 	{
 		name: 'Alex D',
 		username: 'AlexDobbin',
-		friendCount: '2',
 		clubCount: '4',
 		courseCount: '3',
 		bio: 'Here to make friends and have fun!',
@@ -47,7 +46,8 @@ const users = [
 				name: 'Web Dev Club',
 				imageUrl: 'communities/webdev.jpg'
 			}
-		]
+		],
+		friends: []
 	},
 	{
 		name: 'Joshua Lee',
@@ -75,7 +75,8 @@ const users = [
 				name: 'Web Dev Club',
 				imageUrl: 'communities/webdev.jpg'
 			}
-		]
+		],
+		friends: []
 	},
 	{
 		name: 'Kirill',
@@ -104,7 +105,8 @@ const users = [
 				name: 'Web Dev Club',
 				imageUrl: 'communities/webdev.jpg'
 			}
-		]
+		],
+		friends: []
 	},
 	{
 		name: 'Mohsin',
@@ -132,7 +134,8 @@ const users = [
 				name: 'Web Dev Club',
 				imageUrl: 'communities/webdev.jpg'
 			}
-		]
+		],
+		friends: []
 	},
 	{
 		name: 'Rehan',
@@ -160,7 +163,8 @@ const users = [
 				name: 'Web Dev Club',
 				imageUrl: 'communities/webdev.jpg'
 			}
-		]
+		],
+		friends: []
 	},
 	{
 		name: 'Haider',
@@ -188,7 +192,8 @@ const users = [
 				name: 'Web Dev Club',
 				imageUrl: 'communities/webdev.jpg'
 			}
-		]
+		],
+		friends: ['KirillTregubov']
 	}
 ];
 
@@ -304,6 +309,10 @@ export default function UserProfile() {
 		});
 	}
 
+	const addFriend = () => {
+		console.log('TODO')
+	}
+
 	useEffect(() => {
 		// if (isLoading || (currentUser && username !== currentUser.username)) {
 			// Filtered user needs to be fetched from backend
@@ -331,11 +340,20 @@ export default function UserProfile() {
 						<div className="flexContainer">
 							<ProfileDescription name={currentUser.name} username={currentUser.username} friendCount={currentUser.friendCount} clubCount={currentUser.clubCount} courseCount={currentUser.courseCount} />
 
-							{username === loggedinUser.username &&
-								<button className="editButton" onClick={() => editInfo ? saveForm() : startEditing()}>
+							{currentUser.username === loggedinUser.username
+								? <button className="editButton" onClick={() => editInfo ? saveForm() : startEditing()}>
 									{editInfo ? <CheckIcon /> : <PencilIcon />}
 									{editInfo ? 'Save Changes' : 'Edit Profile'}
 								</button>
+								: !loggedinUser.friends.includes(currentUser.username)
+									? <button className="editButton" onClick={() => addFriend()}>
+										<UserAddIcon />
+										Add Friend
+									</button>
+									: <button className="editButton" disabled>
+										<CheckIcon />
+										Friends
+									</button>
 							}
 						</div>
 

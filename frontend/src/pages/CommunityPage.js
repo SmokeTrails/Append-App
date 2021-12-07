@@ -9,6 +9,7 @@ import CustomLink from '../components/CustomLink';
 import FriendPreview from '../components/FriendPreview';
 import MissingPage from '../pages/MissingPage';
 import './CommunityPage.css';
+import { addCommunity, addPost } from "../actions/Communities";
 
 const communities = [
 	{
@@ -135,7 +136,7 @@ function AddPost(props) {
 
 		// New post needs to be uploaded to backend
 		posts.push(newPost);
-
+		
 		props.setAddPost(false);
 	}
 

@@ -75,6 +75,9 @@ export default function Home() {
 						)}
 					</ul>
 				</div>
+				<form action="/createcommunity">
+    				<input type="submit" value="Create Community"/>
+				</form>
 				<h1 className="heading">Suggested Communities</h1>
 				<div>
 					{recommendedCommunities && recommendedCommunities.map((group, index) =>
