@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useNavigate } from "react-router-dom";
 import TextareaAutosize from 'react-textarea-autosize';
 import { addCommunity } from "../hooks/Api";
 import UserContext from '../hooks/UserContext';
@@ -18,30 +19,30 @@ const convertBase64 = (file) => {
 }
 
 function NewCommunity(props) {
+	const navigate = useNavigate();
 	const [name, setName] = useState("");
 	const [path, setPath] = useState("");
 	const [description, setDescription] = useState("");
 	const [image, setImage] = useState(null);
-	const user = useContext(UserContext);
 
-	const uploadImage = (file) => {
-		// const formData = new FormData();
-		// console.log(file)
-		// formData.append('image', file, file.name);
+	// const uploadImage = (file) => {
+	// 	// const formData = new FormData();
+	// 	// console.log(file)
+	// 	// formData.append('image', file, file.name);
 
-		// fetch(`/api/upload-image`, {
-		// 	method: 'POST',
-		// 	body: formData
-		// })
-		// .then(res => {
-		// 	console.log(res)
-		// })
-		// .catch(error => {
-		// 	console.log(error);
-		// });
+	// 	// fetch(`/api/upload-image`, {
+	// 	// 	method: 'POST',
+	// 	// 	body: formData
+	// 	// })
+	// 	// .then(res => {
+	// 	// 	console.log(res)
+	// 	// })
+	// 	// .catch(error => {
+	// 	// 	console.log(error);
+	// 	// });
 
-   		setImage(file);
-	}
+   	// 	setImage(file);
+	// }
 
 	const saveCommunity = async (e) => {
 		e.preventDefault();
@@ -51,9 +52,11 @@ function NewCommunity(props) {
 		addCommunity({
 			name: name,
 			path: path,
-			// creator: user.username,
 			description: description,
-			// image: image,
+			image: image,
+		}).then(res => {
+			props.setUser(res.user);
+			navigate(`/community/${res.path}`);
 		})
 	}
 
@@ -75,19 +78,23 @@ function NewCommunity(props) {
 			</label>
 
 			<label className="title">
+				Image URL
+				<TextareaAutosize name="image" maxLength="200" value={image} onChange={event => setImage(event.target.value)} />
+			</label>
+			{/* <label className="title">
 				Profile Picture
 				<input name="image" type="file" accept=".png, .jpg, .jpeg" maxLength="100" onChange={event => uploadImage(event.target.files[0])} />
-			</label>
+			</label> */}
 
 			<input className="button" type="submit" value="Create Community" />
 		</form>
 	)
 }
 
-export default function CommunityPage() {
+export default function CommunityPage(props) {
 	return (
 		<div>
-			<NewCommunity />
+			<NewCommunity setUser={props.setUser} />
 		</div>
 	)
 }

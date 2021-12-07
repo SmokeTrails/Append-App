@@ -100,25 +100,12 @@ export default function UserProfile(props) {
 	const [editInfo, setEditInfo] = useState(null);
 	
 	const saveForm = async () => {
-		console.log("TODO")
-		
 		// Upload to backend
 		await updateUser(username, editInfo).then(res => {
 			setCurrentUser(res);
 		});
 
 		setEditInfo(null);
-		/*
-		// User needs to be updated in backend
-		// Filtered user needs to be fetched from backend
-		var filteredUser = users.filter(user => {
-			return user.username === currentUser.username
-		})[0]
-		filteredUser.bio = editInfo.bio
-		filteredUser.interests = editInfo.interests
-		filteredUser.year = editInfo.year
-		filteredUser.program = editInfo.program
-		*/
 	}
 
 	const startEditing = () => {
@@ -137,7 +124,6 @@ export default function UserProfile(props) {
 		}).catch(err => {
 			console.log(err)
 		});
-		console.log('TODO')
 	}
 
 	useEffect(() => {

@@ -78,7 +78,7 @@ export default function App() {
 						<Route path="search/:query" element={<SearchResults />} />
 						
 						{/* Hardcoded communities */}
-						<Route path="community/create" element={<CreateCommunity />} />
+						<Route path="community/create" element={<CreateCommunity setUser={setUser} />} />
 						
 						<Route path="community/:community" element={<CommunityPage setUser={setUser} />} />
 						<Route path="community/:community/:thread" element={<CommunityPost />} />

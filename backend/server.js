@@ -156,16 +156,16 @@ app.get("/api/check-session", async (req, res) => {
 /*** Community API routes **************************************/
 const restrictedCommunities = ['create'];
 
-const storage = multer.diskStorage({
-	destination: (req, file, cb) => {
-		cb(null, '../uploads');
-	},
-	filename: (req, file, cb) => {
-		cb(null, file.fieldname + '-' + Date.now() + file.originalname.substring(file.originalname.lastIndexOf('.')));
-	}
-});
+// const storage = multer.diskStorage({
+// 	destination: (req, file, cb) => {
+// 		cb(null, '../uploads');
+// 	},
+// 	filename: (req, file, cb) => {
+// 		cb(null, file.fieldname + '-' + Date.now() + file.originalname.substring(file.originalname.lastIndexOf('.')));
+// 	}
+// });
 
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
 
 //Create new community:
 // upload.single('image')
@@ -181,10 +181,9 @@ app.post('/api/community/create', [authenticate], async (req, res) => {
 		return;
 	}
 
-	console.log('CREATE COMMUNITY')
-
-	console.log(req.body)
-	console.log('creator:', req.user._id)
+	// console.log('CREATE COMMUNITY')
+	// console.log(req.body)
+	// console.log('creator:', req.user._id)
 	// res.send('Success')
 
 	const community = new Community({
@@ -192,10 +191,10 @@ app.post('/api/community/create', [authenticate], async (req, res) => {
 		name: req.body.name,
 		creator: req.user._id,
 		description: req.body.description,
+		imageUrl: req.body.image,
 		members: [req.user._id],
 		posts: []
 	})
-	// imageUrl: req.file.filename,
 	log(community)
 
 	try {
@@ -217,7 +216,7 @@ app.post('/api/community/create', [authenticate], async (req, res) => {
 		const newUser = await user.save()
 		newUser.password = undefined;
 		console.log("Community added to backend!!");
-		res.send({'path': result.path, newUser})
+		res.send({'path': result.path, 'user': newUser})
 	} catch (error) {
 		log(error)
 		if (isMongoError(error)) {
@@ -440,6 +439,8 @@ app.delete('/api/community/:communityPath', authenticate, async (req, res) => {
 			res.status(404).send('Community not found')
 			return
 		}
+		await User.updateMany({ $pull: { communities: community._id} }).exec()
+
 		res.send(community)
 	} catch (error) {
 		log(error)

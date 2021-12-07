@@ -188,7 +188,10 @@ export default function CommunityPage(props) {
 				: currentCommunity
 					? <div className="communityPage">
 						<div className="communityCard">
-							{/* <img className="cover" src={require(`../images/${currentCommunity.imageUrl}`).default} alt={currentCommunity.name + "'s banner"} /> */}
+							{currentCommunity.imageUrl 
+								? <img className="cover" src={currentCommunity.imageUrl} alt={currentCommunity.name + "'s banner"} />
+								: <img className="cover" src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt={currentCommunity.name + "'s banner"} />
+							}
 							<h2 className="badge" onClick={() => toggleUserList()}>
 								<NumberFormat value={currentCommunity.members.length} displayType={'text'} thousandSeparator={true} /> {currentCommunity.members.length == 1 ? 'member' : 'members'}
 							</h2>

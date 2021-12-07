@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import './Layout.css';
 
-export default function Layout() {
+export default function Layout(props) {
 	return (
 		<div className="App">
 			<div className="layout">
@@ -12,7 +12,7 @@ export default function Layout() {
 				<main>
 					<Outlet />
 				</main>
-				<Sidebar />
+				<Sidebar setUser={props.setUser} />
 			</div>
 		</div>
 	);
