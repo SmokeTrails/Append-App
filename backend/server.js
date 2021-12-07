@@ -123,19 +123,20 @@ app.get("/api/check-session", async (req, res) => {
         return;
     }
     if (req.session.user) {
-				log("The user has been set.")
-				try {
-					const user = await User.findOne({'username': username})
-					if (!user) {
-						res.status(400).send()
-					}
-					else {
-						user.password = undefined
-						res.send({ currentUser: user});
-					}
-				} catch(error) {
-					res.status(400).send()
-				}
+		log("The user has been set.")
+		try {
+			const user = await User.findOne({'username': req.session.user});
+			
+			if (!user) {
+				res.status(400).send()
+			}
+			else {
+				user.password = undefined
+				res.send(user);
+			}
+		} catch(error) {
+			res.status(400).send()
+		}
     } else {
         res.status(401).send();
     }

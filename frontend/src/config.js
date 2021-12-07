@@ -4,7 +4,7 @@ const prod = {
 };
 const dev = {
     env: 'development',
-    api_host: 'http://localhost:5000/api', // web server localhost port
+    api_host: '/api', // web server localhost port
 };
 
 // export the appropriate environment

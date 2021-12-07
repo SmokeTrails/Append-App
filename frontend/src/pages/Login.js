@@ -4,6 +4,7 @@ import CustomLink from '../components/CustomLink';
 import './Login.css';
 import env from '../config.js'
 const api_host = env.api_host
+
 export default function Login(props) {
 	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
@@ -40,8 +41,8 @@ export default function Login(props) {
 
 	function checkCredentials() {
 		let isLoggedIn = false
-		console.log(`${api_host}/api/login`)
-		const request = new Request(`${api_host}/api/login`, {
+		console.log(`${api_host}/login`)
+		const request = new Request(`${api_host}/login`, {
 			method: "post",
 			body: JSON.stringify({username: username, password: password}),
 			headers: {

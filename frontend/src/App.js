@@ -40,20 +40,23 @@ export default function App() {
 	}, [user]);
 
 	useEffect(() => {
-		fetch(`${api_host}check-session`)
+		fetch(`${api_host}/check-session`)
 		.then(res => {
 			console.log("The status is ", res.status)
-				if (res.status === 200) {
-						return res.json();
-				}
+			if (res.status === 200) {
+					return res.json();
+			}
+			if (res.status === 401) {
+				setUser(null);
+			}
 		})
 		.then(json => {
-				if (json && json.currentUser) {
-						setUser(json.currentUser);
-				}
+			if (json && json.currentUser) {
+				setUser(json.currentUser);
+			}
 		})
 		.catch(error => {
-				console.log(error);
+			console.log(error);
 		});
 	}, []);
 
