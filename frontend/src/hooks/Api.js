@@ -182,6 +182,25 @@ export const createPost = (communityId, newPost) => {
 		});
 }
 
+export const createComment = (postId, newComment) => {
+	return fetch(`/api/posts/${postId}`, {
+		method: 'POST',
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({ ...newComment })
+	})
+		.then(res => {
+			if (res.status === 200)
+				return res.json();
+			else throw 'Error'
+		})
+		.catch(error => {
+			console.log(error);
+			return null;
+		});
+}
+
 export const getPost = (postId) => {
 	return fetch(`/api/posts/${postId}`, {
 		headers: {

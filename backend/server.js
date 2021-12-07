@@ -305,7 +305,7 @@ app.post('/api/posts/:postID', authenticate, async (req, res) => {
 	})
 
 	try {
-		const post = await Community.posts.findById(id)
+		const post = await Post.findById(post_id)
 
 		if (!post) {
 			res.status(404).send('Resteraunt not found')
