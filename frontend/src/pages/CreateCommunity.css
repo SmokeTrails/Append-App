@@ -1,3 +1,45 @@
 .createCommunity textarea {
 	resize: none;
 }
+
+.createCommunity label {
+	display: block;
+	height: fit-content;
+	margin-bottom: 0.5rem;
+}
+
+.createCommunity input,
+.createCommunity textarea {
+	width: 100%;
+	border-radius: var(--rounded-sm);
+	border: 2px solid var(--secondary-bg-accent-color);
+	padding: 0.5rem;
+	font-size: 1.15rem;
+	resize: none;
+}
+
+.createCommunity button, .createCommunity input.button {
+	display: flex;
+	align-items: center;
+	border: none;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+	margin: 0.25rem 0;
+	padding: 0.75rem 1rem;
+	background: var(--button-bg-color);
+	color: var(--button-color);
+	border-radius: var(--rounded-pill);
+	font-weight: 500;
+	transition: transform var(--ease-animation);
+}
+
+.createCommunity input.button {
+	box-sizing: border-box;
+	justify-content: center;
+	width: 100%;
+}
+
+.createCommunity button:hover, .createCommunity input.button:hover {
+	transform: var(--scale-transform);
+}

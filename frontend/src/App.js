@@ -73,12 +73,12 @@ export default function App() {
 					<Route path="/login" element={<Login setUser={setUser} />} />
 					<Route path="/" element={<RequireAuth user={user}><Layout setUser={setUser} /></RequireAuth>}>
 						<Route index element={<Home />} />
-						<Route path="friends" element={<Friends />} />
+						<Route path="directory" element={<Friends />} />
 						<Route path="user/:username" element={<UserProfile setUser={setUser} />} />
 						<Route path="search/:query" element={<SearchResults />} />
 						
 						{/* Hardcoded communities */}
-						<Route path="community/create" element={<CreateCommunity />} />
+						<Route path="community/create" element={<CreateCommunity setUser={setUser} />} />
 						
 						<Route path="community/:community" element={<CommunityPage setUser={setUser} />} />
 						<Route path="community/:community/:thread" element={<CommunityPost />} />

@@ -19,6 +19,26 @@ export const getUser = (username) => {
 		});
 }
 
+export const updateUser = (username, user) => {
+	return fetch(`/api/users/${username}`, {
+		method: 'PATCH',
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(user)
+	})
+		.then(res => {
+			// console.log(res)
+			if (res.status === 200)
+				return res.json();
+			else throw 'Error'
+		})
+		.catch(error => {
+			console.log(error);
+			return null;
+		});
+}
+
 export const getUserById = (userId) => {
 	return fetch(`/api/users/byid/${userId}`, {
 		headers: {
@@ -259,18 +279,7 @@ export const getFriends = (username) => {
 
 //Add new community
 export const addCommunity = (community) => { //, dashboardComp) => {
-	// the URL for the request
-	// console.log(community)
-
-	// const formData = new FormData();
-	// formData.append('name', community.name);
-	// formData.append('path', community.path);
-	// formData.append('creator', community.creator);
-	// formData.append('description', community.description);
-	// formData.append('image', community.image);
-
-	// axios.post(`/api/community/create`, formData)
-	fetch(`/api/community/create`, {
+	return fetch(`/api/community/create`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
@@ -278,37 +287,11 @@ export const addCommunity = (community) => { //, dashboardComp) => {
 		body: JSON.stringify(community)
 	})
 		.then(res => {
-			console.log(res)
+			return res.json();
 		})
 		.catch(error => {
 			console.log(error);
 		});
-
-	/* The data we are going to send in our request
-	const community = newComm
-	// Create our request constructor with all the parameters we need
-	const request = new Request(url, {
-		method: "post",
-		body: JSON.stringify(community),
-		headers: {
-			Accept: "application/json, text/plain",
-			"Content-Type": "application/json"
-		}
-	});
-
-	// Send the request with fetch()
-	fetch(request)
-		.then(function (res) {
-			if (res.status === 200) {
-				alert("Community Added!")
-			} else {
-				alert("Community Cannot be added. Status code: " + res.status)
-			}
-		})
-		.catch(error => {
-			console.log(error);
-		});
-		*/
 };
 
 //Add new post

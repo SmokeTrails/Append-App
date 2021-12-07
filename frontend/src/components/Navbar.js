@@ -94,7 +94,7 @@ export default function Navbar() {
 							<CustomLink to="/"><HomeIcon /><span>Home</span></CustomLink>
 						</li>
 						<li>
-							<CustomLink to="/friends"><UserGroupIcon /> Friends</CustomLink>
+							<CustomLink to="/directory"><UserGroupIcon /> Directory</CustomLink>
 						</li>
 						<li>
 							<CustomLink to="/community/create"><PlusCircleIcon /> Create Community</CustomLink>

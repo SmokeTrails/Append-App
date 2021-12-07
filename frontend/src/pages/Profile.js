@@ -4,205 +4,15 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { UserIcon, UserAddIcon, CheckIcon, PencilIcon } from '@heroicons/react/solid';
 import MissingPage from './MissingPage';
 import UserContext from '../hooks/UserContext';
-import { getUser, addFriend, getCommunityById } from "../hooks/Api";
+import { getUser, updateUser, addFriend, getCommunityById } from "../hooks/Api";
 import CommunityLink from '../components/CommunityLink';
 import './Profile.css';
-
-// Users need to be fetched from backend
-const users = [
-	{
-		name: 'Admin',
-		username: 'admin',
-		clubCount: '0',
-		courseCount: '0',
-		bio: 'Here to moderate all users!',
-		interests: 'Being an admin',
-		year: '4',
-		program: 'None',
-		communities: [],
-		friends: []
-	},
-	{
-		name: 'Alex D',
-		username: 'AlexDobbin',
-		clubCount: '4',
-		courseCount: '3',
-		bio: 'Here to make friends and have fun!',
-		interests: '#Sports #BoardGames',
-		year: '2',
-		program: 'Engineering Science',
-		communities: [
-			{
-				path: 'csc309',
-				name: 'CSC309',
-				imageUrl: 'communities/csc309.jpg'
-			},
-			{
-				path: 'AnimeClub',
-				name: 'Anime Club',
-				imageUrl: 'communities/anime.jpg'
-			},
-			{
-				path: 'WebDevClub',
-				name: 'Web Dev Club',
-				imageUrl: 'communities/webdev.jpg'
-			}
-		],
-		friends: []
-	},
-	{
-		name: 'Joshua Lee',
-		username: 'Marvin',
-		friendCount: '6',
-		clubCount: '4',
-		courseCount: '3',
-		bio: 'If you are a raptors fan we would get along',
-		interests: '#Basketball #Sports #Soccer',
-		year: '2',
-		program: 'Engineering Science',
-		communities: [
-			{
-				path: 'csc309',
-				name: 'CSC309',
-				imageUrl: 'communities/csc309.jpg'
-			},
-			{
-				path: 'AnimeClub',
-				name: 'Anime Club',
-				imageUrl: 'communities/anime.jpg'
-			},
-			{
-				path: 'WebDevClub',
-				name: 'Web Dev Club',
-				imageUrl: 'communities/webdev.jpg'
-			}
-		],
-		friends: []
-	},
-	{
-		name: 'Kirill',
-		username: 'KirillTregubov',
-		imageUrl: 'kirill.png',
-		friendCount: '7',
-		clubCount: '3',
-		courseCount: '5',
-		bio: 'Add me on discord if you want to play somtimes: Username#2321',
-		interests: '#Gaming #Anime #Book Lovers',
-		year: '3',
-		program: 'Computer Science',
-		communities: [
-			{
-				path: 'csc309',
-				name: 'CSC309',
-				imageUrl: 'communities/csc309.jpg'
-			},
-			{
-				path: 'AnimeClub',
-				name: 'Anime Club',
-				imageUrl: 'communities/anime.jpg'
-			},
-			{
-				path: 'WebDevClub',
-				name: 'Web Dev Club',
-				imageUrl: 'communities/webdev.jpg'
-			}
-		],
-		friends: []
-	},
-	{
-		name: 'Mohsin',
-		username: 'SmokeTrails',
-		friendCount: '9',
-		clubCount: '1',
-		courseCount: '6',
-		bio: 'I miss the summer',
-		interests: '#Sports #Jogging #Outdoors',
-		year: '3',
-		program: 'Computer Science',
-		communities: [
-			{
-				path: 'csc309',
-				name: 'CSC309',
-				imageUrl: 'communities/csc309.jpg'
-			},
-			{
-				path: 'AnimeClub',
-				name: 'Anime Club',
-				imageUrl: 'communities/anime.jpg'
-			},
-			{
-				path: 'WebDevClub',
-				name: 'Web Dev Club',
-				imageUrl: 'communities/webdev.jpg'
-			}
-		],
-		friends: []
-	},
-	{
-		name: 'Rehan',
-		username: 'TheRayman786',
-		friendCount: '0',
-		clubCount: '1',
-		courseCount: '3',
-		bio: 'Usually sitting in bahen doing my work',
-		interests: '#Reading #Gym #Entrepreneurship',
-		year: '1',
-		program: 'Business',
-		communities: [
-			{
-				path: 'csc309',
-				name: 'CSC309',
-				imageUrl: 'communities/csc309.jpg'
-			},
-			{
-				path: 'AnimeClub',
-				name: 'Anime Club',
-				imageUrl: 'communities/anime.jpg'
-			},
-			{
-				path: 'WebDevClub',
-				name: 'Web Dev Club',
-				imageUrl: 'communities/webdev.jpg'
-			}
-		],
-		friends: []
-	},
-	{
-		name: 'Haider',
-		username: 'user',
-		friendCount: '5',
-		clubCount: '3',
-		courseCount: '5',
-		bio: 'Hello everyone! I\'m a third year computer science student looking for people to study with.',
-		interests: '#coding #AI #anime #gaming',
-		year: '3',
-		program: 'Computer Science',
-		communities: [
-			{
-				path: 'csc309',
-				name: 'CSC309',
-				imageUrl: 'communities/csc309.jpg'
-			},
-			{
-				path: 'AnimeClub',
-				name: 'Anime Club',
-				imageUrl: 'communities/anime.jpg'
-			},
-			{
-				path: 'WebDevClub',
-				name: 'Web Dev Club',
-				imageUrl: 'communities/webdev.jpg'
-			}
-		],
-		friends: ['KirillTregubov']
-	}
-];
 
 function Avatar(props) {
 	return (
 		<div className="avatar">
 			{props.imageUrl
-				? <img className="image" src={require(`${props.imageUrl}`).default} alt={props.name + "'s profile picture"} />
+				? <img className="image" src={props.imageUrl} alt={props.name + "'s profile picture"} />
 				: <div className="image"><UserIcon /></div>
 			}
 		</div>
@@ -289,21 +99,13 @@ export default function UserProfile(props) {
 	const [enrolledCommunities, setEnrolledCommunities] = useState(null);
 	const [editInfo, setEditInfo] = useState(null);
 	
-	
-	const saveForm = () => {
-		console.log("TODO")
+	const saveForm = async () => {
+		// Upload to backend
+		await updateUser(username, editInfo).then(res => {
+			setCurrentUser(res);
+		});
+
 		setEditInfo(null);
-		/*
-		// User needs to be updated in backend
-		// Filtered user needs to be fetched from backend
-		var filteredUser = users.filter(user => {
-			return user.username === currentUser.username
-		})[0]
-		filteredUser.bio = editInfo.bio
-		filteredUser.interests = editInfo.interests
-		filteredUser.year = editInfo.year
-		filteredUser.program = editInfo.program
-		*/
 	}
 
 	const startEditing = () => {
@@ -322,7 +124,6 @@ export default function UserProfile(props) {
 		}).catch(err => {
 			console.log(err)
 		});
-		console.log('TODO')
 	}
 
 	useEffect(() => {
