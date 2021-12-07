@@ -41,7 +41,6 @@ export default function Login(props) {
 	}
 	*/
 	function checkCredentials() {
-		let isLoggedIn = false
 		console.log(`${api_host}/login`)
 		const request = new Request(`${api_host}/login`, {
 			method: "post",
@@ -59,6 +58,7 @@ export default function Login(props) {
         })
         .then(json => {
             if (json !== undefined) {
+								console.log("Sucessfully logged in with: ", json)
                 props.setUser(json);
 								if (username === "admin") {
 									navigate("/admin")

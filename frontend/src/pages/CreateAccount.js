@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 import CustomLink from '../components/CustomLink';
 import Heading from '../components/LoginHeading.js';
 import './CreateAccount.css';
+import env from '../config.js'
+const api_host = env.api_host
 
 export default function CreateAccount() {
 	const navigate = useNavigate()
 	const [user, setUser] = useState({
 		name: '',
+		password: '',
 		username: '',
 		friendCount: '0',
 		clubCount: '0',
@@ -19,6 +22,7 @@ export default function CreateAccount() {
 		courseCodes: [''],
 		communityNames: ['']
 	})
+	const [duplicateUsernames, setDuplicateUsername] = useState("")
 	const [successful, setSuccessful] = useState("")
 
 	function successfulCreation() {
@@ -27,18 +31,51 @@ export default function CreateAccount() {
 		}
 		else {
 			// User needs to be uploaded to backend
-
-			setSuccessful("Your account was created successfuly! Redirecting you to login...")
-			setTimeout(() => navigate("/Login"), 2000)
+			const request = new Request(`${api_host}/users`, {
+				method: "post",
+				body: JSON.stringify({
+					name: user.name,
+					username: user.username,
+					password: user.password,
+					bio: user.bio,
+					interests: user.interests,
+					year: user.year,
+					program: user.program
+				}),
+				headers: {
+					Accept: "application/json, text/plain, */*",
+					"Content-Type": "application/json"
+				}
+			});
+			fetch(request)
+	        .then(res => {
+	            if (res.status === 200) {
+								return res.json()
+	            }
+	        })
+					.then(json => {
+							console.log(json)
+							if (json.message === undefined) {
+								setSuccessful("Your account was created successfuly! Redirecting you to login...")
+								setTimeout(() => navigate("/Login"), 2000)
+							}
+							else {
+								setDuplicateUsername("This username is taken. Try another.")
+							}
+					})
+	        .catch(error => {
+	            console.log(error);
+	        });
 		}
 	}
 
 	function handleChange(event) {
-		setUser({
-			...user, [event.target.name]: event.target.value
-		})
+			setUser({
+				...user, [event.target.name]: event.target.value
+			})
 	}
 
+	/*
 	function addCourse() {
 		setUser({
 			...user, courseCodes: [...user.courseCodes, ""]
@@ -60,7 +97,7 @@ export default function CreateAccount() {
 		setUser({
 			...user, courseCodes: courses
 		})
-	}
+	}*/
 
 	return (
 		<div className="accountForm">
@@ -71,11 +108,16 @@ export default function CreateAccount() {
 			</div>
 			<div className="Container">
 				<h3> Username </h3>
-				<input className="text" type="text" name="username" value={user.username} onChange={handleChange} />
+				<input className={duplicateUsernames ? 'redText': 'text'} type="text" name="username" value={user.username} onChange={handleChange} />
+			</div>
+			<h3> {duplicateUsernames} </h3>
+			<div className="Container">
+				<h3> Password </h3>
+				<input className="text" type="password" name="password" value={user.password} onChange={handleChange} />
 			</div>
 			<div className="Container">
 				<h3> Program </h3>
-				<input className="text" type="text" name="program" value={user.program} onChange={handleChange} />
+				<input className={"text"} type="text" name="program" value={user.program} onChange={handleChange} />
 				<h3> Year </h3>
 				<input className="text" type="text" name="year" value={user.year} onChange={handleChange} />
 			</div>
@@ -87,12 +129,13 @@ export default function CreateAccount() {
 				<h3> Hobbies/Interests </h3>
 				<textarea className="bioText" type="text" name="interests" value={user.interests} onChange={handleChange} />
 			</div>
+			{/*
 			<div className="coursesContainer">
 				<h3> Courses you are taking this semester </h3>
 				<CourseForm user={user} setUser={setUser} removeCourse={removeCourse} changeCourse={changeCourse} />
 				<button className="addButton" onClick={addCourse}> Add a course
 				</button>
-			</div>
+			</div>*/}
 			<div className="Container last">
 				<h3> {successful} </h3>
 				<button className="submitButton" onClick={successfulCreation}> Create Account</button>
@@ -106,6 +149,7 @@ export default function CreateAccount() {
 	)
 }
 
+/*
 function CourseForm(props) {
 	return (
 		props.user.courseCodes.map((val, i) => {
@@ -118,3 +162,4 @@ function CourseForm(props) {
 		})
 	)
 }
+*/

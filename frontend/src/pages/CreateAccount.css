@@ -16,8 +16,23 @@
   left: 25%;
   background-color: white;
   border: 1px #8b5cf6 solid;
-  font-size: 16pt;
+  font-size: 12pt;
   font-family: "Helvetica";
+}
+
+.accountForm .redText {
+	position: relative;
+  width: 50%;
+  top: 15%;
+  left: 25%;
+  background-color: white;
+  border: 3px red solid;
+  font-size: 12pt;
+  font-family: "Helvetica";
+}
+
+.accountForm .redText:hover {
+  border: 3px red solid;
 }
 
 .accountForm .text:hover {
@@ -31,7 +46,7 @@
   left: 25%;
   background-color: white;
   border: 1px #8b5cf6 solid;
-  font-size: 16pt;
+  font-size: 12pt;
   font-family: "Helvetica";
 }
 
@@ -46,7 +61,7 @@
   left: 25%;
   background-color: white;
   border: 1px #8b5cf6 solid;
-  font-size: 16pt;
+  font-size: 12pt;
   font-family: "Helvetica";
 }
 

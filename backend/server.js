@@ -442,35 +442,40 @@ app.post('/api/users', async (req, res) => {
 		res.status(500).send('Internal server error')
 		return;
 	}
-
-	const salt = await bcrypt.genSalt(10)
-	const hash = await bcrypt.hash(req.body.password, salt)
-	const user = new User({
-		name: req.body.name,
-		username: req.body.username,
-		password: hash,
-		imageUrl: 'users/DefaultPic.png',
-		bio: req.body.bio,
-		interests: req.body.interests,
-		year: req.body.year,
-		program: req.body.program,
-		communities: [],
-		friends: [],
-		warnings: []
-	})
-
 	try {
-		log(user)
-		const newUser = await user.save()
-		res.send(newUser)
-
+		const user = await User.findOne({'username': req.body.username})
+		if (!user) {
+				const salt = await bcrypt.genSalt(10)
+				const hash = await bcrypt.hash(req.body.password, salt)
+				const user = new User({
+				name: req.body.name,
+				username: req.body.username,
+				password: hash,
+				imageUrl: 'users/DefaultPic.jpg',
+				bio: req.body.bio,
+				interests: req.body.interests,
+				year: req.body.year,
+				program: req.body.program,
+				communities: [],
+				friends: [],
+				warnings: []
+			})
+			log(user)
+			const newUser = await user.save()
+			newUser.password = undefined
+			res.send(newUser)
+		}
+		else {
+			res.send({message: "Already exists"})
+		}
 	} catch(error) {
-		if (isMongoError(error)) {
-            res.status(500).send('Internal server error')
-        } else {
-            log(error)
-            res.status(400).send('Bad Request')
-        }
+			log(error)
+			if (isMongoError(error)) {
+        	res.status(500).send('Internal server error')
+    	} else {
+        log(error)
+        res.status(400).send('Bad Request')
+    	}
 	}
 })
 
