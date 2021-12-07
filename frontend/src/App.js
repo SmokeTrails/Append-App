@@ -39,9 +39,22 @@ export default function App() {
 		localStorage.setItem("user", JSON.stringify(user));
 	}, [user]);
 
-	// useEffect(() => {
-	// 	console.log('check-session')
-	// }, []);
+	useEffect(() => {
+		console.log('check-session')
+		async function fetchMyAPI() {
+			try {
+				const res = await fetch(`${api_host}/check-session`);
+				console.log(res);
+				if (res.status === 200) {
+					// setUser(data.currentUser)
+				}
+			} catch (e) {
+				console.log(e)
+			}
+		}
+
+		fetchMyAPI()
+	}, []);
 
 	/*
 	useEffect(() => {
