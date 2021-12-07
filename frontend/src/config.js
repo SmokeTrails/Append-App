@@ -4,7 +4,7 @@ const prod = {
 };
 const dev = {
     env: 'development',
-    api_host: 'http://localhost:5000', // web server localhost port
+    api_host: 'http://localhost:5000/api', // web server localhost port
     use_frontend_test_user: false,
     user: "user"
 };

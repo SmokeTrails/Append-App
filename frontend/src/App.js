@@ -17,7 +17,10 @@ import env from './config.js'
 const api_host = env.api_host
 
 function RequireAuth(props) {
-	if (!props.isLoggedIn) {
+	console.log('User is: ')
+	console.log(props.user)
+	
+	if (!props.user) {
 		console.log("I got here")
 		return <Navigate to="/login" />
 	}
@@ -33,27 +36,52 @@ export default function App() {
 	});
 
 	useEffect(() => {
+		localStorage.setItem("user", JSON.stringify(user));
+	}, [user]);
+
+	/*
+	useEffect(() => {
 		// Check if user is logged in in the backend
-		if (!env.use_frontend_test_user) {
-			fetch(`${api_host}/api/check-session`)
-			.then(res => {
+		// if (!env.use_frontend_test_user) {
+		async function fetchMyAPI() {
+			try {
+				const res = await fetch(`${api_host}/check-session`);
 				if (res.status === 200) {
-					return res.json()
-				}
-			})
-			.then(data => {
-				if (data && data.currentUser) {
 					setUser(data.currentUser)
 				}
-			})
-			.catch(error => {
-				console.log(error)
-			})
-		} else {
-			setUser(env.user)
+				if (res.status === 401) {
+					
+				}
+			} catch (e) {
+				console.log(e)
+			}
 		}
-		console.log("User: ", user)
-	}, [user]);
+
+		fetchMyAPI()
+
+		fetch(`${api_host}/check-session`)
+		.then(res => {
+			console.log(res)
+			if (res.status === 200) {
+				return res.json()
+			}
+		})
+		.then(data => {
+			console.log(data)
+			if (data && data.currentUser) {
+				setUser(data.currentUser)
+			}
+		})
+		.catch(error => {
+			console.log('yo')
+			console.log(error)
+		})
+		// } else {
+		// 	setUser(env.user)
+		// }
+		// console.log("User: ", user)
+	}, []);
+	*/
 
 	return (
 		<UserProvider value={user}>
@@ -61,7 +89,7 @@ export default function App() {
 				<Routes>
 					<Route path="/create-account" element={<CreateAccount />} />
 					<Route path="/login" element={<Login setUser={setUser} />} />
-					<Route path="/" element={<RequireAuth isLoggedIn={user != null}><Layout setUser={setUser} /></RequireAuth>}>
+					<Route path="/" element={<RequireAuth user={user}><Layout setUser={setUser} /></RequireAuth>}>
 						<Route index element={<Home />} />
 						<Route path="friends" element={<Friends />} />
 						<Route path="user/:username" element={<UserProfile />} />
