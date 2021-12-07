@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import NumberFormat from 'react-number-format';
 import TextareaAutosize from 'react-textarea-autosize';
 import { UserGroupIcon } from '@heroicons/react/solid';
@@ -83,6 +83,8 @@ function Post(props) {
 }
 
 function AddPost(props) {
+	const navigate = useNavigate();
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -99,8 +101,9 @@ function AddPost(props) {
 		// New post needs to be uploaded to backend
 		console.log(newPost);
 		// posts.push(newPost);
-		await createPost(props.communityId, newPost).then(res => {
-			console.log(res)
+		await createPost(props.community._id, newPost).then(res => {
+			console.log(res);
+			navigate(`/community/${props.community.path}/${res.post._id}`);
 		});
 		
 		props.setAddPost(false);
@@ -141,12 +144,17 @@ export default function CommunityPage(props) {
 			getCommunity(community).then(community => {
 				console.log('community', community);
 
+				if (community == null) {
+					throw 'Error'
+				}
+
 				setCurrentCommunity(community);
 				setIsCommunityMember(community.members.some(member => member._id === loggedinUser._id));
 				setIsLoading(false);
 			}).catch(err => {
 				console.log(err)
 				setCurrentCommunity(null);
+				setIsLoading(false);
 			});
 		}
 	}, [isLoading]);
@@ -165,6 +173,11 @@ export default function CommunityPage(props) {
 				props.setUser(res.user);
 			})
 		}
+	}
+
+	const updateState = (community, user) => {
+		setCurrentCommunity(community);
+		props.setUser(user)
 	}
 
 	const toggleUserList = () => {
@@ -212,15 +225,13 @@ export default function CommunityPage(props) {
 						</div>
 						<div>
 							{addPost &&
-								<AddPost setAddPost={setAddPost} user={loggedinUser.username} communityId={currentCommunity._id} />
+								<AddPost setAddPost={setAddPost} updateState={updateState} user={loggedinUser.username} community={currentCommunity} />
 							}
 							{!(addPost) &&
 								<button onClick={() => setAddPost(true)}>{'Add Post'}</button>
 							}
-
-							{/* Posts need to be fetched from backend */}
-							{posts && posts.map((post, index) =>
-								<Post key={index} title={post.title} user={post.user} date={post.date} time={post.time} comments={post.comments} community={community} postId={index} />
+							{currentCommunity.posts && currentCommunity.posts.map((post, index) =>
+								<Post key={index} title={post.title} user={post.user} date={post.date} time={post.time} comments={post.comments.length} community={community} postId={post._id} />
 							)}
 						</div>
 					</div>

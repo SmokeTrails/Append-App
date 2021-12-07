@@ -29,41 +29,39 @@ const CommentS = new mongoose.Schema({
 })
 
 const PostS = new mongoose.Schema({
-	Title: {
+	title: {
 		type: String,
 		required: true,
 		minlegth: 1,
 		trim: true
 	},
-	User: {
+	poster: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User'
+	},
+	description: {
 		type: String,
 		required: true,
 		minlegth: 1,
 		trim: true
 	},
-	Description: {
+    date: {
 		type: String,
 		required: true,
 		minlegth: 1,
 		trim: true
 	},
-    Date: {
+    time: {
 		type: String,
 		required: true,
 		minlegth: 1,
 		trim: true
 	},
-    Time: {
-		type: String,
-		required: true,
-		minlegth: 1,
-		trim: true
-	},
-    CommunityId: {
+    communityId: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Community'
 	},
-	Comments: [CommentS]
+	comments: [CommentS]
 })
 
 const CommunityS = new mongoose.Schema({

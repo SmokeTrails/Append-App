@@ -46,6 +46,7 @@
 	background-color: var(--tertiary-bg-color);
 	margin: 1rem 0;
 	transition: transform var(--ease-animation);
+	border: solid 1px var(--primary-highlight-bg-accent-color);
 }
 
 .communityPage .post a {

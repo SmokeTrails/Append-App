@@ -1,29 +1,30 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { ArrowNarrowLeftIcon, PlusIcon } from '@heroicons/react/solid';
 import UserContext from '../hooks/UserContext';
+import { getPost } from "../hooks/Api";
 import MissingPage from './MissingPage';
-import { posts } from './CommunityPage';
+// import { posts } from './CommunityPage';
 import CustomLink from '../components/CustomLink';
 import { WarnedUsers } from './Admin';
 import './CommunityPost.css';
 
-const comments = [
-	{
-		user: 'Haider',
-		content: "It's great to be here!",
-		date: "11/7/2021",
-		time: "18:23",
-		ID: "CSC309_0"
-	},
-	{
-		user: 'Mohsin',
-		content: "Nice work everyone.",
-		date: "11/7/2021",
-		time: "11:42",
-		ID: "CSC309_1"
-	}
-];
+// const comments = [
+// 	{
+// 		user: 'Haider',
+// 		content: "It's great to be here!",
+// 		date: "11/7/2021",
+// 		time: "18:23",
+// 		ID: "CSC309_0"
+// 	},
+// 	{
+// 		user: 'Mohsin',
+// 		content: "Nice work everyone.",
+// 		date: "11/7/2021",
+// 		time: "11:42",
+// 		ID: "CSC309_1"
+// 	}
+// ];
 
 function Post(props) {
 	return (
@@ -93,7 +94,8 @@ function AddComment(props) {
 		const newComment = { user: user.name, content: inputValue, date: date, time: time, ID: props.community+"_"+props.postId};
 
 		// New comment needs to be uploaded to backend
-		comments.push(newComment);
+		// comments.push(newComment);
+		console.log(newComment)
 
 		props.setValue(props.value + 1);
 	}
@@ -120,8 +122,31 @@ export default function CommunityPost() {
 	const community = useParams().community;
 	const postId = useParams().thread;
 	const [value, setValue] = useState(0);
+	const [isLoading, setIsLoading] = useState(true);
+	const [post, setPost] = useState(true);
 
-	const post = posts.find(element => element.postId === postId);
+	useEffect(() => {
+		setIsLoading(true);
+	}, [postId]);
+
+	useEffect(() => {
+		if (isLoading === true) {
+			getPost(postId).then(post => {
+				console.log('post', post);
+
+				setPost(post);
+				setIsLoading(false);
+			}).catch(err => {
+				setPost(null);
+				setIsLoading(false);
+			});
+		}
+	}, [isLoading]);
+
+	if (isLoading) {
+		return 'Loading...'
+	}
+	// const post = posts.find(element => element.postId === postId);
 	if (!post) {
 		return <MissingPage community={community} postId={postId} />
 	}
@@ -135,11 +160,11 @@ export default function CommunityPost() {
 			<div>
 				<Post title={post.title} date={post.date} time={post.time} comments={post.comments} description={post.description} />
 				<AddComment setValue={setValue} value={value} postId={postId} community={community}/>
-				{comments && comments.map((comment, index) =>
+				{/* {comments && comments.map((comment, index) =>
 					<div key={index}>
 						<Comment user={comment.user} date={comment.date} time={comment.time} content={comment.content} postId={community + "_" + postId} commentId={comment.ID}/>
 					</div>
-				)}
+				)} */}
 			</div>
 		</div>
 	);

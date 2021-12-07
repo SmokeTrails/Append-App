@@ -244,14 +244,21 @@ app.post('/api/community/:communityID', authenticate, async (req, res) => {
 		return;
 	}
 
+	const user = await User.findOne({ 'username': req.session.user });
+
+	if (!user) {
+		res.status(400).send('Bad Request')
+		return;
+	}
+
 	const post = new Post({
-		Title: req.body.title,
-		User: req.body.user,
-		Description: req.body.description,
-		Date: req.body.date,
-		Time: req.body.time,
-		Comments: [],
-		CommunityID: id
+		title: req.body.title,
+		poster: user._id,
+		description: req.body.description,
+		date: req.body.date,
+		time: req.body.time,
+		comments: [],
+		communityID: id
 	})
 
 	try {
@@ -262,6 +269,7 @@ app.post('/api/community/:communityID', authenticate, async (req, res) => {
 		} else {
 			community.posts.push(post)
 			res.send({ community, post })
+			post.save()
 			community.save()
 		}
 	} catch (error) {
@@ -391,7 +399,7 @@ app.get('/api/community/byId/:id', authenticate, async (req, res) => {
 	const id = req.params.id;
 
 	if (!ObjectId.isValid(id)) {
-		res.status(404).send()
+		res.status(400).send('Bad Request')
 		return;
 	}
 
@@ -433,6 +441,38 @@ app.delete('/api/community/:communityPath', authenticate, async (req, res) => {
 			return
 		}
 		res.send(community)
+	} catch (error) {
+		log(error)
+		res.status(500).send('Internal Server Error')
+	}
+})
+
+//Get post
+app.get('/api/posts/:postId', authenticate, async (req, res) => {
+	const postId = req.params.postId;
+
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	if (!ObjectId.isValid(postId)) {
+		res.status(400).send('Bad Request')
+		return;
+	}
+
+	// Find post
+	try {
+		console.log(postId)
+		const post = await Post.findById(postId)
+		// .populate("members")
+		if (!post) {
+			res.status(404).send('Post not found')
+			return
+		}
+		
+		res.send(post)
 	} catch (error) {
 		log(error)
 		res.status(500).send('Internal Server Error')
