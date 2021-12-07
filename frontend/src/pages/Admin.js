@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import FriendPreview from '../components/FriendPreview'
+import { getAllCommunities, deleteCommunity } from '../hooks/Api';
+import CommunityPreview from '../components/CommunityPreview';
 
 export const WarnedUsers = [];
 
 export default function Admin() {
 	const [users, setUsers] = useState(null);
+	const [allCommunities, setAllCommunities] = useState(null);
+
+	useEffect(() => {
+		getAllCommunities().then(communities => {
+			setAllCommunities(communities);
+		})
+	});
 
 	useEffect(() => {
 		// Users need to be fetched from backend
@@ -78,6 +87,16 @@ export default function Admin() {
                 </div>
                 )}
             </div> */}
+
+			<h1 className="heading">Recently Made Communities</h1>
+			<div>
+				{allCommunities && allCommunities.map((group, index) =>
+					<div>
+					<CommunityPreview key={index} path={group.path} name={group.name} description={group.description} memberCount={group.members.length} imageUrl={group.imageUrl} />
+					<button onClick={() => { deleteCommunity(group.path) }}>Remove Community</button>
+					</div>
+				)}
+			</div>
         </div>
     );
 }

@@ -418,14 +418,9 @@ app.get('/api/community/byId/:id', authenticate, async (req, res) => {
 	}
 })
 
-//Delete Community by ID
-app.delete('/api/community/:id', authenticate, async (req, res) => {
-	const id = req.params.id
-
-	if (!ObjectId.isValid(id)) {
-		res.status(404).send('Resource not found')
-		return;
-	}
+//Delete Community by path
+app.delete('/api/community/:communityPath', authenticate, async (req, res) => {
+	const communityPath = req.params.communityPath;
 
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
@@ -433,14 +428,15 @@ app.delete('/api/community/:id', authenticate, async (req, res) => {
 		return;
 	}
 
+	// Find by path
 	try {
-		const community = await Community.findById(id)
-
-		if (!resteraunt) {
-			res.status(404).send('Resteraunt not found')
-		} else {
-			res.send(community)
+		const community = await Community.findOne({"path" : {$regex : communityPath}}).populate("members")
+		if (!community) {
+			res.status(404).send('Community not found')
+			return
 		}
+		
+		res.send(community)
 	} catch (error) {
 		log(error)
 		res.status(500).send('Internal Server Error')
