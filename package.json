@@ -2,7 +2,8 @@
 	"scripts": {
 		"dev": "concurrently --kill-others-on-fail \"cd backend && nodemon server.js\" \"cd frontend && npm run start\"",
 		"production": "cd backend && node server.js",
-		"heroku-postbuild": "cd backend && npm install && cd ../frontend && npm install && npm run build"
+		"heroku-postbuild": "cd backend && npm install && cd ../frontend && npm install && npm run build",
+		"deploy": "git push heroku main"
 	},
 	"dependencies": {
 		"concurrently": "^6.4.0"
