@@ -83,7 +83,6 @@ export const joinCommunity = (username, communityId) => {
 		body: JSON.stringify({ 'what': 'community', 'communityId': communityId })
 	})
 		.then(res => {
-			console.log(res.json())
 			if (res.status === 200)
 				return res.json();
 			else throw 'Error'

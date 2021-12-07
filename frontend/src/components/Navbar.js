@@ -9,6 +9,26 @@ export default function Navbar(props) {
 	const user = useContext(UserContext);
 	const [enrolledCommunities, setEnrolledCommunities] = useState(null);
 
+	const getCommunities = (communityId) => {
+		getCommunityById(communityId).then(community => {
+			return community;
+		}).catch(err => {
+			console.log(err)
+		});
+	}
+
+	const saveCommunities = () => {
+		console.log('save')
+	}
+
+	const func1 = async () => {
+		console.log('func 1')
+		const promises = user.communities.map((communityId) => console.log(getCommunities(communityId)));
+		await Promise.all(promises);
+		saveCommunities();
+	}
+
+	/*
 	useEffect(() => {
 		// Enrolled Communities need to be fetched from backend
 		if (user.stale) {
@@ -58,7 +78,7 @@ export default function Navbar(props) {
 		// 		imageUrl: 'communities/webdev.jpg'
 		// 	}
 		// ]);
-	}, [user.communities]);
+	}, [user.communities]);*/
 
 	return (
 		<nav className="navigation">

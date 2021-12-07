@@ -27,7 +27,7 @@ function RequireAuth(props) {
 export default function App() {
 	const [user, setUser] = useState(() => {
 		const user = localStorage.getItem("user");
-		if (user !== 'undefined') {
+		if (user !== null) {
 			const parsed = JSON.parse(user);
 			parsed.stale = true;
 			return parsed;
@@ -76,7 +76,7 @@ export default function App() {
 						{/* Hardcoded communities */}
 						<Route path="community/create" element={<CreateCommunity />} />
 						
-						<Route path="community/:community" element={<CommunityPage />} />
+						<Route path="community/:community" element={<CommunityPage setUser={setUser} />} />
 						<Route path="community/:community/:thread" element={<CommunityPost />} />
 						<Route path="friends" element={<Friends />} />
 						<Route path="admin" element={<Admin />} />

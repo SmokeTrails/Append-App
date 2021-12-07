@@ -338,7 +338,7 @@ app.get('/api/community', authenticate, async (req, res) => {
 	}
 })
 
-//Get suggested community
+//Get suggested communities
 app.get('/api/suggested-communities', authenticate, async (req, res) => {
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
@@ -353,10 +353,11 @@ app.get('/api/suggested-communities', authenticate, async (req, res) => {
 		console.log(community)
 
 		if (!community) {
-			res.status(404).send('Community not found')
-		} else {
-			res.send(community)
+			res.status(404).send('Community not found');
+			return;
 		}
+		
+		res.send(community);
 	} catch (error) {
 		log(error)
 		res.status(500).send('Internal Server Error')
@@ -373,16 +374,15 @@ app.get('/api/community/:communityPath', authenticate, async (req, res) => {
 		return;
 	}
 
-	console.log(communityPath)
-
-	//If id valid, findById
+	// Find by path
 	try {
-		const community = await Community.findOne({"path" : {$regex : communityPath}})
+		const community = await Community.findOne({"path" : {$regex : communityPath}}).populate("members")
 		if (!community) {
 			res.status(404).send('Community not found')
-		} else {
-			res.send(community)
+			return
 		}
+		
+		res.send(community)
 	} catch (error) {
 		log(error)
 		res.status(500).send('Internal Server Error')
@@ -406,7 +406,7 @@ app.get('/api/community/byId/:id', authenticate, async (req, res) => {
 
 	//If id valid, findById
 	try {
-		const community = await Community.findById(id)
+		const community = await Community.findById(id).populate("members")
 		if (!community) {
 			res.status(404).send('Community not found')
 		} else {
@@ -721,8 +721,9 @@ app.post('/api/users/:username', authenticate, async (req, res) => {
 				}
 				else {
 					user.communities.push(community._id)
-					await user.save()
-					res.send({ community, user })
+					const newUser = await user.save();
+					newUser.password = undefined;
+					res.send({ community, newUser })
 				}
 			} else {
 				res.status(400).send('Bad Request')
@@ -732,7 +733,6 @@ app.post('/api/users/:username', authenticate, async (req, res) => {
 		log(error)
 		res.status(500).send("Internal Server Error")
 	}
-
 })
 
 // A delete route to delete a friend or community from the user

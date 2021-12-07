@@ -157,7 +157,7 @@ function AddPost(props) {
 	)
 }
 
-export default function CommunityPage() {
+export default function CommunityPage(props) {
 	const community = useParams().community;
 	const [isLoading, setIsLoading] = useState(true);
 	const [currentCommunity, setCurrentCommunity] = useState(null);
@@ -176,6 +176,7 @@ export default function CommunityPage() {
 				console.log('community', community);
 
 				setCurrentCommunity(community);
+				setIsCommunityMember(community.members.contains(loggedinUser._id));
 				setIsLoading(false);
 			}).catch(err => {
 				console.log(err)
@@ -206,8 +207,10 @@ export default function CommunityPage() {
 			alert(`Left ${currentCommunity.name}`);
 			setIsCommunityMember(false);
 		} else {
-			joinCommunity(loggedinUser.username, currentCommunity._id).then(json => {
-				console.log(json)
+			joinCommunity(loggedinUser.username, currentCommunity._id).then(res => {
+				console.log('joined community')
+				setCurrentCommunity(res.community);
+				props.setUser(res.user)
 			})
 			alert(`Joined ${currentCommunity.name}`);
 			setIsCommunityMember(true);
@@ -241,9 +244,9 @@ export default function CommunityPage() {
 									</div>
 									<div className="communityList">
 										
-										{currentCommunity.users && currentCommunity.users.length > 0
+										{currentCommunity.members && currentCommunity.members.length > 0
 											? showUserList && [ <h2 key="memberTitle">Members</h2>,
-												currentCommunity.users && currentCommunity.users.map((user, index) =>
+												currentCommunity.members && currentCommunity.members.map((user, index) =>
 													<div key={index}>
 														<FriendPreview name={user.name} username={user.username} imageUrl={user.imageUrl} />
 													</div>
