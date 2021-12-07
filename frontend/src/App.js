@@ -35,7 +35,7 @@ export default function App() {
 	useEffect(() => {
 		// Check if user is logged in in the backend
 		if (!env.use_frontend_test_user) {
-			fetch(`${api_host}/users/check-session`)
+			fetch(`${api_host}/api/check-session`)
 			.then(res => {
 				if (res.status === 200) {
 					return res.json()

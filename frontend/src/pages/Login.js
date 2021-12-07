@@ -40,7 +40,7 @@ export default function Login(props) {
 
 	function checkCredentials() {
 		let isLoggedIn = false
-		const request = new Request(`${api_host}/users/login`, {
+		const request = new Request(`${api_host}/api/login`, {
 			method: "post",
 			body: JSON.stringify({username: username, password: password}),
 			headers: {
@@ -56,19 +56,17 @@ export default function Login(props) {
 			})
 			.then(json => {
 				if (json.currentUser !== undefined) {
-					props.setUser(json.currentUser);
+					props.setUser(loginUser);
+					navigate("/")
 					isLoggedIn = true
+				}
+				else {
+					setInvalid("Your username or password is incorrect.")
 				}
 			})
 			.catch(error => {
 				console.log(error);
 			});
-		if (isLoggedIn) {
-			navigate("/")
-		}
-		else {
-			setInvalid("Your username or password is incorrect.")
-		}
 	}
 
 	return (
