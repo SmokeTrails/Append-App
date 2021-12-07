@@ -145,6 +145,24 @@ export const getAllCommunities = () => {
         });
 }
 
+export const getAllUsers = () => {
+    return fetch(`/api/users`, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(res => {
+			console.log(res);
+            if (res.status === 200)
+                return res.json();
+            else throw 'Error'
+        })
+        .catch(error => {
+            console.log(error);
+            return null;
+        });
+}
+
 export const createPost = (communityId, newPost) => {
 	return fetch(`/api/community/${communityId}`, {
 		method: 'POST',
@@ -352,6 +370,25 @@ export const addComment = (formComp, dashboardComp) => {
 
 export const deleteCommunity = (communityPath) => {
 	return fetch(`/api/community/${communityPath}`, {
+		method: 'DELETE',
+		headers: {
+			"Content-Type": "application/json"
+		}
+	})
+		.then(res => {
+			console.log(res)
+			if (res.status === 200)
+				return res.json();
+			else throw 'Error'
+		})
+		.catch(error => {
+			console.log(error);
+			return null;
+		});
+}
+
+export const deleteUser = (username) => {
+	return fetch(`/api/users/${username}`, {
 		method: 'DELETE',
 		headers: {
 			"Content-Type": "application/json"
