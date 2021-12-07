@@ -692,9 +692,6 @@ app.patch('/api/users/:username', authenticate, async (req, res) => {
 })
 
 /*** Webpage Routes below ************************************/
-// app.get('*', (req, res) => {
-// 	res.sendFile(__dirname + "/frontend/public/index.html");
-// })
 app.get('*', (req, res) => {
 	res.sendFile(path.join(__dirname + '/../frontend/build/index.html'));
 })

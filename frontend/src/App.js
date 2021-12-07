@@ -40,8 +40,7 @@ export default function App() {
 	}, [user]);
 
 	useEffect(() => {
-		console.log(`${api_host}/api/check-session`)
-		fetch(`${api_host}/api/check-session`)
+		fetch(`${api_host}check-session`)
 		.then(res => {
 			console.log("The status is ", res.status)
 				if (res.status === 200) {
