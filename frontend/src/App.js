@@ -17,11 +17,7 @@ import env from './config.js'
 const api_host = env.api_host
 
 function RequireAuth(props) {
-	console.log('User is: ')
-	console.log(props.user)
-	
 	if (!props.user) {
-		console.log("I got here")
 		return <Navigate to="/login" />
 	}
 
@@ -31,8 +27,11 @@ function RequireAuth(props) {
 export default function App() {
 	const [user, setUser] = useState(() => {
 		const user = localStorage.getItem("user");
-		const storedUser = JSON.parse(user);
-		return storedUser || null;
+			if (user !== 'undefined') {
+				return JSON.parse(user);
+			} else {
+				return null
+			}
 	});
 
 	useEffect(() => {
@@ -40,20 +39,22 @@ export default function App() {
 	}, [user]);
 
 	useEffect(() => {
-		console.log('check-session')
-		async function fetchMyAPI() {
-			try {
-				const res = await fetch(`${api_host}/check-session`);
-				console.log(res);
+		console.log(`${api_host}/api/check-session`)
+		fetch(`${api_host}/api/check-session`)
+		.then(res => {
+			console.log("The status is ", res.status)
 				if (res.status === 200) {
-					// setUser(data.currentUser)
+						return res.json();
 				}
-			} catch (e) {
-				console.log(e)
-			}
-		}
-
-		fetchMyAPI()
+		})
+		.then(json => {
+				if (json && json.currentUser) {
+						setUser(json.currentUser);
+				}
+		})
+		.catch(error => {
+				console.log(error);
+		});
 	}, []);
 
 	/*
@@ -67,7 +68,7 @@ export default function App() {
 					setUser(data.currentUser)
 				}
 				if (res.status === 401) {
-					
+
 				}
 			} catch (e) {
 				console.log(e)

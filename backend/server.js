@@ -37,7 +37,7 @@ const { User } = require('./models/user');
 const authenticate = (req, res, next) => {
 	if (env !== 'production' && USE_TEST_USER)
         req.session.user = 'user';
-	
+
     if (req.session.user) {
         User.findOne({'username': req.session.user}).then((user) => {
             if (!user) {
@@ -59,7 +59,7 @@ const authenticate = (req, res, next) => {
 const oneDay = 1000 * 60 * 60 * 24;
 
 app.use(sessions({
-	secret: "thisismysecretkeyngrieugbitgk",
+	secret: process.env.SESSION_SECRET || "thisismysecretkeyngrieugbitgk",
 	saveUninitialized: true,
 	cookie: { maxAge: oneDay},
 	resave: false,
@@ -87,8 +87,9 @@ app.post("/api/login", async (req, res) => {
 			if (match) {
 				req.session.user = username;
 				user.password = undefined;
+				log("Session after logging in: ", req.session)
 				res.send(user)
-			} 
+			}
 			else {
 				res.status(400).send()
 			}
@@ -97,7 +98,7 @@ app.post("/api/login", async (req, res) => {
 		log(error)
         res.status(400).send()
 	}
-	
+
 })
 
 // A route to logout a user
@@ -106,23 +107,35 @@ app.get("/api/logout", async (req, res) => {
         if (error) {
             res.status(500).send(error);
         } else {
+						log("The user has been destroyed.")
             res.send()
         }
     });
 })
 
 // A route to check if a user is logged in on the session
-app.get("/api/check-session", (req, res) => {
+app.get("/api/check-session", async (req, res) => {
+		log("Session in check session: ", req.session)
     if (env !== 'production' && USE_TEST_USER) { // test user on development environment.
 		log(process.env.TEST_USER_ON)
         req.session.user = 'user'
         res.send({ currentUser: 'user' })
         return;
     }
-	log(req.session)
-	log(req.cookie)
     if (req.session.user) {
-        res.send({ currentUser: req.session.user});
+				log("The user has been set.")
+				try {
+					const user = await User.findOne({'username': username})
+					if (!user) {
+						res.status(400).send()
+					}
+					else {
+						user.password = undefined
+						res.send({ currentUser: user});
+					}
+				} catch(error) {
+					res.status(400).send()
+				}
     } else {
         res.status(401).send();
     }
@@ -149,11 +162,11 @@ app.post('/api/community/create', authenticate, async (req, res) => {
 	})
 
 	try {
-		const result = await community.save()	
+		const result = await community.save()
 		res.send(result)
 	} catch(error) {
-		log(error) 
-		if (isMongoError(error)) { 
+		log(error)
+		if (isMongoError(error)) {
 			res.status(500).send('Internal server error')
 		} else {
 			res.status(400).send('Bad Request')
@@ -168,7 +181,7 @@ app.post('/api/community/:communityID', authenticate, async (req, res) => {
 		log('Issue with mongoose connection')
 		res.status(500).send('Internal server error')
 		return;
-	}  
+	}
 
 	const id = req.params.communityID
 
@@ -190,7 +203,7 @@ app.post('/api/community/:communityID', authenticate, async (req, res) => {
 
 	try {
 		const community = await Community.findById(id)
-		
+
 		if (!community) {
 			res.status(404).send('Resteraunt not found')
 		} else {
@@ -199,8 +212,8 @@ app.post('/api/community/:communityID', authenticate, async (req, res) => {
 			community.save()
 		}
 	} catch(error) {
-		log(error) 
-		if (isMongoError(error)) { 
+		log(error)
+		if (isMongoError(error)) {
 			res.status(500).send('Internal server error')
 		} else {
 			res.status(400).send('Bad Request')
@@ -215,7 +228,7 @@ app.post('/api/posts/:postID', authenticate, async (req, res) => {
 		log('Issue with mongoose connection')
 		res.status(500).send('Internal server error')
 		return;
-	} 
+	}
 	const post_id = req.params.postID
 
 	if (!ObjectId.isValid(post_id)) {
@@ -232,7 +245,7 @@ app.post('/api/posts/:postID', authenticate, async (req, res) => {
 
 	try {
 		const post = await Community.posts.findById(id)
-		
+
 		if (!post) {
 			res.status(404).send('Resteraunt not found')
 		} else {
@@ -241,8 +254,8 @@ app.post('/api/posts/:postID', authenticate, async (req, res) => {
 			post.save()
 		}
 	} catch(error) {
-		log(error) 
-		if (isMongoError(error)) { 
+		log(error)
+		if (isMongoError(error)) {
 			res.status(500).send('Internal server error')
 		} else {
 			res.status(400).send('Bad Request')
@@ -257,7 +270,7 @@ app.get('/api/community', authenticate, async (req, res) => {
 		log('Issue with mongoose connection')
 		res.status(500).send('Internal server error')
 		return;
-	} 
+	}
 
 	//Get posts
 	try {
@@ -311,11 +324,11 @@ app.delete('/api/community/:id', authenticate, async (req, res) => {
 		log('Issue with mongoose connection')
 		res.status(500).send('Internal server error')
 		return;
-	} 
+	}
 
 	try {
 		const community = await Community.findById(id)
-		
+
 		if (!resteraunt) {
 			res.status(404).send('Resteraunt not found')
 		} else {
@@ -345,7 +358,7 @@ app.delete('/api/community/:id/:postID', authenticate, async (req, res) => {
 
 	try {
 		const community = await Community.findById(community_id)
-		
+
 		if (!community) {
 			res.status(404).send('Community not found')
 		} else {
@@ -354,7 +367,7 @@ app.delete('/api/community/:id/:postID', authenticate, async (req, res) => {
 			if (!post) {
 				res.status(404).send('Post not found')
 			} else {
-				
+
 				for (let index = 0; index < parent.posts.length; index++) {
 					if (parent.posts[index]._id == resv_id){
 						const remov = parent.post[index]
@@ -390,7 +403,7 @@ app.delete('/api/posts/:postID/:commentID', authenticate, async (req, res) => {
 
 	try {
 		const post = await Post.findById(post_id)
-		
+
 		if (!post) {
 			res.status(404).send('Post not found')
 		} else {
@@ -399,7 +412,7 @@ app.delete('/api/posts/:postID/:commentID', authenticate, async (req, res) => {
 			if (!comment) {
 				res.status(404).send('Comment not found')
 			} else {
-				
+
 				for (let index = 0; index < parent.comments.length; index++) {
 					if (parent.comments[index]._id == resv_id){
 						const remov = parent.comments[index]
@@ -594,7 +607,7 @@ app.post('/api/users/:username', authenticate, async (req, res) => {
 
 })
 
-// A delete route to delete a friend or community from the user 
+// A delete route to delete a friend or community from the user
 app.delete('/api/users/:username/:what', authenticate, async (req, res) => {
 	const username = req.params.username
 	if (mongoose.connection.readyState != 1) {
@@ -664,7 +677,7 @@ app.patch('/api/users/:username', authenticate, async (req, res) => {
 		const user = await User.findOneAndUpdate({'username': username}, {$set: fieldsToUpdate}, {new: true, useFindAndModify: false})
 		if (!user) {
 			res.status(404).send('Resource not found')
-		} else {   
+		} else {
 			res.send(user)
 		}
 	} catch (error) {

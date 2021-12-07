@@ -40,7 +40,8 @@ export default function Login(props) {
 
 	function checkCredentials() {
 		let isLoggedIn = false
-		const request = new Request(`${api_host}/login`, {
+		console.log(`${api_host}/api/login`)
+		const request = new Request(`${api_host}/api/login`, {
 			method: "post",
 			body: JSON.stringify({username: username, password: password}),
 			headers: {
@@ -50,7 +51,6 @@ export default function Login(props) {
 		});
 		fetch(request)
 			.then(res => {
-				console.log(res)
 				if (res.status === 200) {
 					// fetch(`${api_host}/check-session`)
 					// .then(res => {
