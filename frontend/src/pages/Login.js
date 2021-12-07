@@ -11,6 +11,7 @@ export default function Login(props) {
 	const [invalid, setInvalid] = useState("")
 	const navigate = useNavigate()
 
+	/*
 	// Login users needs to be fetched from backend
 	const loginUser = {
 		name: 'Haider',
@@ -38,7 +39,7 @@ export default function Login(props) {
 		courseCodes: [],
 		communityNames: []
 	}
-
+	*/
 	function checkCredentials() {
 		let isLoggedIn = false
 		console.log(`${api_host}/login`)
@@ -51,23 +52,28 @@ export default function Login(props) {
 			}
 		});
 		fetch(request)
-			.then(res => {
-				if (res.status === 200) {
-					// fetch(`${api_host}/check-session`)
-					// .then(res => {
-					// 	console.log(res)
-					// })
-					return res.json();
-				}
-			})
-			.then(json => {
-				props.setUser(json);
-				navigate("/");
-				isLoggedIn = true;
-			})
-			.catch(error => {
-				console.log(error);
-			});
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            }
+        })
+        .then(json => {
+            if (json !== undefined) {
+                props.setUser(json);
+								if (username === "admin") {
+									navigate("/admin")
+								}
+								else {
+									navigate("/")
+								}
+            }
+						else {
+								setInvalid("Your username or password is incorrect.")
+						}
+        })
+        .catch(error => {
+            console.log(error);
+        });
 	}
 
 	return (

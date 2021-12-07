@@ -21,7 +21,6 @@ function RequireAuth(props) {
 	if (!props.user) {
 		return <Navigate to="/login" />
 	}
-
 	return props.children;
 }
 
@@ -42,17 +41,16 @@ export default function App() {
 	useEffect(() => {
 		fetch(`${api_host}/check-session`)
 		.then(res => {
-			console.log("The status is ", res.status)
 			if (res.status === 200) {
 					return res.json();
 			}
 			if (res.status === 401) {
-				setUser(null);
+					setUser(null);
 			}
 		})
 		.then(json => {
-			if (json && json.currentUser) {
-				setUser(json.currentUser);
+			if (json) {
+				setUser(json);
 			}
 		})
 		.catch(error => {

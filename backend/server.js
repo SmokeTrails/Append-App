@@ -87,7 +87,6 @@ app.post("/api/login", async (req, res) => {
 			if (match) {
 				req.session.user = username;
 				user.password = undefined;
-				log("Session after logging in: ", req.session)
 				res.send(user)
 			}
 			else {
@@ -126,7 +125,7 @@ app.get("/api/check-session", async (req, res) => {
 		log("The user has been set.")
 		try {
 			const user = await User.findOne({'username': req.session.user});
-			
+
 			if (!user) {
 				res.status(400).send()
 			}
