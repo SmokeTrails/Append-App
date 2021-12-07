@@ -9,7 +9,7 @@ import CustomLink from '../components/CustomLink';
 import FriendPreview from '../components/FriendPreview';
 import MissingPage from '../pages/MissingPage';
 import './CommunityPage.css';
-import { addCommunity, addPost } from "../hooks/Api";
+import { getCommunity, joinCommunity, addCommunity, addPost } from "../hooks/Api";
 
 const communities = [
 	{
@@ -164,29 +164,51 @@ export default function CommunityPage() {
 	const [isCommunityMember, setIsCommunityMember] = useState(false);
 	const [showUserList, setShowUserList] = useState(false);
 	const [addPost, setAddPost] = useState(false);
+	const loggedinUser = useContext(UserContext);
 
 	useEffect(() => {
-		if (isLoading || (currentCommunity && community !== currentCommunity.path)) {
-			// Communities need to be fetched from backend
-			var filteredCommunities = communities.filter(c => {
-				return c.path === community
-			})
+		setIsLoading(true);
+	}, [community]);
 
-			setCurrentCommunity(filteredCommunities[0]);
-			setIsLoading(false);
+	useEffect(() => {
+		if (isLoading === true) {
+			getCommunity(community).then(community => {
+				console.log('community', community);
 
-			// Temporarily hardcode state
-			setIsCommunityMember(false);
-			setShowUserList(false);
+				setCurrentCommunity(community);
+				setIsLoading(false);
+			}).catch(err => {
+				console.log(err)
+				setCurrentCommunity(null);
+			});
 		}
-	}, [community, isLoading, currentCommunity]);
+	}, [isLoading]);
+
+	// useEffect(() => {
+	// 	if (isLoading || (currentCommunity && community !== currentCommunity.path)) {
+	// 		// Communities need to be fetched from backend
+	// 		var filteredCommunities = communities.filter(c => {
+	// 			return c.path === community
+	// 		})
+
+	// 		setCurrentCommunity(filteredCommunities[0]);
+	// 		setIsLoading(false);
+
+	// 		// Temporarily hardcode state
+	// 		setIsCommunityMember(false);
+	// 		setShowUserList(false);
+	// 	}
+	// }, [community, isLoading, currentCommunity]);
 
 	// Implement joining community in backend
-	const joinCommunity = () => {
+	const handleJoin = () => {
 		if (isCommunityMember) {
 			alert(`Left ${currentCommunity.name}`);
 			setIsCommunityMember(false);
 		} else {
+			joinCommunity(loggedinUser.username, currentCommunity._id).then(json => {
+				console.log(json)
+			})
 			alert(`Joined ${currentCommunity.name}`);
 			setIsCommunityMember(true);
 		}
@@ -203,16 +225,16 @@ export default function CommunityPage() {
 				: currentCommunity
 					? <div className="communityPage">
 						<div className="communityCard">
-							<img className="cover" src={require(`../images/${currentCommunity.imageUrl}`).default} alt={currentCommunity.name + "'s banner"} />
+							{/* <img className="cover" src={require(`../images/${currentCommunity.imageUrl}`).default} alt={currentCommunity.name + "'s banner"} /> */}
 							<h2 className="badge" onClick={() => toggleUserList()}>
-								<NumberFormat value={currentCommunity.memberCount} displayType={'text'} thousandSeparator={true} /> members
+								<NumberFormat value={currentCommunity.members.length} displayType={'text'} thousandSeparator={true} /> {currentCommunity.members.length == 1 ? 'member' : 'members'}
 							</h2>
 							<div className="communityContent">
 								<div className="communityInfo">
 									<h1>{currentCommunity.name}</h1>
 									<p>{currentCommunity.description}</p>
 									<div>
-										<button className={isCommunityMember ? 'disabled' : ''} onClick={() => joinCommunity(currentCommunity)}>
+										<button className={isCommunityMember ? 'disabled' : ''} onClick={() => handleJoin(currentCommunity)}>
 											<UserGroupIcon />
 											{isCommunityMember ? 'Joined' : 'Join community'}
 										</button>

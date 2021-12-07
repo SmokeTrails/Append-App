@@ -27,11 +27,13 @@ function RequireAuth(props) {
 export default function App() {
 	const [user, setUser] = useState(() => {
 		const user = localStorage.getItem("user");
-			if (user !== 'undefined') {
-				return JSON.parse(user);
-			} else {
-				return null
-			}
+		if (user !== 'undefined') {
+			const parsed = JSON.parse(user);
+			parsed.stale = true;
+			return parsed;
+		} else {
+			return null;
+		}
 	});
 
 	useEffect(() => {
@@ -43,14 +45,14 @@ export default function App() {
 		.then(res => {
 			console.log("The status is", res.status)
 			if (res.status === 200) {
-					return res.json();
-			}
-			if (res.status === 401) {
-					setUser(null);
+				return res.json();
+			} else {
+				setUser(null);
 			}
 		})
 		.then(json => {
 			if (json) {
+				console.log('setting user')
 				setUser(json);
 			}
 		})
@@ -68,7 +70,7 @@ export default function App() {
 					<Route path="/" element={<RequireAuth user={user}><Layout setUser={setUser} /></RequireAuth>}>
 						<Route index element={<Home />} />
 						<Route path="friends" element={<Friends />} />
-						<Route path="user/:username" element={<UserProfile />} />
+						<Route path="user/:username" element={<UserProfile setUser={setUser} />} />
 						<Route path="search/:query" element={<SearchResults />} />
 						
 						{/* Hardcoded communities */}

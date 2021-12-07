@@ -7,9 +7,9 @@ import './CommunityPreview.css';
 export default function CommunityPreview({ path, name, description, memberCount, imageUrl }) {
 	return (
 		<CustomLink className="communityPreview" to={`/community/${path}`} >
-			<img className="image" src={require(`../images/${imageUrl}`).default} alt={name + "'s photo"} />
+			{/* <img className="image" src={require(`../images/${imageUrl}`).default} alt={name + "'s photo"} /> */}
 			<h2 className="badge">
-				<NumberFormat value={memberCount} displayType={'text'} thousandSeparator={true} /> members
+				<NumberFormat value={memberCount} displayType={'text'} thousandSeparator={true} /> {memberCount == 1 ? 'member' : 'members'}
 			</h2>
 			<div className="content">
 				<div>

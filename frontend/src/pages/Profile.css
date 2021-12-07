@@ -78,9 +78,15 @@
 	transition: transform var(--ease-animation);
 }
 
-.profile button:hover {
+.profile button:hover:not(:disabled) {
 	transform: var(--scale-transform);
 }
+
+.profile button:disabled {
+	cursor: not-allowed;
+}
+
+
 
 .profile button svg {
 	width: var(--icon-size);

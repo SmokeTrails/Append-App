@@ -25,7 +25,7 @@ const { ObjectId } = require('mongodb');
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	extended: true
-  })); 
+}));
 app.use(bodyParser.json());
 
 // serve static react build
@@ -41,12 +41,12 @@ const { User } = require('./models/user');
 
 const authenticate = async (req, res, next) => {
 	// if (env !== 'production' && USE_TEST_USER)
-    //     req.session.user = 'user';
+	//     req.session.user = 'user';
 	console.log(req.session.user)
-	
-    if (req.session.user) {
+
+	if (req.session.user) {
 		try {
-			const user = await User.findOne({'username': req.session.user});
+			const user = await User.findOne({ 'username': req.session.user });
 			if (!user) {
 				return Promise.reject();
 			}
@@ -54,13 +54,13 @@ const authenticate = async (req, res, next) => {
 			req.user = user;
 			next();
 			return;
-		} catch(error) {
-            res.status(401).send("Unauthorized");
+		} catch (error) {
+			res.status(401).send("Unauthorized");
 			return;
-        }
-    }
+		}
+	}
 
-    res.status(401).send("Unauthorized");
+	res.status(401).send("Unauthorized");
 }
 
 /*** Session handling **************************************/
@@ -70,11 +70,11 @@ const oneDay = 1000 * 60 * 60 * 24;
 app.use(sessions({
 	secret: process.env.SESSION_SECRET || "thisismysecretkeyngrieugbitgk",
 	saveUninitialized: true,
-	cookie: { maxAge: oneDay},
+	cookie: { maxAge: oneDay },
 	resave: false,
 	store: MongoStore.create({
 		mongoUrl: 'mongodb+srv://team51:54321@cluster0.dsirf.mongodb.net/Team51?retryWrites=true&w=majority'
-})
+	})
 }))
 
 // A route to login and create a session
@@ -88,7 +88,7 @@ app.post("/api/login", async (req, res) => {
 		return;
 	}
 	try {
-		const user = await User.findOne({'username': username})
+		const user = await User.findOne({ 'username': username })
 		if (!user) {
 			res.status(400).send();
 			return;
@@ -104,9 +104,9 @@ app.post("/api/login", async (req, res) => {
 				res.status(400).send()
 			}
 		}
-	} catch(error) {
+	} catch (error) {
 		log(error)
-        res.status(400).send()
+		res.status(400).send()
 	}
 
 })
@@ -114,28 +114,28 @@ app.post("/api/login", async (req, res) => {
 // A route to logout a user
 app.get("/api/logout", async (req, res) => {
 	req.session.destroy(error => {
-        if (error) {
-            res.status(500).send(error);
-        } else {
-						log("The user has been destroyed.")
-            res.send()
-        }
-    });
+		if (error) {
+			res.status(500).send(error);
+		} else {
+			log("The user has been destroyed.")
+			res.send()
+		}
+	});
 })
 
 // A route to check if a user is logged in on the session
 app.get("/api/check-session", async (req, res) => {
-		log("Session in check session: ", req.session)
-    if (env !== 'production' && USE_TEST_USER) { // test user on development environment.
+	log("Session in check session: ", req.session)
+	if (env !== 'production' && USE_TEST_USER) { // test user on development environment.
 		log(process.env.TEST_USER_ON)
-        req.session.user = 'user'
-        res.send({ currentUser: 'user' })
-        return;
-    }
-    if (req.session.user) {
+		req.session.user = 'user'
+		res.send({ currentUser: 'user' })
+		return;
+	}
+	if (req.session.user) {
 		log("The user has been set.")
 		try {
-			const user = await User.findOne({'username': req.session.user});
+			const user = await User.findOne({ 'username': req.session.user });
 
 			if (!user) {
 				res.status(400).send()
@@ -144,12 +144,12 @@ app.get("/api/check-session", async (req, res) => {
 				user.password = undefined
 				res.send(user);
 			}
-		} catch(error) {
+		} catch (error) {
 			res.status(400).send()
 		}
-    } else {
-        res.status(401).send();
-    }
+	} else {
+		res.status(401).send();
+	}
 });
 
 
@@ -157,12 +157,12 @@ app.get("/api/check-session", async (req, res) => {
 const restrictedCommunities = ['create'];
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '../uploads');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now() + file.originalname.substring(file.originalname.lastIndexOf('.')));
-    }
+	destination: (req, file, cb) => {
+		cb(null, '../uploads');
+	},
+	filename: (req, file, cb) => {
+		cb(null, file.fieldname + '-' + Date.now() + file.originalname.substring(file.originalname.lastIndexOf('.')));
+	}
 });
 
 const upload = multer({ storage: storage });
@@ -200,8 +200,25 @@ app.post('/api/community/create', [authenticate], async (req, res) => {
 
 	try {
 		const result = await community.save();
+
+		if (!result) {
+			res.status(400).send('Bad Request')
+			return
+		}
+
+		const user = await User.findById(req.user._id);
+		if (!user) {
+			res.status(400).send('Bad Request')
+			return
+		}
+		
+		user.communities.push()
+		user.communities.push(result._id);
+		const newUser = await user.save()
+		newUser.password = undefined;
 		console.log("Community added to backend!!");
-	} catch(error) {
+		res.send({'path': result.path, newUser})
+	} catch (error) {
 		log(error)
 		if (isMongoError(error)) {
 			res.status(500).send('Internal server error')
@@ -247,10 +264,10 @@ app.post('/api/community/:communityID', authenticate, async (req, res) => {
 			res.status(404).send('Resteraunt not found')
 		} else {
 			community.posts.push(post)
-			res.send({community, post})
+			res.send({ community, post })
 			community.save()
 		}
-	} catch(error) {
+	} catch (error) {
 		log(error)
 		if (isMongoError(error)) {
 			res.status(500).send('Internal server error')
@@ -289,10 +306,10 @@ app.post('/api/posts/:postID', authenticate, async (req, res) => {
 			res.status(404).send('Resteraunt not found')
 		} else {
 			post.comments.push(comment)
-			res.send({post, comment})
+			res.send({ post, comment })
 			post.save()
 		}
-	} catch(error) {
+	} catch (error) {
 		log(error)
 		if (isMongoError(error)) {
 			res.status(500).send('Internal server error')
@@ -315,15 +332,66 @@ app.get('/api/community', authenticate, async (req, res) => {
 	try {
 		const communities = await Community.find()
 		res.send(communities)
-	} catch(error) {
+	} catch (error) {
 		log(error)
 		res.status(500).send("Internal Server Error")
 	}
 })
 
+//Get suggested community
+app.get('/api/suggested-communities', authenticate, async (req, res) => {
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	try {
+		const community = await Community.aggregate([
+			{ $sample: { size: 5 } }
+		]);
+		console.log(community)
+
+		if (!community) {
+			res.status(404).send('Community not found')
+		} else {
+			res.send(community)
+		}
+	} catch (error) {
+		log(error)
+		res.status(500).send('Internal Server Error')
+	}
+})
+
 //Get specific community
-app.get('/api/community/:id', authenticate, async (req, res) => {
-	const id = req.params.id
+app.get('/api/community/:communityPath', authenticate, async (req, res) => {
+	const communityPath = req.params.communityPath;
+
+	if (mongoose.connection.readyState != 1) {
+		log('Issue with mongoose connection')
+		res.status(500).send('Internal server error')
+		return;
+	}
+
+	console.log(communityPath)
+
+	//If id valid, findById
+	try {
+		const community = await Community.findOne({"path" : {$regex : communityPath}})
+		if (!community) {
+			res.status(404).send('Community not found')
+		} else {
+			res.send(community)
+		}
+	} catch (error) {
+		log(error)
+		res.status(500).send('Internal Server Error')
+	}
+})
+
+//Get specific community by id
+app.get('/api/community/byId/:id', authenticate, async (req, res) => {
+	const id = req.params.id;
 
 	if (!ObjectId.isValid(id)) {
 		res.status(404).send()
@@ -344,7 +412,7 @@ app.get('/api/community/:id', authenticate, async (req, res) => {
 		} else {
 			res.send(community)
 		}
-	} catch(error) {
+	} catch (error) {
 		log(error)
 		res.status(500).send('Internal Server Error')
 	}
@@ -372,8 +440,8 @@ app.delete('/api/community/:id', authenticate, async (req, res) => {
 			res.status(404).send('Resteraunt not found')
 		} else {
 			res.send(community)
-	}
-	} catch(error) {
+		}
+	} catch (error) {
 		log(error)
 		res.status(500).send('Internal Server Error')
 	}
@@ -401,24 +469,24 @@ app.delete('/api/community/:id/:postID', authenticate, async (req, res) => {
 		if (!community) {
 			res.status(404).send('Community not found')
 		} else {
-		Community.findById(id, function(err, parent) {
-			var post = parent.posts.id(post_id);
-			if (!post) {
-				res.status(404).send('Post not found')
-			} else {
+			Community.findById(id, function (err, parent) {
+				var post = parent.posts.id(post_id);
+				if (!post) {
+					res.status(404).send('Post not found')
+				} else {
 
-				for (let index = 0; index < parent.posts.length; index++) {
-					if (parent.posts[index]._id == resv_id){
-						const remov = parent.post[index]
-						parent.posts.splice(index, 1);
-						parent.save()
-						res.send({remov, parent})
+					for (let index = 0; index < parent.posts.length; index++) {
+						if (parent.posts[index]._id == resv_id) {
+							const remov = parent.post[index]
+							parent.posts.splice(index, 1);
+							parent.save()
+							res.send({ remov, parent })
+						}
 					}
 				}
-			}
-		});
-	}
-	} catch(error) {
+			});
+		}
+	} catch (error) {
 		log(error)
 		res.status(500).send('Internal Server Error')
 	}
@@ -446,24 +514,24 @@ app.delete('/api/posts/:postID/:commentID', authenticate, async (req, res) => {
 		if (!post) {
 			res.status(404).send('Post not found')
 		} else {
-			Post.findById(id, function(err, parent) {
-			var comment = parent.posts.id(comment_id);
-			if (!comment) {
-				res.status(404).send('Comment not found')
-			} else {
+			Post.findById(id, function (err, parent) {
+				var comment = parent.posts.id(comment_id);
+				if (!comment) {
+					res.status(404).send('Comment not found')
+				} else {
 
-				for (let index = 0; index < parent.comments.length; index++) {
-					if (parent.comments[index]._id == resv_id){
-						const remov = parent.comments[index]
-						parent.comments.splice(index, 1);
-						parent.save()
-						res.send({remov, parent})
+					for (let index = 0; index < parent.comments.length; index++) {
+						if (parent.comments[index]._id == resv_id) {
+							const remov = parent.comments[index]
+							parent.comments.splice(index, 1);
+							parent.save()
+							res.send({ remov, parent })
+						}
 					}
 				}
-			}
-		});
-	}
-	} catch(error) {
+			});
+		}
+	} catch (error) {
 		log(error)
 		res.status(500).send('Internal Server Error')
 	}
@@ -481,11 +549,11 @@ app.post('/api/users', async (req, res) => {
 		return;
 	}
 	try {
-		const user = await User.findOne({'username': req.body.username})
+		const user = await User.findOne({ 'username': req.body.username })
 		if (!user) {
-				const salt = await bcrypt.genSalt(10)
-				const hash = await bcrypt.hash(req.body.password, salt)
-				const user = new User({
+			const salt = await bcrypt.genSalt(10)
+			const hash = await bcrypt.hash(req.body.password, salt)
+			const user = new User({
 				name: req.body.name,
 				username: req.body.username,
 				password: hash,
@@ -498,22 +566,22 @@ app.post('/api/users', async (req, res) => {
 				friends: [],
 				warnings: []
 			})
-			log(user)
+			// log(user)
 			const newUser = await user.save()
 			newUser.password = undefined
 			res.send(newUser)
 		}
 		else {
-			res.send({message: "Already exists"})
+			res.send({ message: "Already exists" })
 		}
-	} catch(error) {
+	} catch (error) {
+		log(error)
+		if (isMongoError(error)) {
+			res.status(500).send('Internal server error')
+		} else {
 			log(error)
-			if (isMongoError(error)) {
-        	res.status(500).send('Internal server error')
-    	} else {
-        log(error)
-        res.status(400).send('Bad Request')
-    	}
+			res.status(400).send('Bad Request')
+		}
 	}
 })
 
@@ -532,14 +600,14 @@ app.get('/api/users', authenticate, async (req, res) => {
 		})
 		res.send(users)
 		// res.send({users}) // just in case we need this
-	} catch(error) {
+	} catch (error) {
 		log(error)
-        res.status(500).send("Internal Server Error")
+		res.status(500).send("Internal Server Error")
 	}
 })
 
 // A get route to get a user with a specific username
-app.get('/api/users/byusername/:username', authenticate, async (req, res) => {
+app.get('/api/users/:username', authenticate, async (req, res) => {
 	const username = req.params.username
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
@@ -547,7 +615,7 @@ app.get('/api/users/byusername/:username', authenticate, async (req, res) => {
 		return;
 	}
 	try {
-		const user = await User.findOne({'username': username})
+		const user = await User.findOne({ 'username': username })
 		if (!user) {
 			res.status(404).send('Resource not found')
 		}
@@ -555,9 +623,9 @@ app.get('/api/users/byusername/:username', authenticate, async (req, res) => {
 			user.password = undefined;
 			res.send(user)
 		}
-	} catch(error) {
+	} catch (error) {
 		log(error)
-        res.status(500).send("Internal Server Error")
+		res.status(500).send("Internal Server Error")
 	}
 })
 
@@ -582,9 +650,9 @@ app.get('/api/users/byid/:id', authenticate, async (req, res) => {
 			user.password = undefined;
 			res.send(user)
 		}
-	} catch(error) {
+	} catch (error) {
 		log(error)
-        res.status(500).send("Internal Server Error")
+		res.status(500).send("Internal Server Error")
 	}
 })
 
@@ -597,61 +665,72 @@ app.delete('/api/users/:username', authenticate, async (req, res) => {
 		return;
 	}
 	try {
-		const user = await User.findOneAndRemove({'username': username})
+		const user = await User.findOneAndRemove({ 'username': username })
 		if (!user) {
 			res.status(404).send('Resource not found')
 		}
 		else {
 			res.send(user)
 		}
-	} catch(error) {
+	} catch (error) {
 		log(error)
-        res.status(500).send("Internal Server Error")
+		res.status(500).send("Internal Server Error")
 	}
 })
 
-// A post route to add a post or community to the user
+// A post route to add a friend or community to the user
 app.post('/api/users/:username', authenticate, async (req, res) => {
+	console.log('adding friend')
 	const username = req.params.username
 	if (mongoose.connection.readyState != 1) {
 		log('Issue with mongoose connection')
 		res.status(500).send('Internal server error')
 		return;
 	}
+
 	try {
-		const user = await User.findOne({'username': username})
+		const user = await User.findOne({ 'username': username })
 		if (!user) {
 			res.status(404).send('Resource not found')
 		}
 		else {
 			if (req.body.what === "friend") {
-				const friend = await User.findOne({'username': req.body.friendUsername})
+				const friend = await User.findOne({ 'username': req.body.friendUsername })
 				if (!friend) {
 					res.status(404).send('Resource not found')
 				}
 				else {
-					user.friends.push(friend._id)
-					await user.save()
-					res.send({friend, user})
-				}
-			} else if(req.body.what === "community") {
-				const community = await Community.findOne({'name': req.body.communityName})
-				if (!community) {
-					res.status(404).send('Resource not found')
+					user.friends.push(friend._id);
+					await user.save();
 
+					friend.friends.push(user._id);
+					await friend.save();
+
+					res.send({ friend, user });
+				}
+			} else if (req.body.what === "community") {
+				const community_id = req.body.communityId;
+
+				if (!ObjectId.isValid(community_id)) {
+					res.status(404).send('Resource not found');
+					return;
+				}
+				const community = await Community.findById(community_id);
+				if (!community) {
+					res.status(404).send('Resource not found');
 				}
 				else {
 					user.communities.push(community._id)
 					await user.save()
-					res.send({community, user})
+					res.send({ community, user })
 				}
 			} else {
 				res.status(400).send('Bad Request')
 			}
 		}
-	} catch(error) {
+	} catch (error) {
 		log(error)
-        res.status(500).send("Internal Server Error")
+		res.status(500).send("Internal Server Error")
 	}
 
 })
@@ -665,23 +744,23 @@ app.delete('/api/users/:username/:what', authenticate, async (req, res) => {
 		return;
 	}
 	try {
-		const user = await User.findOne({'username': username})
+		const user = await User.findOne({ 'username': username })
 		if (!user) {
 			res.status(404).send('Resource not found')
 		}
 		else {
 			if (req.params.what === "friend") {
-				const friend = await User.findOne({'username': req.body.friendUsername})
+				const friend = await User.findOne({ 'username': req.body.friendUsername })
 				if (!friend) {
 					res.status(404).send('Resource not found')
 				}
 				else {
 					user.friends.pull(friend._id)
 					await user.save()
-					res.send({friend, user})
+					res.send({ friend, user })
 				}
-			} else if(req.params.what === "community") {
-				const community = await Community.findOne({'name': req.body.communityName})
+			} else if (req.params.what === "community") {
+				const community = await Community.findOne({ 'name': req.body.communityName })
 				if (!community) {
 					res.status(404).send('Resource not found')
 
@@ -689,15 +768,15 @@ app.delete('/api/users/:username/:what', authenticate, async (req, res) => {
 				else {
 					user.communities.pull(community._id)
 					await user.save()
-					res.send({community, user})
+					res.send({ community, user })
 				}
 			} else {
 				res.status(400).send('Bad Request')
 			}
 		}
-	} catch(error) {
+	} catch (error) {
 		log(error)
-        res.status(500).send("Internal Server Error")
+		res.status(500).send("Internal Server Error")
 	}
 })
 
@@ -723,7 +802,7 @@ app.patch('/api/users/:username', authenticate, async (req, res) => {
 		fieldsToUpdate["password"] = hash
 	}
 	try {
-		const user = await User.findOneAndUpdate({'username': username}, {$set: fieldsToUpdate}, {new: true, useFindAndModify: false})
+		const user = await User.findOneAndUpdate({ 'username': username }, { $set: fieldsToUpdate }, { new: true, useFindAndModify: false })
 		if (!user) {
 			res.status(404).send('Resource not found')
 		} else {

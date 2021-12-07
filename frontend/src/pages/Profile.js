@@ -4,7 +4,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { UserIcon, UserAddIcon, CheckIcon, PencilIcon } from '@heroicons/react/solid';
 import MissingPage from './MissingPage';
 import UserContext from '../hooks/UserContext';
-import { getUser } from "../hooks/Api";
+import { getUser, addFriend, getCommunityById } from "../hooks/Api";
 import CommunityLink from '../components/CommunityLink';
 import './Profile.css';
 
@@ -202,7 +202,7 @@ function Avatar(props) {
 	return (
 		<div className="avatar">
 			{props.imageUrl
-				? <img className="image" src={require(`../images/users/${props.imageUrl}`).default} alt={props.name + "'s profile picture"} />
+				? <img className="image" src={require(`${props.imageUrl}`).default} alt={props.name + "'s profile picture"} />
 				: <div className="image"><UserIcon /></div>
 			}
 		</div>
@@ -215,8 +215,8 @@ function ProfileDescription(props) {
 			<h1>{props.name}</h1>
 			<h4>@{props.username}</h4>
 			<div className="userInfo">
-				<p><span className="count">{props.friendCount}</span> Friends</p>
-				<p><span className="count">{props.communityCount}</span> Communities</p>
+				<p><span className="count">{props.friendCount}</span> {props.friendCount == 1 ? 'Friend' : 'Friends'}</p>
+				<p><span className="count">{props.communityCount}</span> {props.communityCount == 1 ? 'Community' : 'Communities'}</p>
 				{/* <p><span className="count">{props.clubCount}</span> Clubs</p>
 				<p><span className="count">{props.courseCount}</span> Courses</p> */}
 			</div>
@@ -281,12 +281,14 @@ function ProfileEditingInfo(props) {
 	)
 }
 
-export default function UserProfile() {
+export default function UserProfile(props) {
 	const username = useParams().username;
 	const loggedinUser = useContext(UserContext);
 	const [isLoading, setIsLoading] = useState(true);
 	const [currentUser, setCurrentUser] = useState(null);
+	const [enrolledCommunities, setEnrolledCommunities] = useState(null);
 	const [editInfo, setEditInfo] = useState(null);
+	
 	
 	const saveForm = () => {
 		console.log("TODO")
@@ -301,8 +303,6 @@ export default function UserProfile() {
 		filteredUser.interests = editInfo.interests
 		filteredUser.year = editInfo.year
 		filteredUser.program = editInfo.program
-
-		
 		*/
 	}
 
@@ -315,7 +315,13 @@ export default function UserProfile() {
 		});
 	}
 
-	const addFriend = () => {
+	const handleAddFriend = () => {
+		addFriend(loggedinUser.username, username).then(res => {
+			props.setUser(res.user);
+			setCurrentUser(res.friend);
+		}).catch(err => {
+			console.log(err)
+		});
 		console.log('TODO')
 	}
 
@@ -331,21 +337,64 @@ export default function UserProfile() {
 					user = null;
 
 				setCurrentUser(user);
-				if (isLoading) {
+				const communities = [];
+
+				const promise = new Promise((resolve, reject) => {
+					const length = user.communities.length;
+
+					if (length == 0) resolve();
+
+					user.communities.forEach((communityId, index) => {
+						getCommunityById(communityId).then(community => {
+							communities.push(community);
+
+							if (index === length - 1) resolve();
+						}).catch(err => {
+							console.log(err)
+						});
+					})
+				})
+				
+				promise.then(() => {
+					console.log(communities)
+					setEnrolledCommunities(communities);
+
 					setIsLoading(false);
-				}
+				});
 			}).catch(err => {
-				// got error
+				setCurrentUser(null);
 			});
 		}
 	}, [isLoading]);
 
 	// useEffect(() => {
-	// 	// if (isLoading || (currentUser && username !== currentUser.username)) {
-	// 		// Filtered user needs to be fetched from backend
-			
-	// 	// }
-	// }, [isLoading, username, currentUser]);
+	// 	// Enrolled Communities need to be fetched from backend
+	// 	console.log(currentUser)
+	// 	return;
+	// 	if (!currentUser || currentUser.stale) {
+	// 		return;
+	// 	}
+	// 	const communities = [];
+
+	// 	const promise = new Promise((resolve, reject) => {
+	// 		const length = currentUser.communities.length;
+
+	// 		currentUser.communities.forEach((communityId, index) => {
+	// 			getCommunityById(communityId).then(community => {
+	// 				communities.push(community);
+
+	// 				if (index === length - 1) resolve();
+	// 			}).catch(err => {
+	// 				console.log(err)
+	// 			});
+	// 		})
+	// 	})
+		
+	// 	promise.then(() => {
+	// 		console.log(communities)
+	// 		setEnrolledCommunities(communities);
+	// 	});
+	// }, [currentUser]);
 
 	return (
 		<div>
@@ -364,12 +413,12 @@ export default function UserProfile() {
 									{editInfo ? <CheckIcon /> : <PencilIcon />}
 									{editInfo ? 'Save Changes' : 'Edit Profile'}
 								</button>
-								: !loggedinUser.friends.includes(currentUser.username)
-									? <button className="editButton" onClick={() => addFriend()}>
+								: !loggedinUser.friends.includes(currentUser._id)
+									? <button onClick={() => handleAddFriend()}>
 										<UserAddIcon />
 										Add Friend
 									</button>
-									: <button className="editButton" disabled>
+									: <button disabled>
 										<CheckIcon />
 										Friends
 									</button>
@@ -382,7 +431,7 @@ export default function UserProfile() {
 						}
 
 						<div className="CommunityList">
-							{currentUser.communities && currentUser.communities.map((group, index) =>
+							{enrolledCommunities && enrolledCommunities.map((group, index) =>
 								<CommunityLink key={index} path={group.path} name={group.name} imageUrl={group.imageUrl} />
 							)}
 						</div>
