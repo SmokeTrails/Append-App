@@ -12,7 +12,7 @@ function Avatar(props) {
 	return (
 		<div className="avatar">
 			{props.imageUrl
-				? <img className="image" src={require(`${props.imageUrl}`).default} alt={props.name + "'s profile picture"} />
+				? <img className="image" src={props.imageUrl} alt={props.name + "'s profile picture"} />
 				: <div className="image"><UserIcon /></div>
 			}
 		</div>
