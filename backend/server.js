@@ -85,6 +85,7 @@ app.post("/api/login", async (req, res) => {
 		else {
 			const match = await bcrypt.compare(password, user.password)
 			if (match) {
+				req.session.user = username;
 				user.password = undefined;
 				res.send(user)
 			} 

@@ -50,7 +50,12 @@ export default function Login(props) {
 		});
 		fetch(request)
 			.then(res => {
+				console.log(res)
 				if (res.status === 200) {
+					fetch(`${api_host}/check-session`)
+					.then(res => {
+						console.log(res)
+					})
 					return res.json();
 				}
 			})

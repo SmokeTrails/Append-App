@@ -39,6 +39,10 @@ export default function App() {
 		localStorage.setItem("user", JSON.stringify(user));
 	}, [user]);
 
+	// useEffect(() => {
+	// 	console.log('check-session')
+	// }, []);
+
 	/*
 	useEffect(() => {
 		// Check if user is logged in in the backend
