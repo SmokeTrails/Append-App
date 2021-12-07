@@ -118,6 +118,7 @@ app.get("/api/check-session", (req, res) => {
         res.send({ currentUser: 'user' })
         return;
     }
+	log(req.session.user)
     if (req.session.user) {
         res.send({ currentUser: req.session.user});
     } else {

@@ -13,9 +13,12 @@ import MissingPage from './pages/MissingPage'
 import CreateAccount from './pages/CreateAccount'
 import SearchResults from './pages/SearchResults'
 import './App.css';
+import env from './config.js'
+const api_host = env.api_host
 
 function RequireAuth(props) {
 	if (!props.isLoggedIn) {
+		console.log("I got here")
 		return <Navigate to="/login" />
 	}
 
@@ -30,7 +33,26 @@ export default function App() {
 	});
 
 	useEffect(() => {
-		localStorage.setItem("user", JSON.stringify(user));
+		// Check if user is logged in in the backend
+		if (!env.use_frontend_test_user) {
+			fetch(`${api_host}/users/check-session`)
+			.then(res => {
+				if (res.status === 200) {
+					return res.json()
+				}
+			})
+			.then(data => {
+				if (data && data.currentUser) {
+					setUser(data.currentUser)
+				}
+			})
+			.catch(error => {
+				console.log(error)
+			})
+		} else {
+			setUser(env.user)
+		}
+		console.log("User: ", user)
 	}, [user]);
 
 	return (

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import CustomLink from '../components/CustomLink';
 import './Login.css';
-
+import env from '../config.js'
+const api_host = env.api_host
 export default function Login(props) {
 	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
@@ -38,13 +39,31 @@ export default function Login(props) {
 	}
 
 	function checkCredentials() {
-		// Needs to be changed to accept all users in backend
-		if (username === "admin" && password === "admin") {
-			props.setUser(loginAdmin)
-			navigate("/admin")
-		}
-		else if (username === "user" && password === "user") {
-			props.setUser(loginUser)
+		let isLoggedIn = false
+		const request = new Request(`${api_host}/users/login`, {
+			method: "post",
+			body: JSON.stringify({username: username, password: password}),
+			headers: {
+				Accept: "application/json, text/plain, */*",
+				"Content-Type": "application/json"
+			}
+		});
+		fetch(request)
+			.then(res => {
+				if (res.status === 200) {
+					return res.json();
+				}
+			})
+			.then(json => {
+				if (json.currentUser !== undefined) {
+					props.setUser(json.currentUser);
+					isLoggedIn = true
+				}
+			})
+			.catch(error => {
+				console.log(error);
+			});
+		if (isLoggedIn) {
 			navigate("/")
 		}
 		else {
