@@ -128,6 +128,23 @@ export const getSuggestedCommunities = () => {
 		});
 }
 
+export const getAllCommunities = () => {
+    return fetch(`/api/community`, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(res => {
+            if (res.status === 200)
+                return res.json();
+            else throw 'Error'
+        })
+        .catch(error => {
+            console.log(error);
+            return null;
+        });
+}
+
 export const createPost = (communityId, newPost) => {
 	return fetch(`/api/community/${communityId}`, {
 		method: 'POST',
@@ -332,3 +349,22 @@ export const addComment = (formComp, dashboardComp) => {
 			console.log(error);
 		});
 };
+
+export const deleteCommunity = (communityPath) => {
+	return fetch(`/api/community/${communityPath}`, {
+		method: 'DELETE',
+		headers: {
+			"Content-Type": "application/json"
+		}
+	})
+		.then(res => {
+			console.log(res)
+			if (res.status === 200)
+				return res.json();
+			else throw 'Error'
+		})
+		.catch(error => {
+			console.log(error);
+			return null;
+		});
+}
