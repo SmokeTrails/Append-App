@@ -12,6 +12,7 @@ import Admin from './pages/Admin'
 import MissingPage from './pages/MissingPage'
 import CreateAccount from './pages/CreateAccount'
 import SearchResults from './pages/SearchResults'
+import CreateCommunity from './pages/CreateCommunity'
 import './App.css';
 import env from './config.js'
 const api_host = env.api_host
@@ -70,6 +71,7 @@ export default function App() {
 						<Route path="community/:community/:thread" element={<CommunityPost />} />
 						<Route path="friends" element={<Friends />} />
 						<Route path="admin" element={<Admin />} />
+						<Route path="createcommunity" element={<CreateCommunity />} />
 					</Route>
 					<Route path="*" element={<MissingPage />} />
 				</Routes>

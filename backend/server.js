@@ -149,6 +149,7 @@ app.post('/api/community/create', authenticate, async (req, res) => {
 	try {
 		const result = await community.save()	
 		res.send(result)
+		console.log("Community added to backend!!");
 	} catch(error) {
 		log(error) 
 		if (isMongoError(error)) { 
