@@ -3,12 +3,10 @@
 # To run the app:
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-To run the frontend part of the app, from the team51 directory, run the following commands:
-- `cd frontend`
-- `npm install`
-- `npm start`
+To run our app locally, from the project root directory, run the following commands:
+- `npm run local`
 
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:5000](http://localhost:5000) to view the website in the browser.
 
 # Instructions for logging in and using the app as a user:
 
@@ -17,15 +15,14 @@ following credentials to log in:
   - Username: user
   - Password: user
 
-You can also create a new account from the login page by clicking the button,
-however, you cannot login with that new account (you must use the above credentials).
+You can also create a new account from the login page by clicking the respective button.
 
 Once you're logged in, you can use the following features:
 - View and edit your profile (go to "My Profile")
-- View communities that are recommended for you (On the home page)
-- Search for a particular user/community (using the search bar on the home page)
+- View communities that are recommended for you (On the Home page)
+- Search for a particular user/community (using the search bar at the top of the Home page)
 - View and add posts in a community (click the respective community's button to go to the community's homepage, then click on add post)
-- Look at your friends list and view profiles of each friend (using "Friends" tab in the nav bar)
+- Look at the user directory and view profiles of each user (using the "Directory" tab)
 
 # Instructions for logging in and using the app as an admin:
 
@@ -35,8 +32,10 @@ following credentials to log in:
   - Password: admin
 
 New admin accounts cannot be created. If you click the create account button and fill in
-all the fields, a user account will be created. Once you're logged in, you can use the following features:
-- View profile of each user (in the Admin Homepage, click on each user to go to their profile)
+all the fields, a user account will be created.
+
+Once you're logged in, you can use the following features:
+- View profile of each user (in the "Admin" page, click on each user to go to their profile)
 - Remove a user from the app (click the remove user button in the Admin Homepage)
 - Send a warning to a user (click the send warning button in the Admin Homepage, or click on the warn user button in a post in a community)
 - Send a request to a user to update their password (click on the reset password button in the Admin Homepage)
