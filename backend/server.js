@@ -546,7 +546,7 @@ app.delete('/api/posts/:postID/:commentID', authenticate, async (req, res) => {
 		if (!post) {
 			res.status(404).send('Post not found')
 		} else {
-			Post.findById(post_id, function (err, parent) {
+			Post.findById(post_id, async function (err, parent) {
 				var comment = parent.comments.id(comment_id);
 				if (!comment) {
 					res.status(404).send('Comment not found')
@@ -555,8 +555,8 @@ app.delete('/api/posts/:postID/:commentID', authenticate, async (req, res) => {
 					for (let index = 0; index < parent.comments.length; index++) {
 						if (parent.comments[index]._id == comment_id) {
 							parent.comments.splice(index, 1);
-							parent.save()
-							res.send(post)
+							const wait = await parent.save();
+							res.send(parent)
 						}
 					}
 				}

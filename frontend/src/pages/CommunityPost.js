@@ -37,9 +37,9 @@ function Comment(props) {
 				<div className="adminButtons">
 					<button className="small" onClick={() => { 
 						deleteComment(props.currentPost._id, props.currentComment._id).then(res => {
-						console.log(res);
-						props.setPost(res);
-					});}
+							// console.log(res);
+							props.setPost(res);
+						});}
 					}>Remove Comment</button>
 				</div>
 			)}
@@ -65,13 +65,13 @@ function AddComment(props) {
 		var today = new Date(),
 			time = today.getHours() + ':' + today.getMinutes();
 		var date = today.getMonth() + 1 + '/' + today.getDate() + '/' + today.getFullYear();
-		console.log(props.postId);
+		// console.log(props.postId);
 		const newComment = { user: user.name, content: inputValue, date: date, time: time, ID: props.community+"_"+props.postId};
 
 		// New comment needs to be uploaded to backend
-		console.log(newComment)
+		// console.log(newComment)
 
-		console.log("Post ID: " + props.currentPost._id )
+		// console.log("Post ID: " + props.currentPost._id )
 		createComment(props.currentPost._id, newComment).then(res => {
 			props.setPost(res);
 		});
