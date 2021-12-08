@@ -278,7 +278,7 @@ export const getFriends = (username) => {
 }
 
 //Add new community
-export const addCommunity = (community) => { //, dashboardComp) => {
+export const addCommunity = (community, setStatus) => { //, dashboardComp) => {
 	return fetch(`/api/community/create`, {
 		method: 'POST',
 		headers: {
@@ -341,53 +341,6 @@ export const addPost = (formComp, dashboardComp, comID) => {
 		});
 };
 
-//Add new comment
-export const addComment = (formComp, dashboardComp) => {
-	// the URL for the request
-	const url = `${API_HOST}/api/community/:communityID`;
-
-	// The data we are going to send in our request
-	const comment = formComp.state
-
-	// Create our request constructor with all the parameters we need
-	const request = new Request(url, {
-		method: "post",
-		body: JSON.stringify(comment),
-		headers: {
-			Accept: "application/json, text/plain, */*",
-			"Content-Type": "application/json"
-		}
-	});
-
-	// Send the request with fetch()
-	fetch(request)
-		.then(function (res) {
-			// Handle response we get from the API.
-			// Usually check the error codes to see what happened.
-			if (res.status === 200) {
-				// If student was added successfully, tell the user.
-				dashboardComp.setState({
-					message: {
-						body: "Success: Added a comment.",
-						type: "success"
-					}
-				});
-			} else {
-				// If server couldn't add the student, tell the user.
-				// Here we are adding a generic message, but you could be more specific in your app.
-				dashboardComp.setState({
-					message: {
-						body: "Error: Could not add comment.",
-						type: "error"
-					}
-				});
-			}
-		})
-		.catch(error => {
-			console.log(error);
-		});
-};
-
 export const deleteCommunity = (communityPath) => {
 	return fetch(`/api/community/${communityPath}`, {
 		method: 'DELETE',
@@ -400,6 +353,25 @@ export const deleteCommunity = (communityPath) => {
 			if (res.status === 200)
 				return res.json();
 			else throw new Error()
+		})
+		.catch(error => {
+			console.log(error);
+			return null;
+		});
+}
+
+export const deleteComment = (postId, commentId) => {
+	return fetch(`/api/posts/${postId}/${commentId}`, {
+		method: 'DELETE',
+		headers: {
+			"Content-Type": "application/json"
+		}
+	})
+		.then(res => {
+			console.log(res)
+			if (res.status === 200)
+				return res.json();
+			else throw 'Error'
 		})
 		.catch(error => {
 			console.log(error);

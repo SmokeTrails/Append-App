@@ -10,6 +10,7 @@ function NewCommunity(props) {
 	const [path, setPath] = useState("");
 	const [description, setDescription] = useState("");
 	const [image, setImage] = useState(null);
+	const [duplicateCommunities, setDuplicateCommunities] = useState("")
 
 	const saveCommunity = async (e) => {
 		e.preventDefault();
@@ -19,9 +20,14 @@ function NewCommunity(props) {
 			path: path,
 			description: description,
 			image: image,
-		}).then(res => {
-			props.setUser(res.user);
-			navigate(`/community/${res.path}`);
+		}, setDuplicateCommunities).then(res => {
+			if (res.message === undefined) {
+				props.setUser(res.user);
+				navigate(`/community/${res.path}`);
+			}
+			else {
+				setDuplicateCommunities("This address is taken. Please choose another.")
+			}
 		})
 	}
 
@@ -33,12 +39,11 @@ function NewCommunity(props) {
 					Community Name
 					<TextareaAutosize name="name" maxLength="50" value={name} onChange={event => setName(event.target.value)} />
 				</label>
-
 				<label className="title">
 					Customize Web Address
 					<TextareaAutosize name="path" maxLength="50" value={path} onChange={event => setPath(event.target.value)} />
 				</label>
-
+				<label> {duplicateCommunities} </label>
 				<label className="title">
 					Community Description
 					<TextareaAutosize name="description" maxLength="200" value={description} onChange={event => setDescription(event.target.value)} />

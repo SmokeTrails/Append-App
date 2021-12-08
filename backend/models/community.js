@@ -2,25 +2,25 @@
 const mongoose = require('mongoose');
 
 const CommentS = new mongoose.Schema({
-	User: {
+	user: {
 		type: String,
 		required: true,
 		minlegth: 1,
 		trim: true
 	},
-	Description: {
+	content: {
 		type: String,
 		required: true,
 		minlegth: 1,
 		trim: true
 	},
-    Date: {
+    date: {
 		type: String,
 		required: true,
 		minlegth: 1,
 		trim: true
 	},
-    Time: {
+    time: {
 		type: String,
 		required: true,
 		minlegth: 1,
@@ -100,5 +100,6 @@ const CommunityS = new mongoose.Schema({
 
 const Community = mongoose.model('Community', CommunityS);
 const Post = mongoose.model('Post', PostS);
+const Comment = mongoose.model('Comment', CommentS);
 
-module.exports = { Post, Community };
+module.exports = { Post, Community, Comment };
