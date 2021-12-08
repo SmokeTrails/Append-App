@@ -36,7 +36,7 @@ function isMongoError(error) {
 }
 
 // import the mongoose models
-const { Post, Community } = require('./models/community');
+const { Post, Community, Comment } = require('./models/community');
 const { User } = require('./models/user');
 
 const authenticate = async (req, res, next) => {
@@ -307,10 +307,11 @@ app.post('/api/posts/:postID', authenticate, async (req, res) => {
 		const post = await Post.findById(post_id)
 
 		if (!post) {
-			res.status(404).send('Resteraunt not found')
+			res.status(404).send('Post not found')
 		} else {
 			post.comments.push(comment)
 			res.send({ post, comment })
+			comment.save()
 			post.save()
 		}
 	} catch (error) {
@@ -547,14 +548,14 @@ app.delete('/api/posts/:postID/:commentID', authenticate, async (req, res) => {
 		if (!post) {
 			res.status(404).send('Post not found')
 		} else {
-			Post.findById(id, function (err, parent) {
-				var comment = parent.posts.id(comment_id);
+			Post.findById(post_id, function (err, parent) {
+				var comment = parent.comments.id(comment_id);
 				if (!comment) {
 					res.status(404).send('Comment not found')
 				} else {
 
 					for (let index = 0; index < parent.comments.length; index++) {
-						if (parent.comments[index]._id == resv_id) {
+						if (parent.comments[index]._id == comment_id) {
 							const remov = parent.comments[index]
 							parent.comments.splice(index, 1);
 							parent.save()

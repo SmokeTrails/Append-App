@@ -2,30 +2,12 @@ import React, { useState, useRef, useContext, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { ArrowNarrowLeftIcon, PlusIcon } from '@heroicons/react/solid';
 import UserContext from '../hooks/UserContext';
-import { getPost } from "../hooks/Api";
 import MissingPage from './MissingPage';
 // import { posts } from './CommunityPage';
 import CustomLink from '../components/CustomLink';
 // import { WarnedUsers } from './Admin';
 import './CommunityPost.css';
-import { createComment } from "../hooks/Api";
-
-// const comments = [
-// 	{
-// 		user: 'Haider',
-// 		content: "It's great to be here!",
-// 		date: "11/7/2021",
-// 		time: "18:23",
-// 		ID: "CSC309_0"
-// 	},
-// 	{
-// 		user: 'Mohsin',
-// 		content: "Nice work everyone.",
-// 		date: "11/7/2021",
-// 		time: "11:42",
-// 		ID: "CSC309_1"
-// 	}
-// ];
+import { createComment, getPost, deleteComment } from "../hooks/Api";
 
 function Post(props) {
 	return (
@@ -35,7 +17,7 @@ function Post(props) {
 			<div className="info" style={{ display: "flex", color: "gray", margin: "0px" }}>
 				<p className="date" style={{ marginRight: "20px" }}> {props.date}</p>
 				<p className="timestamp" style={{ marginRight: "20px" }}> {props.time}</p>
-				<p className="comments">{props.comments} comments</p>
+				<p className="comments">{props.comments.length} comments</p>
 			</div>
 		</div>
 	);
@@ -43,34 +25,22 @@ function Post(props) {
 
 function Comment(props) {
 	const user = useContext(UserContext);
-
-	const removePost = index => {
-		var post = document.getElementById(index);
-
-		// Post needs to be removed from backend
-		post.parentNode.removeChild(post);
-	}
-
-	if (props.commentId.toLowerCase() === props.postId.toLowerCase()) {
-		return (
-			<div className="post" id={props.commentId}>
-				<h4 className="title">{props.user}</h4>
-				<p className="content">{props.content}</p>
-				<div className="details">
-					<p className="date"> {props.date}</p>
-					<p className="timestamp"> {props.time}</p>
-				</div>
-				{user.username === 'admin' && (
-					<div className="adminButtons">
-						<button className="small" onClick={() => { removePost(props.commentId) }}>Remove Comment</button>
-						{/* <button className="small" onClick={() => { warnUser(props.user) }}>Warn User</button> */}
-					</div>
-				)}
+	return (
+		<div className="post">
+			<h4 className="title">{props.user}</h4>
+			<p className="content">{props.content}</p>
+			<div className="details">
+				<p className="date"> {props.date}</p>
+				<p className="timestamp"> {props.time}</p>
 			</div>
-		);
-	} else {
-		return (null);
-	}
+			{user.username === 'admin' && (
+				<div className="adminButtons">
+					<button className="small" onClick={() => { deleteComment(props.currentPost._id, props.currentComment._id) }}>Remove Comment</button>
+					{/* <button className="small" onClick={() => { warnUser(props.user) }}>Warn User</button> */}
+				</div>
+			)}
+		</div>
+	);
 
 }
 
@@ -98,6 +68,7 @@ function AddComment(props) {
 		// comments.push(newComment);
 		console.log(newComment)
 
+		console.log("Post ID: " + props.currentPost._id )
 		createComment(props.currentPost._id, newComment)
 
 		props.setValue(props.value + 1);
@@ -135,8 +106,6 @@ export default function CommunityPost() {
 	useEffect(() => {
 		if (isLoading === true) {
 			getPost(postId).then(post => {
-				console.log('post', post);
-
 				setPost(post);
 				setIsLoading(false);
 			}).catch(err => {
@@ -163,11 +132,13 @@ export default function CommunityPost() {
 			<div>
 				<Post title={post.title} date={post.date} time={post.time} comments={post.comments} description={post.description} />
 				<AddComment setValue={setValue} value={value} postId={postId} community={community} currentPost={post}/>
-				{/* {comments && comments.map((comment, index) =>
-					<div key={index}>
-						<Comment user={comment.user} date={comment.date} time={comment.time} content={comment.content} postId={community + "_" + postId} commentId={comment.ID}/>
-					</div>
-				)} */}
+				<div>
+					{post.comments && post.comments.map((comment, index) =>
+						<div key={index}>
+							<Comment key={index} content={comment.content} user={comment.user} date={comment.date} time={comment.time} currentPost={post} currentComment={comment}/>
+						</div>
+					)}
+				</div>
 			</div>
 		</div>
 	);

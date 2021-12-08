@@ -80,15 +80,6 @@ export default function Admin() {
 				)}
 			</div>
 			
-			{/* <h2>Warned Users</h2>  For Next Phase
-            <div>
-                {WarnedUsers.length > 0 && WarnedUsers.map((userW, index) =>
-                <div key={index+userW}>
-              		<FriendPreview name={users.filter(user => user.name === userW)[0].name} username={users.filter(user => user.name === userW)[0].username} imageUrl={users.filter(user => user.name === userW)[0].imageUrl} />
-                </div>
-                )}
-            </div> */}
-
 			<h1 className="heading">Recently Made Communities</h1>
 			<div>
 				{allCommunities && allCommunities.map((group, index) =>

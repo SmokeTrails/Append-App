@@ -407,6 +407,25 @@ export const deleteCommunity = (communityPath) => {
 		});
 }
 
+export const deleteComment = (postId, commentId) => {
+	return fetch(`/api/posts/${postId}/${commentId}`, {
+		method: 'DELETE',
+		headers: {
+			"Content-Type": "application/json"
+		}
+	})
+		.then(res => {
+			console.log(res)
+			if (res.status === 200)
+				return res.json();
+			else throw 'Error'
+		})
+		.catch(error => {
+			console.log(error);
+			return null;
+		});
+}
+
 export const deleteUser = (username) => {
 	return fetch(`/api/users/${username}`, {
 		method: 'DELETE',
