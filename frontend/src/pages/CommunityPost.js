@@ -35,7 +35,12 @@ function Comment(props) {
 			</div>
 			{user.username === 'admin' && (
 				<div className="adminButtons">
-					<button className="small" onClick={() => { deleteComment(props.currentPost._id, props.currentComment._id) }}>Remove Comment</button>
+					<button className="small" onClick={() => { 
+						deleteComment(props.currentPost._id, props.currentComment._id).then(res => {
+						console.log(res);
+						props.setPost(res);
+					});}
+					}>Remove Comment</button>
 				</div>
 			)}
 		</div>
@@ -64,11 +69,13 @@ function AddComment(props) {
 		const newComment = { user: user.name, content: inputValue, date: date, time: time, ID: props.community+"_"+props.postId};
 
 		// New comment needs to be uploaded to backend
-		// comments.push(newComment);
 		console.log(newComment)
 
 		console.log("Post ID: " + props.currentPost._id )
-		createComment(props.currentPost._id, newComment)
+		createComment(props.currentPost._id, newComment).then(res => {
+			props.setPost(res);
+		});
+		textInput.current.value = "";
 
 		props.setValue(props.value + 1);
 	}
@@ -123,11 +130,11 @@ export default function CommunityPost() {
 			</CustomLink>
 			<div>
 				<Post title={post.title} date={post.date} time={post.time} comments={post.comments} description={post.description} />
-				<AddComment setValue={setValue} value={value} postId={postId} community={community} currentPost={post}/>
+				<AddComment setPost={setPost} setValue={setValue} value={value} postId={postId} community={community} currentPost={post}/>
 				<div>
 					{post.comments && post.comments.map((comment, index) =>
 						<div key={index}>
-							<Comment key={index} content={comment.content} user={comment.user} date={comment.date} time={comment.time} currentPost={post} currentComment={comment}/>
+							<Comment setPost={setPost} key={index} content={comment.content} user={comment.user} date={comment.date} time={comment.time} currentPost={post} currentComment={comment}/>
 						</div>
 					)}
 				</div>

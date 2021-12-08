@@ -308,9 +308,9 @@ app.post('/api/posts/:postID', authenticate, async (req, res) => {
 			res.status(404).send('Post not found')
 		} else {
 			post.comments.push(comment)
-			res.send({ post, comment })
 			comment.save()
 			post.save()
+			res.send(post)
 		}
 	} catch (error) {
 		log(error)
@@ -554,10 +554,9 @@ app.delete('/api/posts/:postID/:commentID', authenticate, async (req, res) => {
 
 					for (let index = 0; index < parent.comments.length; index++) {
 						if (parent.comments[index]._id == comment_id) {
-							const remov = parent.comments[index]
 							parent.comments.splice(index, 1);
 							parent.save()
-							res.send({ remov, parent })
+							res.send(post)
 						}
 					}
 				}
