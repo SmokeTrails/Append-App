@@ -59,7 +59,7 @@ export default function Admin() {
                 )}
             </div> */}
 
-			<h1 className="heading bitSpaced">Community Management</h1>
+			<h1 className="heading">Recently Made Communities</h1>
 			<div>
 				{allCommunities && allCommunities.map((group, index) =>
 					<div>
