@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import FriendPreview from '../components/FriendPreview'
 import { getAllCommunities, deleteCommunity, getAllUsers, deleteUser } from '../hooks/Api';
 import CommunityPreview from '../components/CommunityPreview';
+import './Admin.css'
 
 export default function Admin() {
-	const [users, setUsers] = useState(null);
+	// const [users, setUsers] = useState(null);
 	const [allCommunities, setAllCommunities] = useState(null);
 	const [allUsers, setAllUsers] = useState(null);
 
@@ -20,37 +21,6 @@ export default function Admin() {
 		})
 	});
 
-	useEffect(() => {
-		// Users need to be fetched from backend
-		setUsers([
-			{
-				name: 'Alex D',
-				username: 'AlexDobbin'
-			},
-			{
-				name: 'Haider',
-				username: 'user'
-			},
-			{
-				name: 'Joshua Lee',
-				username: 'Marvin'
-			},
-			{
-				name: 'Kirill',
-				username: 'KirillTregubov',
-				imageUrl: 'users/kirill.png'
-			},
-			{
-				name: 'Mohsin',
-				username: 'SmokeTrails'
-			},
-			{
-				name: 'Rehan',
-				username: 'TheRayman786'
-			}
-		]);
-	}, []);
-
     const resetPassword = name => {
         alert('Reset request sent to ' + name);
     }
@@ -62,9 +32,8 @@ export default function Admin() {
         // setValue(value+1);
     }
 
-
 	return (
-		<div>
+		<div className="AdminPage">
 			<h1 className="heading">User Management</h1>
 			<h2>All Users</h2>
             <div>
@@ -72,20 +41,30 @@ export default function Admin() {
 					<div key={index}>
 						<FriendPreview name={user.name} username={user.username} imageUrl={user.imageUrl} />
                         
-                        <button onClick={() => { deleteUser(user.username) }}>Ban User</button>
-                        <button onClick={() => { resetPassword(user.name) }}>Reset Password</button>
-						<button onClick={() => { warn(user.name) }}>Warn</button>
-
+						<div class="buttonGroup">
+							<button className="actionButton" onClick={() => { deleteUser(user.username) }}>Ban User</button>
+							<button className="actionButton" onClick={() => { resetPassword(user.name) }}>Reset Password</button>
+							<button className="actionButton" onClick={() => { warn(user.name) }}>Warn</button>
+						</div>
 					</div>
 				)}
 			</div>
 			
-			<h1 className="heading">Recently Made Communities</h1>
+			{/* <h2>Warned Users</h2>  For Next Phase
+            <div>
+                {WarnedUsers.length > 0 && WarnedUsers.map((userW, index) =>
+                <div key={index+userW}>
+              		<FriendPreview name={users.filter(user => user.name === userW)[0].name} username={users.filter(user => user.name === userW)[0].username} imageUrl={users.filter(user => user.name === userW)[0].imageUrl} />
+                </div>
+                )}
+            </div> */}
+
+			<h1 className="heading bitSpaced">Community Management</h1>
 			<div>
 				{allCommunities && allCommunities.map((group, index) =>
 					<div>
-					<CommunityPreview key={index} path={group.path} name={group.name} description={group.description} memberCount={group.members.length} imageUrl={group.imageUrl} />
-					<button onClick={() => { deleteCommunity(group.path) }}>Remove Community</button>
+						<CommunityPreview key={index} path={group.path} name={group.name} description={group.description} memberCount={group.members.length} imageUrl={group.imageUrl} />
+						<button className="actionButton extraSpace" onClick={() => { deleteCommunity(group.path) }}>Remove Community</button>
 					</div>
 				)}
 			</div>

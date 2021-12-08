@@ -1,11 +1,89 @@
 .Login .header {
+	padding: 3rem 0;
 	text-align: center;
 }
 
 .Login .header h1 {
+	margin: 0;
 	font-size: 1.75rem;
 }
 
+.Login .mainContainer > div {
+	margin-bottom: 0.75rem;
+}
+
+.Login textarea {
+	resize: none;
+}
+
+.Login label {
+	display: block;
+	height: fit-content;
+	margin-bottom: 0.5rem;
+	font-weight: 500;
+}
+
+.Login input,
+.Login textarea {
+	width: 100%;
+	border-radius: var(--rounded-sm);
+	border: 2px solid var(--secondary-bg-accent-color);
+	padding: 0.5rem;
+	font-size: 1.15rem;
+	resize: none;
+}
+
+.Login a {
+	text-decoration: none !important;
+	text-decoration-color: unset;
+}
+
+.Login button,
+.Login input.button {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+	margin: 0.25rem 0;
+	padding: 0.75rem 1rem;
+	background: var(--button-bg-color);
+	color: var(--button-color);
+	border-radius: var(--rounded-pill);
+	font-weight: 500;
+	transition: transform var(--ease-animation);
+}
+
+.Login input.button {
+	box-sizing: border-box;
+	justify-content: center;
+	width: 100%;
+}
+
+.Login button:hover, .Login input.button:hover {
+	transform: var(--scale-transform);
+}
+
+.Login .flexContainer {
+	display: flex;
+	height: 60vh;
+	align-items: center;
+	justify-content: center;
+}
+
+.Login .mainContainer {
+	width: 100%;
+	max-width: 350px;
+}
+
+.Login .invalidMessageContainer {
+	color: red;
+}
+
+/*
 .Login .header h2 {
 	color: var(--secondary-dark-text-color);
 	font-weight: 500;
@@ -103,3 +181,4 @@
   top: 70%;
   width: 100%;
 }
+*/

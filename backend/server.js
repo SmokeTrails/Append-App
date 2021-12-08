@@ -176,47 +176,45 @@ app.post('/api/community/create', [authenticate], async (req, res) => {
 		return;
 	}
 
-	if (req.body.path === restrictedCommunities) {
+	if (restrictedCommunities.includes(req.body.path)) {
 		res.status(400).send('Bad Request: restricted community path');
 		return;
 	}
 
-	// console.log('CREATE COMMUNITY')
-	// console.log(req.body)
-	// console.log('creator:', req.user._id)
-	// res.send('Success')
-
-	const community = new Community({
-		path: req.body.path,
-		name: req.body.name,
-		creator: req.user._id,
-		description: req.body.description,
-		imageUrl: req.body.image,
-		members: [req.user._id],
-		posts: []
-	})
-	log(community)
-
 	try {
-		const result = await community.save();
+		const community = await Community.findOne({"path" : {$regex : req.body.path}}).populate("members")
+		if (!community) {
+			const community = new Community({
+				path: req.body.path,
+				name: req.body.name,
+				creator: req.user._id,
+				description: req.body.description,
+				imageUrl: req.body.image,
+				members: [req.user._id],
+				posts: []
+			})
+			log(community)
+				const result = await community.save();
 
-		if (!result) {
-			res.status(400).send('Bad Request')
-			return
+				if (!result) {
+					res.status(400).send('Bad Request')
+					return
+				}
+				const user = await User.findById(req.user._id);
+				if (!user) {
+					res.status(400).send('Bad Request')
+					return
+				}
+				user.communities.push()
+				user.communities.push(result._id);
+				const newUser = await user.save()
+				newUser.password = undefined;
+				console.log("Community added to backend!!");
+				res.send({'path': result.path, 'user': newUser})
+			} else {
+			res.send({message: "Already exists"})
 		}
-
-		const user = await User.findById(req.user._id);
-		if (!user) {
-			res.status(400).send('Bad Request')
-			return
-		}
-		
-		user.communities.push()
-		user.communities.push(result._id);
-		const newUser = await user.save()
-		newUser.password = undefined;
-		console.log("Community added to backend!!");
-		res.send({'path': result.path, 'user': newUser})
+		res.send(community)
 	} catch (error) {
 		log(error)
 		if (isMongoError(error)) {
@@ -304,7 +302,7 @@ app.post('/api/posts/:postID', authenticate, async (req, res) => {
 	})
 
 	try {
-		const post = await Post.findById(post_id)
+		const post = await Community.posts.findById(id)
 
 		if (!post) {
 			res.status(404).send('Post not found')
@@ -361,7 +359,7 @@ app.get('/api/suggested-communities', authenticate, async (req, res) => {
 			res.status(404).send('Community not found');
 			return;
 		}
-		
+
 		res.send(community);
 	} catch (error) {
 		log(error)
@@ -386,7 +384,7 @@ app.get('/api/community/:communityPath', authenticate, async (req, res) => {
 			res.status(404).send('Community not found')
 			return
 		}
-		
+
 		res.send(community)
 	} catch (error) {
 		log(error)
@@ -473,7 +471,7 @@ app.get('/api/posts/:postId', authenticate, async (req, res) => {
 			res.status(404).send('Post not found')
 			return
 		}
-		
+
 		res.send(post)
 	} catch (error) {
 		log(error)
@@ -749,7 +747,7 @@ app.post('/api/users/:username', authenticate, async (req, res) => {
 					res.status(404).send('Resource not found');
 					return;
 				}
-				const community = await Community.findById(community_id).populate("members");
+				const community = await Community.findById(community_id);
 				if (!community) {
 					res.status(404).send('Resource not found');
 					return;
@@ -801,7 +799,7 @@ app.delete('/api/users/:username/:what', authenticate, async (req, res) => {
 					res.status(404).send('Resource not found');
 					return;
 				}
-				const community = await Community.findById(community_id).populate("members");
+				const community = await Community.findById(community_id);
 				if (!community) {
 					res.status(404).send('Resource not found');
 					return;

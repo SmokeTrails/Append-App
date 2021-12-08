@@ -11,7 +11,7 @@ export const getUser = (username) => {
 			// console.log(res)
 			if (res.status === 200)
 				return res.json();
-			else throw 'Error'
+			else throw new Error()
 		})
 		.catch(error => {
 			console.log(error);
@@ -31,7 +31,7 @@ export const updateUser = (username, user) => {
 			// console.log(res)
 			if (res.status === 200)
 				return res.json();
-			else throw 'Error'
+			else throw new Error()
 		})
 		.catch(error => {
 			console.log(error);
@@ -49,7 +49,7 @@ export const getUserById = (userId) => {
 			// console.log(res)
 			if (res.status === 200)
 				return res.json();
-			else throw 'Error'
+			else throw new Error()
 		})
 		.catch(error => {
 			console.log(error);
@@ -67,7 +67,7 @@ export const getCommunity = (communityPath) => {
 			// console.log(res)
 			if (res.status === 200)
 				return res.json();
-			else throw 'Error'
+			else throw new Error()
 		})
 		.catch(error => {
 			console.log(error);
@@ -85,7 +85,7 @@ export const getCommunityById = (communityId) => {
 			// console.log(res)
 			if (res.status === 200)
 				return res.json();
-			else throw 'Error'
+			else throw new Error()
 		})
 		.catch(error => {
 			console.log(error);
@@ -104,7 +104,7 @@ export const leaveCommunity = (username, communityId) => {
 		.then(res => {
 			if (res.status === 200)
 				return res.json();
-			else throw 'Error'
+			else throw new Error()
 		})
 		.catch(error => {
 			console.log(error);
@@ -123,7 +123,7 @@ export const joinCommunity = (username, communityId) => {
 		.then(res => {
 			if (res.status === 200)
 				return res.json();
-			else throw 'Error'
+			else throw new Error()
 		})
 		.catch(error => {
 			console.log(error);
@@ -140,7 +140,7 @@ export const getSuggestedCommunities = () => {
 		.then(res => {
 			if (res.status === 200)
 				return res.json();
-			else throw 'Error'
+			else throw new Error()
 		})
 		.catch(error => {
 			console.log(error);
@@ -157,7 +157,7 @@ export const getAllCommunities = () => {
         .then(res => {
             if (res.status === 200)
                 return res.json();
-            else throw 'Error'
+            else throw new Error()
         })
         .catch(error => {
             console.log(error);
@@ -172,10 +172,10 @@ export const getAllUsers = () => {
         }
     })
         .then(res => {
-			console.log(res);
+			// console.log(res);
             if (res.status === 200)
                 return res.json();
-            else throw 'Error'
+            else throw new Error()
         })
         .catch(error => {
             console.log(error);
@@ -194,7 +194,7 @@ export const createPost = (communityId, newPost) => {
 		.then(res => {
 			if (res.status === 200)
 				return res.json();
-			else throw 'Error'
+			else throw new Error()
 		})
 		.catch(error => {
 			console.log(error);
@@ -231,7 +231,7 @@ export const getPost = (postId) => {
 			// console.log(res)
 			if (res.status === 200)
 				return res.json();
-			else throw 'Error'
+			else throw new Error()
 		})
 		.catch(error => {
 			console.log(error);
@@ -251,7 +251,7 @@ export const addFriend = (username, userToFriend) => {
 			// console.log(res)
 			if (res.status === 200)
 				return res.json();
-			else throw 'Error'
+			else throw new Error()
 		})
 		.catch(error => {
 			console.log(error);
@@ -269,7 +269,7 @@ export const getFriends = (username) => {
 			// console.log(res)
 			if (res.status === 200)
 				return res.json();
-			else throw 'Error'
+			else throw new Error()
 		})
 		.catch(error => {
 			console.log(error);
@@ -278,7 +278,7 @@ export const getFriends = (username) => {
 }
 
 //Add new community
-export const addCommunity = (community) => { //, dashboardComp) => {
+export const addCommunity = (community, setStatus) => { //, dashboardComp) => {
 	return fetch(`/api/community/create`, {
 		method: 'POST',
 		headers: {
@@ -396,10 +396,10 @@ export const deleteCommunity = (communityPath) => {
 		}
 	})
 		.then(res => {
-			console.log(res)
+			// console.log(res)
 			if (res.status === 200)
 				return res.json();
-			else throw 'Error'
+			else throw new Error()
 		})
 		.catch(error => {
 			console.log(error);
@@ -434,10 +434,10 @@ export const deleteUser = (username) => {
 		}
 	})
 		.then(res => {
-			console.log(res)
+			// console.log(res)
 			if (res.status === 200)
 				return res.json();
-			else throw 'Error'
+			else throw new Error()
 		})
 		.catch(error => {
 			console.log(error);

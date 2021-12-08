@@ -1,0 +1,44 @@
+.AdminPage .actionButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+	margin: 0.25rem 0;
+	padding: 0.75rem 1rem;
+	background: var(--button-bg-color);
+	color: var(--button-color);
+	border-radius: var(--rounded-pill);
+	font-weight: 500;
+	transition: transform var(--ease-animation);
+}
+
+.AdminPage button:hover {
+	transform: var(--scale-transform);
+}
+
+.AdminPage .buttonGroup {
+	display: flex;
+}
+
+.AdminPage .buttonGroup > :not(:last-child) {
+	margin-right: 0.5rem;
+}
+
+.AdminPage .bitSpaced {
+	margin-top: 2rem;
+}
+
+.AdminPage .extraSpace {
+	margin-bottom: 1.25rem;
+}
+
+.AdminPage .friendPreview {
+	margin-bottom: 0.5rem;
+}
+
+div.layout .AdminPage .communityPreview {
+	margin-bottom: 0.75rem;
+}

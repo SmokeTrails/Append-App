@@ -139,10 +139,10 @@ export default function CommunityPage(props) {
 	useEffect(() => {
 		if (isLoading === true) {
 			getCommunity(community).then(community => {
-				console.log('community', community);
+				// console.log('community', community);
 
 				if (community == null) {
-					throw 'Error'
+					throw new Error()
 				}
 
 				setCurrentCommunity(community);
@@ -154,7 +154,7 @@ export default function CommunityPage(props) {
 				setIsLoading(false);
 			});
 		}
-	}, [isLoading]);
+	}, [community, loggedinUser, isLoading]);
 
 	const handleJoin = () => {
 		if (isCommunityMember) {
@@ -193,7 +193,7 @@ export default function CommunityPage(props) {
 								: <img className="cover" src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt={currentCommunity.name + "'s banner"} />
 							}
 							<h2 className="badge" onClick={() => toggleUserList()}>
-								<NumberFormat value={currentCommunity.members.length} displayType={'text'} thousandSeparator={true} /> {currentCommunity.members.length == 1 ? 'member' : 'members'}
+								<NumberFormat value={currentCommunity.members.length} displayType={'text'} thousandSeparator={true} /> {currentCommunity.members.length === 1 ? 'member' : 'members'}
 							</h2>
 							<div className="communityContent">
 								<div className="communityInfo">
