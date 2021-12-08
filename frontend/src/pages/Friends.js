@@ -42,7 +42,6 @@ export default function Friends() {
 			<div>
 				{friends && friends.map((friend, index) =>
 					<div key={index}>
-						{console.log(friend)}
 						<FriendPreview name={friend.name} username={friend.username} imageUrl={friend.imageUrl} />
 					</div>
 				)}

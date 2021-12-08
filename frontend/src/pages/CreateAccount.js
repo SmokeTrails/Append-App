@@ -101,49 +101,58 @@ export default function CreateAccount() {
 
 	return (
 		<div className="accountForm">
-			<Heading title="Create a new account" />
-			<div className="Container">
-				<h3> Full Name </h3>
-				<input className="text" type="text" name="name" value={user.name} onChange={handleChange} />
+			<div className="header">
+				<h1>Welcome to Team 51's Project!</h1>
+				<h2>Create an account below to start using our website.</h2>
 			</div>
-			<div className="Container">
-				<h3> Username </h3>
-				<input className={duplicateUsernames ? 'redText': 'text'} type="text" name="username" value={user.username} onChange={handleChange} />
-			</div>
-			<h3> {duplicateUsernames} </h3>
-			<div className="Container">
-				<h3> Password </h3>
-				<input className="text" type="password" name="password" value={user.password} onChange={handleChange} />
-			</div>
-			<div className="Container">
-				<h3> Program </h3>
-				<input className={"text"} type="text" name="program" value={user.program} onChange={handleChange} />
-				<h3> Year </h3>
-				<input className="text" type="text" name="year" value={user.year} onChange={handleChange} />
-			</div>
-			<div className="Container">
-				<h3> Bio </h3>
-				<textarea className="bioText" type="text" name="bio" value={user.bio} onChange={handleChange} />
-			</div>
-			<div className="Container">
-				<h3> Hobbies/Interests </h3>
-				<textarea className="bioText" type="text" name="interests" value={user.interests} onChange={handleChange} />
-			</div>
-			{/*
-			<div className="coursesContainer">
-				<h3> Courses you are taking this semester </h3>
-				<CourseForm user={user} setUser={setUser} removeCourse={removeCourse} changeCourse={changeCourse} />
-				<button className="addButton" onClick={addCourse}> Add a course
-				</button>
-			</div>*/}
-			<div className="Container last">
-				<h3> {successful} </h3>
-				<button className="submitButton" onClick={successfulCreation}> Create Account</button>
-				<CustomLink className="link" to={"/login"}>
-					<div className="buttonContainer">
-						<button className="submitButton"> Back to Login</button>
+			<div className="flexContainer">
+				<div className="mainContainer">
+					<div className="Container">
+						<label>Full Name</label>
+						<input className="text" type="text" name="name" value={user.name} onChange={handleChange} />
 					</div>
-				</CustomLink>
+					<div className="Container">
+						<label>Username</label>
+						<input className={duplicateUsernames ? 'redText': 'text'} type="text" name="username" value={user.username} onChange={handleChange} />
+					</div>
+					<label> {duplicateUsernames} </label>
+					<div className="Container">
+						<label>Password</label>
+						<input className="text" type="password" name="password" value={user.password} onChange={handleChange} />
+					</div>
+					<div className="Container">
+						<label>Program</label>
+						<input className={"text"} type="text" name="program" value={user.program} onChange={handleChange} />
+					</div>
+					<div className="Container">
+						<label>Year</label>
+						<input className="text" type="text" name="year" value={user.year} onChange={handleChange} />
+					</div>
+					<div className="Container">
+						<label>Bio</label>
+						<textarea className="bioText" type="text" name="bio" value={user.bio} onChange={handleChange} />
+					</div>
+					<div className="Container">
+						<label>Hobbies/Interests</label>
+						<textarea className="bioText" type="text" name="interests" value={user.interests} onChange={handleChange} />
+					</div>
+					{/*
+					<div className="coursesContainer">
+						<label> Courses you are taking this semester </label>
+						<CourseForm user={user} setUser={setUser} removeCourse={removeCourse} changeCourse={changeCourse} />
+						<button className="addButton" onClick={addCourse}> Add a course
+						</button>
+					</div>*/}
+					<div className="Container last">
+						<label className="invalidMessageContainer">{successful}</label>
+						<button className="submitButton" onClick={successfulCreation}> Create Account</button>
+						<CustomLink className="link" to={"/login"}>
+							<div className="buttonContainer">
+								<button className="submitButton"> Back to Login</button>
+							</div>
+						</CustomLink>
+					</div>
+				</div>
 			</div>
 		</div>
 	)

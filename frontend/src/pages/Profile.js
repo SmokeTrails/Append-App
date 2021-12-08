@@ -25,8 +25,8 @@ function ProfileDescription(props) {
 			<h1>{props.name}</h1>
 			<h4>@{props.username}</h4>
 			<div className="userInfo">
-				<p><span className="count">{props.friendCount}</span> {props.friendCount == 1 ? 'Friend' : 'Friends'}</p>
-				<p><span className="count">{props.communityCount}</span> {props.communityCount == 1 ? 'Community' : 'Communities'}</p>
+				<p><span className="count">{props.friendCount}</span> {props.friendCount === 1 ? 'Friend' : 'Friends'}</p>
+				<p><span className="count">{props.communityCount}</span> {props.communityCount === 1 ? 'Community' : 'Communities'}</p>
 				{/* <p><span className="count">{props.clubCount}</span> Clubs</p>
 				<p><span className="count">{props.courseCount}</span> Courses</p> */}
 			</div>
@@ -143,7 +143,7 @@ export default function UserProfile(props) {
 				const promise = new Promise((resolve, reject) => {
 					const length = user.communities.length;
 
-					if (length == 0) resolve();
+					if (length === 0) resolve();
 
 					user.communities.forEach((communityId, index) => {
 						getCommunityById(communityId).then(community => {
@@ -166,36 +166,7 @@ export default function UserProfile(props) {
 				setCurrentUser(null);
 			});
 		}
-	}, [isLoading]);
-
-	// useEffect(() => {
-	// 	// Enrolled Communities need to be fetched from backend
-	// 	console.log(currentUser)
-	// 	return;
-	// 	if (!currentUser || currentUser.stale) {
-	// 		return;
-	// 	}
-	// 	const communities = [];
-
-	// 	const promise = new Promise((resolve, reject) => {
-	// 		const length = currentUser.communities.length;
-
-	// 		currentUser.communities.forEach((communityId, index) => {
-	// 			getCommunityById(communityId).then(community => {
-	// 				communities.push(community);
-
-	// 				if (index === length - 1) resolve();
-	// 			}).catch(err => {
-	// 				console.log(err)
-	// 			});
-	// 		})
-	// 	})
-		
-	// 	promise.then(() => {
-	// 		console.log(communities)
-	// 		setEnrolledCommunities(communities);
-	// 	});
-	// }, [currentUser]);
+	}, [username, isLoading]);
 
 	return (
 		<div>

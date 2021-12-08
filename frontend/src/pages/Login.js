@@ -13,41 +13,12 @@ export default function Login(props) {
 	const navigate = useNavigate();
 	const user = useContext(UserContext);
 
-	useEffect(() => {
-		if (user !== null) {
-			navigate("/");
-		}
-	}, []);
+	// useEffect(() => {
+	// 	if (user !== null) {
+	// 		navigate("/");
+	// 	}
+	// }, [user]);
 
-	/*
-	// Login users needs to be fetched from backend
-	const loginUser = {
-		name: 'Haider',
-		username: 'user',
-		friendCount: '5',
-		clubCount: '3',
-		courseCount: '5',
-		bio: 'Hello everyone! I\'m a third year computer science student looking for people to study with.',
-		interests: '#coding #AI #anime #gaming',
-		year: '3',
-		program: 'Computer Science',
-		courseCodes: ['CSC309'],
-		communityNames: ['Anime', 'WebDevClub']
-	}
-	const loginAdmin = {
-		name: 'Admin',
-		username: 'admin',
-		friendCount: '0',
-		clubCount: '0',
-		courseCount: '0',
-		bio: 'Here to moderate all users!',
-		interests: 'Being an admin',
-		year: '4',
-		program: 'None',
-		courseCodes: [],
-		communityNames: []
-	}
-	*/
 	function checkCredentials() {
 		console.log(`${api_host}/login`)
 		const request = new Request(`${api_host}/login`, {
@@ -61,12 +32,9 @@ export default function Login(props) {
 		fetch(request)
 		.then(res => {
 			if (res.status === 200) {
-				// fetch(`${api_host}/check-session`)
-				// .then(res => {
-				// 	console.log(res)
-				// })
 				return res.json();
 			}
+			throw new Error();
 		})
 		.then(json => {
 			props.setUser(json);
@@ -86,27 +54,29 @@ export default function Login(props) {
 		<div className="Login">
 			<div className="header">
 				<h1>Welcome to Team 51's Project!</h1>
-				<h2>Please login to continue</h2>
+				<h2>Please login to use our app. Mock login details are provided on our <a href="https://github.com/csc309-fall-2021/team51#readme" target="_blank">ReadME</a>.</h2>
 			</div>
-			<div className="usernameContainer">
-				<h3> Username: </h3>
-				<input className="text" type="text" value={username} onChange={event => setUsername(event.target.value)} />
-			</div>
-			<div className="passwordContainer">
-				<h3> Password: </h3>
-				<input className="text" type="password" value={password} onChange={event => setPassword(event.target.value)} />
-			</div>
-			<div className="invalidMessageContainer">
-				<h3>{invalid}</h3>
-			</div>
-			<div className="submitContainer">
-				<button className="button" onClick={checkCredentials}> Login</button>
-			</div>
-			<CustomLink className="link" to={"/create-account"}>
-				<div className="buttonContainer">
-					<button className="button"> Create a new account</button>
+			<div className="flexContainer">
+				<div className="mainContainer">
+					<div className="usernameContainer">
+						<label> Username</label>
+						<input className="text" type="text" value={username} onChange={event => setUsername(event.target.value)} />
+					</div>
+					<div className="passwordContainer">
+						<label> Password</label>
+						<input className="text" type="password" value={password} onChange={event => setPassword(event.target.value)} />
+					</div>
+					<div className="invalidMessageContainer">
+						<label>{invalid}</label>
+					</div>
+					<div className="submitContainer">
+						<button className="button" onClick={checkCredentials}> Login</button>
+					</div>
+					<CustomLink className="link" to={"/create-account"}>
+						<button className="button"> Create a new account</button>
+					</CustomLink>
 				</div>
-			</CustomLink>
+			</div>
 		</div>
 	);
 }

@@ -144,7 +144,7 @@ export default function CommunityPost() {
 				setIsLoading(false);
 			});
 		}
-	}, [isLoading]);
+	}, [postId, isLoading]);
 
 	if (isLoading) {
 		return 'Loading...'

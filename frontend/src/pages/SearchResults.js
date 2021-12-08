@@ -16,6 +16,14 @@ export default function SearchResults() {
 	const [communities, setCommunities] = useState([])
 
 	useEffect(() => {
+		console.log(users)
+	}, [users]);
+
+	useEffect(() => {
+		setIsLoading(true);
+	}, [query]);
+
+	useEffect(() => {
 		if (isLoading === true) {
 			fetch(`${api_host}/users`)
 			.then(res => {
@@ -27,14 +35,13 @@ export default function SearchResults() {
 			.then(json => {
 				console.log("Users found: ", json)
 				if (json) {
-					// console.log('setting user')
-					setUsers(json);
-					console.log("Users before filter: ", users)
-					setUsers(users.filter((user) => user.username.toLowerCase().includes(query.toLowerCase()) || user.name.toLowerCase().includes(query.toLowerCase())))
+					setUsers(json.filter((user) => user.username.toLowerCase().includes(query.toLowerCase()) || user.name.toLowerCase().includes(query.toLowerCase())))
 				}
 			})
 			.catch(error => {
 				console.log(error);
+				setIsLoading(false);
+				return;
 			});
 			fetch(`${api_host}/community`)
 			.then(res => {
@@ -46,15 +53,14 @@ export default function SearchResults() {
 			.then(json => {
 				console.log("Communities found: ", json)
 				if (json) {
-					// console.log('setting user')
-					setCommunities(json);
-					console.log("Communities before filter: ", communities)
-					setCommunities(communities.filter((community) => community.name.toLowerCase().includes(query.toLowerCase())))
+					setCommunities(json.filter((community) => community.name.toLowerCase().includes(query.toLowerCase())))
 					setIsLoading(false)
 				}
 			})
 			.catch(error => {
 				console.log(error);
+				setIsLoading(false);
+				return;
 			});
 		}
 	}, [isLoading]);

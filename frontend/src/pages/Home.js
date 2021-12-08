@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { ArrowNarrowRightIcon } from '@heroicons/react/solid';
+// import { ArrowNarrowRightIcon } from '@heroicons/react/solid';
 import UserContext from '../hooks/UserContext';
 import { getSuggestedCommunities } from '../hooks/Api';
-import CustomLink from '../components/CustomLink';
+// import CustomLink from '../components/CustomLink';
 import CommunityPreview from '../components/CommunityPreview';
 import Search from '../components/Search';
 import './Home.css';
 
 export default function Home() {
 	const user = useContext(UserContext);
-	const [updates, setUpdates] = useState(null);
+	// const [updates, setUpdates] = useState(null);
 	const [recommendedCommunities, setRecommendedCommunities] = useState(null);
 
 	useEffect(() => {
@@ -20,21 +20,21 @@ export default function Home() {
 		getSuggestedCommunities().then(communities => {
 			setRecommendedCommunities(communities);
 		})
-	}, [user.communities]);
+	}, [user]);
 
-	useEffect(() => {
-		// Updates need to be fetched from backend
-		setUpdates([
-			{
-				content: 'Mohsin created a post in CSC309',
-				link: '/community/csc309'
-			},
-			{
-				content: 'Alex joined Anime Club',
-				link: '/community/AnimeClub'
-			},
-		]);
-	}, []);
+	// useEffect(() => {
+	// 	// Updates need to be fetched from backend
+	// 	setUpdates([
+	// 		{
+	// 			content: 'Mohsin created a post in CSC309',
+	// 			link: '/community/csc309'
+	// 		},
+	// 		{
+	// 			content: 'Alex joined Anime Club',
+	// 			link: '/community/AnimeClub'
+	// 		},
+	// 	]);
+	// }, []);
 
 	return (
 		<div>
