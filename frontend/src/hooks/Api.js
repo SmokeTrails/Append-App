@@ -278,7 +278,7 @@ export const getFriends = (username) => {
 }
 
 //Add new community
-export const addCommunity = (community) => { //, dashboardComp) => {
+export const addCommunity = (community, setStatus) => { //, dashboardComp) => {
 	return fetch(`/api/community/create`, {
 		method: 'POST',
 		headers: {
