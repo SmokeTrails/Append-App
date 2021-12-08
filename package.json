@@ -1,15 +1,9 @@
 {
 	"scripts": {
-		"local": "cd frontend && npm run build && cd ../backend && node server.js",
+		"local": "cd frontend && npm i && npm run build && cd ../backend && npm i && node server.js",
 		"rebuild": "cd frontend && npm run build",
 		"production": "cd backend && node server.js",
 		"heroku-postbuild": "cd backend && npm install && cd ../frontend && npm install && npm run build",
 		"deploy": "git push heroku main"
-	},
-	"dependencies": {
-		"concurrently": "^6.4.0"
-	},
-	"devDependencies": {
-		"nodemon": "^2.0.15"
 	}
 }
